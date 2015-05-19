@@ -12,11 +12,20 @@ private:
 
 	float x, y;
 
+	bool Up,Down,Left,Right;
+	float speed;
+
 public:
-	CPlayer(void);
+	CPlayer(const cocos2d::Point);
 	~CPlayer(void);
 
 	void Render();
+
+	void KeyPress (cocos2d::EventKeyboard::KeyCode,cocos2d::Event*);
+	void KeyRelease(cocos2d::EventKeyboard::KeyCode,cocos2d::Event*);
+	void MouseMove(cocos2d::Event*);
+
+	void update (float delta);
 };
 
 #endif

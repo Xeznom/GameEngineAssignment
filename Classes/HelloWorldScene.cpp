@@ -2,7 +2,10 @@
 
 USING_NS_CC;
 
-
+void HelloWorld::update (float dt)
+{
+	player->update(dt);
+}
 
 void HelloWorld::onMouseDown(cocos2d::Event* eevent)
 {
@@ -20,6 +23,12 @@ void HelloWorld::onMouseScroll(cocos2d::Event* eevent)
 {
 }
 
+void HelloWorld::cleanup()
+{
+	delete player;
+	player = NULL;
+}
+
 Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
@@ -29,6 +38,8 @@ Scene* HelloWorld::createScene()
     // 'layer' is an autorelease object
     auto layer = HelloWorld::create();
 	layer->setPhyWorld(scene->getPhysicsWorld());
+
+	layer->scheduleUpdate();
 
     // add layer as a child to scene
     scene->addChild(layer);
@@ -66,8 +77,7 @@ bool HelloWorld::init()
     //    you may modify it.
 
     // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
+    auto closeItem = MenuItemImage::create("CloseNormal.png",
                                            "CloseSelected.png",
                                            CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
     
@@ -114,6 +124,20 @@ bool HelloWorld::init()
 	//		//m_arrayMap[i][j].map Init(i, j);
 	//	}
 	//}
+
+	Point location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
+
+	player = new CPlayer(location);
+	addChild(player->m_Sprite,0);
+
+	auto KeyboardListener = EventListenerKeyboard::create();
+	KeyboardListener->onKeyPressed = CC_CALLBACK_2(CPlayer::KeyPress,player);
+	KeyboardListener->onKeyReleased = CC_CALLBACK_2(CPlayer::KeyRelease,player);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(KeyboardListener,player->m_Sprite);
+
+	auto MouseListener = EventListenerMouse::create();
+	MouseListener->onMouseMove = CC_CALLBACK_1(CPlayer::MouseMove,player);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(MouseListener,player->m_Sprite);
 
 
     return true;
