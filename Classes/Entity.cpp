@@ -8,5 +8,4 @@ CEntity::CEntity(void)
 
 CEntity::~CEntity(void)
 {
-	m_Sprite->release();
 }
