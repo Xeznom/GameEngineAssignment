@@ -2,6 +2,8 @@
 
 USING_NS_CC;
 
+
+
 void HelloWorld::onMouseDown(cocos2d::Event* eevent)
 {
 }
@@ -101,6 +103,19 @@ bool HelloWorld::init()
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
     */
+
+	//m_arrayMap = new sNode*[MAX_HORIZONTAL];
+	//for (int i = 0; i < MAX_HORIZONTAL; ++i)
+	//{
+	//	m_arrayMap = new sNode*[MAX_VERTICAL];
+	//	for (int j = 0; j < MAX_VERTICAL; ++j)
+	//	{
+	//		//m_arrayMap[i][j].map = NULL;
+	//		//m_arrayMap[i][j].map Init(i, j);
+	//	}
+	//}
+
+
     return true;
 }
 

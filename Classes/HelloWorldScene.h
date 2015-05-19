@@ -3,14 +3,28 @@
 
 #pragma once
 
+#define MAX_HORIZONTAL 20
+#define MAX_VERTICAL 20
+
 #include "cocos2d.h"
+#include "Player.h"
+#include "Field.h"
+
+USING_NS_CC;
+
+struct sNode {
+	CField* map;
+};
 
 class HelloWorld : public cocos2d::Layer
 {
 private:
+	sNode** m_arrayMap;
+	
 	cocos2d::PhysicsWorld* m_world;
 	inline void setPhyWorld(cocos2d::PhysicsWorld* world){ m_world = world; }
 public:
+
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
 

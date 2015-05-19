@@ -9,9 +9,14 @@ class CPlayer : public CEntity
 {
 private:
 	static const char* filename;
+
+	float x, y;
+
 public:
 	CPlayer(void);
 	~CPlayer(void);
+
+	void Render();
 };
 
 #endif

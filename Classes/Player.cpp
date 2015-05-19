@@ -20,3 +20,11 @@ CPlayer::CPlayer(void)
 CPlayer::~CPlayer(void)
 {
 }
+
+
+void CPlayer::Render()
+{
+	//Size visibleSize = Director::getInstance()->getVisibleSize();
+
+	m_Sprite->setPosition( Point(this->x, this->y) );
+}
