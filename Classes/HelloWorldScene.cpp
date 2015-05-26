@@ -5,6 +5,11 @@ USING_NS_CC;
 void HelloWorld::update (float dt)
 {
 	player->update(dt);
+	
+	if (portals[0]->getExist())
+	{
+
+	}
 }
 
 void HelloWorld::onMouseDown(cocos2d::Event* eevent)
@@ -27,6 +32,21 @@ void HelloWorld::cleanup()
 {
 	delete player;
 	player = NULL;
+
+	for (int i = 0; i < 2; i++)
+	{
+		portals[i] = NULL;
+	}
+	delete portals;
+
+	for (int i = 0; i < MAX_HORIZONTAL; ++i)
+	{
+		for (int j = 0; j < MAX_VERTICAL; ++j)
+		{
+			m_arrayMap[i][j] = NULL;
+		}
+	}
+	delete m_arrayMap;
 }
 
 Scene* HelloWorld::createScene()
@@ -114,16 +134,8 @@ bool HelloWorld::init()
     this->addChild(sprite, 0);
     */
 
-	//m_arrayMap = new sNode*[MAX_HORIZONTAL];
-	//for (int i = 0; i < MAX_HORIZONTAL; ++i)
-	//{
-	//	m_arrayMap = new sNode*[MAX_VERTICAL];
-	//	for (int j = 0; j < MAX_VERTICAL; ++j)
-	//	{
-	//		//m_arrayMap[i][j].map = NULL;
-	//		//m_arrayMap[i][j].map Init(i, j);
-	//	}
-	//}
+
+	LoadFile("MapDesign.csv");
 
 	Point location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 
@@ -140,7 +152,55 @@ bool HelloWorld::init()
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(MouseListener,player->m_Sprite);
 
 
-    return true;
+	return true;
+}
+
+void HelloWorld::LoadFile(const string mapName)
+{
+	int theLineCounter = 0;
+	int theMaxNumOfColumns = 0;
+
+	ifstream file(mapName.c_str());
+	if (file.is_open())
+	{
+		int i = 0, k = 0;
+		while (file.good())
+		{
+			string aLineOfText = "";
+			getline(file, aLineOfText);
+
+			// If this line is not a comment line, then process it
+			if (!(aLineOfText.find("//") == NULL) && aLineOfText != "")
+			{
+				if (theLineCounter == 0)
+				{
+					// This is the first line of the map data file
+					string token;
+					istringstream iss(aLineOfText);
+					while (getline(iss, token, ','))
+					{
+						// Count the number of columns
+						theMaxNumOfColumns = atoi(token.c_str());
+					}
+				}
+				else
+				{
+					int theColumnCounter = 0;
+
+					string token;
+					istringstream iss(aLineOfText);
+					while (getline(iss, token, ','))
+					{
+						m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter );
+						addChild(m_arrayMap[theLineCounter-1][theColumnCounter]->m_Sprite, 0);
+						theColumnCounter++;
+					}
+				}
+			}
+
+			theLineCounter++;
+		}
+	}
 }
 
 

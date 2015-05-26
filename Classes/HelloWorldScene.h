@@ -9,19 +9,16 @@
 #include "cocos2d.h"
 #include "Player.h"
 #include "Field.h"
+#include "Portals.h"
 
 USING_NS_CC;
-
-struct sNode {
-	CField* map;
-};
 
 
 class HelloWorld : public cocos2d::Layer
 {
 private:
-	sNode** m_arrayMap;
-	
+	CField* m_arrayMap[MAX_HORIZONTAL][MAX_VERTICAL];
+	CPortals* portals[2];
 	CPlayer* player;
 	cocos2d::PhysicsWorld* m_world;
 	inline void setPhyWorld(cocos2d::PhysicsWorld* world){ m_world = world; }
@@ -33,7 +30,9 @@ public:
 	virtual void update(float);
 	virtual void cleanup();
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
-    virtual bool init();
+	virtual bool init(); 
+	
+	void LoadFile(const string mapName);
     
 	virtual void onMouseMove (cocos2d::Event*);
 	virtual void onMouseDown (cocos2d::Event*);

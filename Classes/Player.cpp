@@ -38,7 +38,7 @@ void CPlayer::MouseMove (cocos2d::Event* event)
 	
 	if(degrees < 0) degrees = 360 + degrees;
 
-	//m_Sprite->setRotation( 90 + degrees);
+	m_Sprite->setRotation( 90 + degrees);
 }
 
 void CPlayer::KeyPress (cocos2d::EventKeyboard::KeyCode keycode,cocos2d::Event* event)
@@ -62,12 +62,6 @@ void CPlayer::KeyPress (cocos2d::EventKeyboard::KeyCode keycode,cocos2d::Event* 
 	}
 }
 
-void CPlayer::Render()
-{
-	//Size visibleSize = Director::getInstance()->getVisibleSize();
-
-	m_Sprite->setPosition( Point(this->x, this->y) );
-}
 void CPlayer::KeyRelease (cocos2d::EventKeyboard::KeyCode keycode,cocos2d::Event* event)
 {
 	switch (keycode)
