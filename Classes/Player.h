@@ -4,21 +4,20 @@
 #pragma once
 
 #include "Entity.h"
+#include "Gun.h"
 
 class CPlayer : public CEntity
 {
 private:
 	static const char* filename;
 
-	float x, y;
-
 	bool Up,Down,Left,Right;
 	float speed;
-
 public:
-	CPlayer(const cocos2d::Point);
-	~CPlayer(void);
+	CGun* PortalGun;
 
+	CPlayer(cocos2d::Layer*, const cocos2d::Point);
+	~CPlayer(void);
 	void Render();
 
 	void KeyPress (cocos2d::EventKeyboard::KeyCode,cocos2d::Event*);
