@@ -66,11 +66,12 @@ Scene* HelloWorld::createScene()
 	
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
-	auto edgeNode = Node::create();
-	edgeNode->setPosition(Point(visibleSize.width*0.5f, visibleSize.height*0.5f));
+	Node* edgeNode = Node::create();
+	Point center = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
+	edgeNode->setPosition(center);
 	
 	Size RoomSize = Size(600,600);
-	auto body = PhysicsBody::createEdgeBox(RoomSize, PHYSICSBODY_MATERIAL_DEFAULT, 3);
+	PhysicsBody* body = PhysicsBody::createEdgeBox(RoomSize, PHYSICSBODY_MATERIAL_DEFAULT, 3);
 	edgeNode->setPhysicsBody(body);
 
 	scene->addChild(edgeNode);
@@ -111,15 +112,12 @@ bool HelloWorld::init()
 
     /////////////////////////////
     // 3. add your codes below...
-
-    // add a label shows "Hello World"
-    // create and initialize a label
-    /*
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+	/*
+    Label* label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
     
     // position the label on the center of the screen
     label->setPosition(Vec2(origin.x + visibleSize.width*0.5f,
-                            origin.y + visibleSize.height - label->getContentSize().height));
+                    origin.y + visibleSize.height - label->getContentSize().height));
 
     // add the label as a child to this layer
     this->addChild(label, 1);
@@ -139,9 +137,8 @@ bool HelloWorld::init()
 
 	Point location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 
-	player = new CPlayer(location);
-	addChild(player->m_Sprite,0);
-
+	player = new CPlayer(this,location);
+    
 	auto KeyboardListener = EventListenerKeyboard::create();
 	KeyboardListener->onKeyPressed = CC_CALLBACK_2(CPlayer::KeyPress,player);
 	KeyboardListener->onKeyReleased = CC_CALLBACK_2(CPlayer::KeyRelease,player);
@@ -150,7 +147,6 @@ bool HelloWorld::init()
 	auto MouseListener = EventListenerMouse::create();
 	MouseListener->onMouseMove = CC_CALLBACK_1(CPlayer::MouseMove,player);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(MouseListener,player->m_Sprite);
-
 
 	return true;
 }

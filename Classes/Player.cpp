@@ -6,39 +6,57 @@ const char* CPlayer::filename = "Player.png";
 void CPlayer::update (float delta)
 {
 	cocos2d::Vec2 loc = m_Sprite->getPosition();
-
+	
+	bool Change = false;
 	if (Up)
 	{
+		Change = true;
 		loc.y += speed * delta;
 	}
 	if (Left)
 	{
+		Change = true;
 		loc.x -= speed * delta;
 	}
 	if (Down)
 	{
+		Change = true;
 		loc.y -= speed * delta;
 	}
 	if (Right)
 	{
+		Change = true;
 		loc.x += speed * delta;
 	}
-
-	m_Sprite->setPosition(loc);
+	
+	if (Change)
+	{
+		m_Sprite->setPosition(loc);
+		PortalGun->m_Sprite->setPosition(Point(loc.x+PortalGun->Offset,loc.y));
+	}
 }
 
 void CPlayer::MouseMove (cocos2d::Event* event)
 {
 	cocos2d::EventMouse* e = (cocos2d::EventMouse*) event;
-	
-	float ay = e->getCursorY() - m_Sprite->getPositionY();
 	float ax = e->getCursorX() - m_Sprite->getPositionX();
 
-	float degrees = CC_RADIANS_TO_DEGREES(atan2(ay,ax));
-	
-	if(degrees < 0) degrees = 360 + degrees;
+	if (ax > 0) //If to face right.
+	{
+		if (!m_Sprite->isFlippedX()) //If facing left.
+		{
+			m_Sprite->setFlippedX(false); //Flip to face right.
+		}
+	}
+	else //If to face left.
+	{
+		if (m_Sprite->isFlippedX()) //If facing right.
+		{
+			m_Sprite->setFlippedX(true); //Flip to face left.
+		}
+	}
 
-	m_Sprite->setRotation( 90 + degrees);
+	PortalGun->MouseMove(event);
 }
 
 void CPlayer::KeyPress (cocos2d::EventKeyboard::KeyCode keycode,cocos2d::Event* event)
@@ -83,13 +101,25 @@ void CPlayer::KeyRelease (cocos2d::EventKeyboard::KeyCode keycode,cocos2d::Event
 	}
 }
 
-CPlayer::CPlayer(const cocos2d::Point loc)
+CPlayer::CPlayer(cocos2d::Layer* layer, const cocos2d::Point loc)
 {
 	Up = Left = Down = Right = false;
 	speed = 50.0f;
-	m_Sprite = cocos2d::Sprite::create(filename);
-	m_Sprite->setScale(0.5f);
+	if (m_Sprite ==nullptr) m_Sprite = cocos2d::Sprite::create(filename);
+	m_Sprite->setScale(0.3f);
 	m_Sprite->setPosition(loc);
+
+	PortalGun = new CGun();
+	cocos2d::Point gunloc = Point(loc.x+20,loc.y);
+	PortalGun->m_Sprite->setPosition(gunloc);
+	PortalGun->m_Sprite->setAnchorPoint(Vec2(0.5f,0));
+
+	layer->addChild(m_Sprite,0);
+	layer->addChild(PortalGun->m_Sprite,0);
 }
 
-CPlayer::~CPlayer(void){}
+CPlayer::~CPlayer(void)
+{
+	delete PortalGun;
+	PortalGun = NULL;
+}

@@ -10,6 +10,7 @@ class CEntity
 {
 public:
 	cocos2d::Sprite* m_Sprite;
+	float x, y;
 
 	CEntity(void);
 	virtual ~CEntity(void);
