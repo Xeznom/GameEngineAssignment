@@ -12,6 +12,14 @@ CPortals::CPortals(int type, Point location)
 
 	m_Sprite = Sprite::create(filename[type-1]);
 	m_Sprite->setPosition(location);
+
+	//portal physics
+	auto body = PhysicsBody::createCircle(m_Sprite->getContentSize().width/2);
+	body->setDynamic(false);
+	body->setCollisionBitmask(1);
+	body->setContactTestBitmask(true);
+	m_Sprite->setPhysicsBody(body);
+	
 }
 
 CPortals::~CPortals()

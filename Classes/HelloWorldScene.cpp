@@ -221,17 +221,24 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 {
+	//code reminders for setting the object catergories for collision
 	//sprite->setCollisionBitMask(1);
 	//sprite->setContactTestBitMask(true);
 
 	PhysicsBody * First = contact.getShapeA()->getBody(); 
 	PhysicsBody * Second = contact.getShapeB()->getBody(); 
 
-	//check if collided
-	if( ( First->getCollisionBitmask() == 1  && Second->getCollisionBitmask() == 2 ) || ( First->getCollisionBitmask() == 2 && Second->getCollisionBitmask() == 1 ) )
-	{
+	//for possible future use
+	//check if collided is different
+	//if( ( First->getCollisionBitmask() == 1  && Second->getCollisionBitmask() == 2 ) || ( First->getCollisionBitmask() == 2 && Second->getCollisionBitmask() == 1 ) )
+	//{
 		//if collided
 
+	//}
+
+	if(First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 1)
+	{
+		return false;
 	}
 
 	return true;

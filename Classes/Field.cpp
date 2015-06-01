@@ -20,7 +20,11 @@ void CField::Render(USHORT x, USHORT y)
 	m_Sprite->setPosition( Point(f_posX, f_posY) );
 	
 	//sprite Physics
-	auto body = PhysicsBody::createCircle(m_Sprite->getContentSize().width/2);
-	body->setDynamic(false);
-	m_Sprite->setPhysicsBody(body);
+	//future if check
+	//check if tile is not empty
+	{
+		auto body = PhysicsBody::createCircle(m_Sprite->getContentSize().width/2);
+		body->setDynamic(false);
+		m_Sprite->setPhysicsBody(body);
+	}
 }
