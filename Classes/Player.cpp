@@ -106,6 +106,11 @@ CPlayer::CPlayer(cocos2d::Layer* layer, const cocos2d::Point loc)
 	Up = Left = Down = Right = false;
 	speed = 50.0f;
 	if (m_Sprite ==nullptr) m_Sprite = cocos2d::Sprite::create(filename);
+
+	//player physics
+	auto body = PhysicsBody::createCircle(m_Sprite->getContentSize().width/2);
+	m_Sprite->setPhysicsBody(body);
+
 	m_Sprite->setScale(0.3f);
 	m_Sprite->setPosition(loc);
 

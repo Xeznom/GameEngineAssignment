@@ -148,6 +148,10 @@ bool HelloWorld::init()
 	MouseListener->onMouseMove = CC_CALLBACK_1(CPlayer::MouseMove,player);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(MouseListener,player->m_Sprite);
 
+	auto contactListener = EventListenerPhysicsContact::create();
+	contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegin,this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener,this);
+
 	return true;
 }
 
@@ -212,4 +216,23 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
 #endif
+}
+
+
+bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
+{
+	//sprite->setCollisionBitMask(1);
+	//sprite->setContactTestBitMask(true);
+
+	PhysicsBody * First = contact.getShapeA()->getBody(); 
+	PhysicsBody * Second = contact.getShapeB()->getBody(); 
+
+	//check if collided
+	if( ( First->getCollisionBitmask() == 1  && Second->getCollisionBitmask() == 2 ) || ( First->getCollisionBitmask() == 2 && Second->getCollisionBitmask() == 1 ) )
+	{
+		//if collided
+
+	}
+
+	return true;
 }
