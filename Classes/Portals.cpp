@@ -10,7 +10,7 @@ CPortals::CPortals(int type, Point location)
 
 	this->location = location;
 
-	m_Sprite = Sprite::create(filename[type-1]);
+	m_Sprite = Sprite::create(filename[type]);
 	m_Sprite->setPosition(location);
 
 	//portal physics
@@ -19,7 +19,6 @@ CPortals::CPortals(int type, Point location)
 	body->setCollisionBitmask(1);
 	body->setContactTestBitmask(true);
 	m_Sprite->setPhysicsBody(body);
-	
 }
 
 CPortals::~CPortals()

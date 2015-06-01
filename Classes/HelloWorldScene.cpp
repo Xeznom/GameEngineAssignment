@@ -6,10 +6,10 @@ void HelloWorld::update (float dt)
 {
 	player->update(dt);
 	
-	if (portals[0]->getExist())
-	{
+	//if (portals[0]->getExist())
+	//{
 
-	}
+	//}
 }
 
 void HelloWorld::onMouseDown(cocos2d::Event* eevent)
@@ -26,6 +26,21 @@ void HelloWorld::onMouseUp(cocos2d::Event* eevent)
 
 void HelloWorld::onMouseScroll(cocos2d::Event* eevent)
 {
+}
+
+void HelloWorld::teleportaling(int por)
+{
+	if (portals[0]->getConnection() && portals[1]->getConnection())
+	{
+		if (por == 1)
+		{
+			//player pos = portals[1]->getLoc();
+		}
+		if (por == 2)
+		{
+			//player pos = portals[0]->getLoc();
+		}
+	}
 }
 
 void HelloWorld::cleanup()
@@ -138,7 +153,13 @@ bool HelloWorld::init()
 	Point location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 
 	player = new CPlayer(this,location);
-    
+
+
+	for (int i = 0; i < 2; i++)
+	{
+		portals[i] = new CPortals(i, location);
+	}
+
 	auto KeyboardListener = EventListenerKeyboard::create();
 	KeyboardListener->onKeyPressed = CC_CALLBACK_2(CPlayer::KeyPress,player);
 	KeyboardListener->onKeyReleased = CC_CALLBACK_2(CPlayer::KeyRelease,player);
