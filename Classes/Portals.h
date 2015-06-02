@@ -34,6 +34,7 @@ public:
 	void setLoc(Point loc);
 	Point getLoc() { return location; };
 
+	int getDirection();
 	bool getExist() { return existing; };
 	bool getConnection() { return connecting; };
 };

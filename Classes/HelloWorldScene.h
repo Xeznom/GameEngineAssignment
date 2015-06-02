@@ -38,7 +38,7 @@ public:
 	virtual void onMouseUp (cocos2d::Event*);
 	virtual void onMouseScroll (cocos2d::Event*);
 
-	void teleportaling(int);
+	void teleportaling(int, int);
 
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);

@@ -34,3 +34,14 @@ void CPortals::setLoc(Point loc) {
 	location = loc;
 	m_Sprite->setPosition(loc);
 }
+
+int CPortals::getDirection() {
+	if (Up)
+		return 1;
+	if (Down)
+		return 2;
+	if (Left)
+		return 3;
+	if (Right)
+		return 4;
+};
