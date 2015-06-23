@@ -31,6 +31,7 @@ void CPlayer::update (float delta)
 
 	m_Sprite->setPosition(loc);
 	PortalGun->m_Sprite->setPosition(Point(loc.x+PortalGun->Offset,loc.y));
+	PortalGun->update(delta);
 }
 
 void CPlayer::MouseMove (cocos2d::Event* event)
@@ -111,10 +112,10 @@ CPlayer::CPlayer(cocos2d::Layer* layer, const cocos2d::Point loc)
 	body->setContactTestBitmask(true);
 	m_Sprite->setPhysicsBody(body);
 
-	m_Sprite->setScale(0.15f);
+	m_Sprite->setScale(0.3f);
 	m_Sprite->setPosition(loc);
 
-	PortalGun = new CGun();
+	PortalGun = new CGun(m_Sprite);
 	cocos2d::Point gunloc = Point(loc.x+20,loc.y);
 	PortalGun->m_Sprite->setPosition(gunloc);
 	PortalGun->m_Sprite->setAnchorPoint(Vec2(0.5f,0));

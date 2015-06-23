@@ -2,18 +2,19 @@
 
 const char* CGun::filename = "PortalGun.png";
 
+void CGun::update (float delta){}
+
 void CGun::MouseMove (cocos2d::Event* event)
 {
 	cocos2d::EventMouse* e = (cocos2d::EventMouse*) event;
 
-	float ay = e->getCursorY() + m_Sprite->getPositionY();
-	float ax = e->getCursorX() - m_Sprite->getPositionX();
+	float ax = e->getCursorX() - PlayerSprite->getPositionX();
 	
 	if (ax > 0) //If to face right.
 	{
 		if (Left) //If facing left
 		{
-			Offset = 40;
+			Offset = 25;
 			cocos2d::Point gunloc = Point(m_Sprite->getPositionX()+Offset,m_Sprite->getPositionY());
 			m_Sprite->setPosition(gunloc);
 			Left = false;
@@ -21,22 +22,31 @@ void CGun::MouseMove (cocos2d::Event* event)
 	}
 	else //If to face left.
 	{
-		if (!Left)
+		if (!Left) //If facing right
 		{
-			Offset = -40;
+			Offset = -25;
 			cocos2d::Point gunloc = Point(m_Sprite->getPositionX()+Offset,m_Sprite->getPositionY());
 			m_Sprite->setPosition(gunloc);
 			Left = true;
 		}
 	}
+
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+	float ay = (visibleSize.height + e->getCursorY()) - PlayerSprite->getPositionY();
+	//float ay =  e->getCursorY() + PlayerSprite->getPositionY();
+	
+#include <string>
+	label->setString ( std::to_string(ay) );
+
 	float degrees = CC_RADIANS_TO_DEGREES(atan2(-ay,ax));
 
 	m_Sprite->setRotation(90 + degrees);
 }
 
-CGun:: CGun(void)
+CGun:: CGun(Sprite* playersprite)
 {
-	Offset = 40;
+	PlayerSprite = playersprite;
+	Offset = 30;
 	Left = false;
 	if (m_Sprite == nullptr)
 	{

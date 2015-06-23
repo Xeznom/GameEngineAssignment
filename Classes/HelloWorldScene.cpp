@@ -5,7 +5,6 @@ USING_NS_CC;
 void HelloWorld::update (float dt)
 {
 	player->update(dt);
-	
 	//if (portals[0]->getExist())
 	//{
 
@@ -81,7 +80,7 @@ void HelloWorld::teleportaling(int por, int enter)
 void HelloWorld::cleanup()
 {
 	delete player;
-	player = NULL;
+	player = nullptr;
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -182,13 +181,16 @@ bool HelloWorld::init()
     this->addChild(sprite, 0);
     */
 
-
 	LoadFile("MapDesign.csv");
 
 	Point location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 
 	player = new CPlayer(this,location);
 
+	player->PortalGun->label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    player->PortalGun->label->setPosition(Vec2(origin.x + visibleSize.width*0.5f,
+                    origin.y + visibleSize.height - 50 - player->PortalGun->label->getContentSize().height));
+    this->addChild(player->PortalGun->label, 1);
 
 	for (int i = 0; i < 2; i++)
 	{
