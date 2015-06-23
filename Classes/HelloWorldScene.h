@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Field.h"
 #include "Portals.h"
+#include "Traps.h"
 
 USING_NS_CC;
 
@@ -23,6 +24,7 @@ private:
 	cocos2d::PhysicsWorld* m_world;
 	inline void setPhyWorld(cocos2d::PhysicsWorld* world){ m_world = world; }
 public:
+	CTraps* Traps;
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
 

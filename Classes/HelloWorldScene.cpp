@@ -5,7 +5,9 @@ USING_NS_CC;
 void HelloWorld::update (float dt)
 {
 	player->update(dt);
-	
+	//Point temp2 = player->m_Sprite->getPosition();
+	//this->Traps->m_Sprite->getPosition();
+	//Point temp3 = Traps->m_Sprite->getPosition();
 	//if (portals[0]->getExist())
 	//{
 
@@ -189,6 +191,7 @@ bool HelloWorld::init()
 
 	player = new CPlayer(this,location);
 
+	Traps = new CTraps(this,100,100);
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -292,9 +295,18 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 
 	//}
 
-	if(First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 1)
+	//bitmask 1 = player
+	//bitmask 2 = traps
+	//bitmaks 3 = portal
+
+	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 3) || (First->getCollisionBitmask() == 3 && Second->getCollisionBitmask() == 1))
 	{
 		return false;
+	}
+
+	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 2) || (First->getCollisionBitmask() == 2 && Second->getCollisionBitmask() == 1))
+	{
+		//lose
 	}
 
 	return true;
