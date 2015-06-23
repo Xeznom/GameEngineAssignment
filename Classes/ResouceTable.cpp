@@ -4,7 +4,10 @@
 #include <fstream>
 #include <string>
 
-CResouceTable::CResouceTable(const char* filename)
+CResouceTable* CResouceTable::instance; 
+const char* CResouceTable::filename = "ResourceTable.txt";
+
+CResouceTable::CResouceTable(void)
 {
 	std::ifstream myfile;
 	myfile.open(filename);
@@ -22,7 +25,6 @@ CResouceTable::CResouceTable(const char* filename)
 		myfile.close();
 	}
 }
-
 
 CResouceTable::~CResouceTable(void)
 {

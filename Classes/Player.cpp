@@ -28,12 +28,9 @@ void CPlayer::update (float delta)
 		Change = true;
 		loc.x += speed * delta;
 	}
-	
-	if (Change)
-	{
-		m_Sprite->setPosition(loc);
-		PortalGun->m_Sprite->setPosition(Point(loc.x+PortalGun->Offset,loc.y));
-	}
+
+	m_Sprite->setPosition(loc);
+	PortalGun->m_Sprite->setPosition(Point(loc.x+PortalGun->Offset,loc.y));
 }
 
 void CPlayer::MouseMove (cocos2d::Event* event)

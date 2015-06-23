@@ -9,13 +9,13 @@ class CResouceTable
 {
 private:
 	static CResouceTable* instance;
-	CResouceTable(const char* filename);
+	CResouceTable(void);
+	static const char* filename;
 	std::map<const char*,const char*> table;
 public:
 	inline static CResouceTable* getInstance()
 	{
-		if (instance == nullptr)
-			instance = new CResouceTable("ResourceTable.txt");
+		if (instance == nullptr) instance = new CResouceTable();
 		return instance;
 	}
 	~CResouceTable(void);

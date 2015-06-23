@@ -5,7 +5,7 @@ const char* CGun::filename = "PortalGun.png";
 void CGun::MouseMove (cocos2d::Event* event)
 {
 	cocos2d::EventMouse* e = (cocos2d::EventMouse*) event;
-	
+
 	float ay = e->getCursorY() + m_Sprite->getPositionY();
 	float ax = e->getCursorX() - m_Sprite->getPositionX();
 	
@@ -36,6 +36,7 @@ void CGun::MouseMove (cocos2d::Event* event)
 
 CGun:: CGun(void)
 {
+	Offset = 40;
 	Left = false;
 	if (m_Sprite == nullptr)
 	{
