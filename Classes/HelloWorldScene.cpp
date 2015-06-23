@@ -84,18 +84,18 @@ void HelloWorld::cleanup()
 
 	for (int i = 0; i < 2; i++)
 	{
-		portals[i] = NULL;
+		delete portals[i];
+		portals[i] = nullptr;
 	}
-	delete portals;
 
 	for (int i = 0; i < MAX_HORIZONTAL; ++i)
 	{
 		for (int j = 0; j < MAX_VERTICAL; ++j)
 		{
-			m_arrayMap[i][j] = NULL;
+			delete m_arrayMap[i][j];
+			m_arrayMap[i][j] = nullptr;
 		}
 	}
-	delete m_arrayMap;
 }
 
 Scene* HelloWorld::createScene()
@@ -187,14 +187,29 @@ bool HelloWorld::init()
 
 	player = new CPlayer(this,location);
 
-	player->PortalGun->label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    player->PortalGun->label->setPosition(Vec2(origin.x + visibleSize.width*0.5f,
-                    origin.y + visibleSize.height - 50 - player->PortalGun->label->getContentSize().height));
-    this->addChild(player->PortalGun->label, 1);
+	//CResouceTable::getInstance()->label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    CResouceTable::getInstance()->label->setPosition(Vec2(origin.x + visibleSize.width*0.5f,
+                    origin.y + visibleSize.height - 50 - CResouceTable::getInstance()->label->getContentSize().height));
+
+    this->addChild(CResouceTable::getInstance()->label, 1);
+
+	string Name = "PortalGun";
+	string Data = "PortalGun.png";
+	if (CResouceTable::getInstance()->GetFileName(Name.c_str()) == Data.c_str())
+		CResouceTable::getInstance()->label->setString("True");
+	else
+		CResouceTable::getInstance()->label->setString("False");
 
 	for (int i = 0; i < 2; i++)
 	{
 		portals[i] = new CPortals(i, location);
+	}
+
+	
+	for (int i = 0; i < MAX_HORIZONTAL; ++i)
+	{
+		for (int j = 0; j < MAX_VERTICAL; ++j)
+			m_arrayMap[i][j] = nullptr;
 	}
 
 	auto KeyboardListener = EventListenerKeyboard::create();

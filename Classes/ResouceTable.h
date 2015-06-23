@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "cocos2d.h"
 #include <map>
 
 class CResouceTable
@@ -13,6 +14,7 @@ private:
 	static const char* filename;
 	std::map<const char*,const char*> table;
 public:
+	cocos2d::Label* label;
 	inline static CResouceTable* getInstance()
 	{
 		if (instance == nullptr) instance = new CResouceTable();

@@ -12,7 +12,6 @@ private:
 	Sprite* PlayerSprite;
 	bool Left;
 public:
-	Label* label;
 	float Offset;
 	CGun(Sprite*);
 	~CGun(void);

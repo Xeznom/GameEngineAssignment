@@ -34,9 +34,6 @@ void CGun::MouseMove (cocos2d::Event* event)
     Size visibleSize = Director::getInstance()->getVisibleSize();
 	float ay = (visibleSize.height + e->getCursorY()) - PlayerSprite->getPositionY();
 	//float ay =  e->getCursorY() + PlayerSprite->getPositionY();
-	
-#include <string>
-	label->setString ( std::to_string(ay) );
 
 	float degrees = CC_RADIANS_TO_DEGREES(atan2(-ay,ax));
 

@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Field.h"
 #include "Portals.h"
+#include "ResouceTable.h"
 
 USING_NS_CC;
 
