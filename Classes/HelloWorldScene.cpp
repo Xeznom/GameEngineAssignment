@@ -83,22 +83,22 @@ void HelloWorld::teleportaling(int por, int enter)
 void HelloWorld::cleanup()
 {
 	delete player;
-	player = NULL;
+	player = nullptr;
 
 	for (int i = 0; i < 2; i++)
 	{
-		portals[i] = NULL;
+		delete portals[i];
+		portals[i] = nullptr;
 	}
-	delete portals;
 
 	for (int i = 0; i < MAX_HORIZONTAL; ++i)
 	{
 		for (int j = 0; j < MAX_VERTICAL; ++j)
 		{
-			m_arrayMap[i][j] = NULL;
+			delete m_arrayMap[i][j];
+			m_arrayMap[i][j] = nullptr;
 		}
 	}
-	delete m_arrayMap;
 }
 
 Scene* HelloWorld::createScene()
@@ -137,10 +137,7 @@ bool HelloWorld::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !Layer::init() )
-    {
-        return false;
-    }
+    if (!Layer::init()) return false;
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -150,12 +147,12 @@ bool HelloWorld::init()
     //    you may modify it.
 
     // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create("CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+    auto closeItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",
+					CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
     
-	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width*0.5f ,
-                                origin.y + closeItem->getContentSize().height*0.5f));
+	closeItem->setPosition(Vec2(origin.x + visibleSize.width -
+						closeItem->getContentSize().width*0.5f,
+						origin.y + closeItem->getContentSize().height*0.5f));
 
     // create menu, it's an autorelease object
     auto menu = Menu::create(closeItem, NULL);
@@ -184,7 +181,6 @@ bool HelloWorld::init()
     this->addChild(sprite, 0);
     */
 
-
 	LoadFile("MapDesign.csv");
 
 	Point location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
@@ -192,10 +188,22 @@ bool HelloWorld::init()
 	player = new CPlayer(this,location);
 
 	Traps = new CTraps(this,100,100);
+	//CResouceTable::getInstance()->label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    CResouceTable::getInstance()->label->setPosition(Vec2(origin.x + visibleSize.width*0.5f,
+                    origin.y + visibleSize.height - 50 - CResouceTable::getInstance()->label->getContentSize().height));
+
+    this->addChild(CResouceTable::getInstance()->label, 1);
+
+	std::string Data = CResouceTable::getInstance()->GetFileName("PortalGun");
+	CResouceTable::getInstance()->label->setString(Data);
 
 	for (int i = 0; i < 2; i++)
-	{
 		portals[i] = new CPortals(i, location);
+
+	for (int i = 0; i < MAX_HORIZONTAL; ++i)
+	{
+		for (int j = 0; j < MAX_VERTICAL; ++j)
+			m_arrayMap[i][j] = nullptr;
 	}
 
 	auto KeyboardListener = EventListenerKeyboard::create();

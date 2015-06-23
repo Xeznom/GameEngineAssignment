@@ -2,13 +2,13 @@
 
 #include <iostream>
 #include <fstream>
-#include <string>
 
 CResouceTable* CResouceTable::instance; 
 const char* CResouceTable::filename = "ResourceTable.txt";
 
 CResouceTable::CResouceTable(void)
 {
+	label = cocos2d::Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
 	std::ifstream myfile;
 	myfile.open(filename);
 
@@ -18,9 +18,10 @@ CResouceTable::CResouceTable(void)
 		while ( std::getline (myfile,line) )
 		{
 			std::size_t pos = line.find(':');
-			std::string Name = line.substr(0,pos-1);
-			std::string Data = line.substr(pos+1);
-			table[Name.c_str()] = Data.c_str();
+			std::string Name = line.substr(0,pos);
+			std::string* Data = new std::string;
+			*Data = line.substr(pos+1);
+			table[Name] = Data;
 		}
 		myfile.close();
 	}
@@ -28,5 +29,7 @@ CResouceTable::CResouceTable(void)
 
 CResouceTable::~CResouceTable(void)
 {
+	 for (std::map<std::string,std::string*>::iterator it=table.begin(); it!=table.end(); ++it)
+		 delete it->second;
 	delete instance;
 }

@@ -9,10 +9,11 @@ class CGun : public CEntity
 {
 private:
 	static const char* filename;
+	Sprite* PlayerSprite;
 	bool Left;
 public:
 	float Offset;
-	CGun(void);
+	CGun(Sprite*);
 	~CGun(void);
 	void update (float delta);
 	void MouseMove(cocos2d::Event*);

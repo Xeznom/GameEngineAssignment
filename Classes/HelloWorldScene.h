@@ -11,9 +11,9 @@
 #include "Field.h"
 #include "Portals.h"
 #include "Traps.h"
+#include "ResouceTable.h"
 
 USING_NS_CC;
-
 
 class HelloWorld : public cocos2d::Layer
 {
