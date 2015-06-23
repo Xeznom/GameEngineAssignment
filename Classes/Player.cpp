@@ -108,7 +108,7 @@ CPlayer::CPlayer(cocos2d::Layer* layer, const cocos2d::Point loc)
 	if (m_Sprite ==nullptr) m_Sprite = cocos2d::Sprite::create(filename);
 
 	//player physics
-	auto body = PhysicsBody::createCircle(m_Sprite->getContentSize().width/2);
+	auto body = PhysicsBody::createCircle(m_Sprite->getContentSize().width);
 	body->setMass(10);
 	body->setCollisionBitmask(1);
 	body->setContactTestBitmask(true);
