@@ -14,7 +14,6 @@
 
 USING_NS_CC;
 
-
 class HelloWorld : public cocos2d::Layer
 {
 private:

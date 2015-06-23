@@ -134,10 +134,7 @@ bool HelloWorld::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !Layer::init() )
-    {
-        return false;
-    }
+    if (!Layer::init()) return false;
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -147,12 +144,12 @@ bool HelloWorld::init()
     //    you may modify it.
 
     // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create("CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+    auto closeItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",
+					CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
     
-	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width*0.5f ,
-                                origin.y + closeItem->getContentSize().height*0.5f));
+	closeItem->setPosition(Vec2(origin.x + visibleSize.width -
+						closeItem->getContentSize().width*0.5f,
+						origin.y + closeItem->getContentSize().height*0.5f));
 
     // create menu, it's an autorelease object
     auto menu = Menu::create(closeItem, NULL);
@@ -193,19 +190,12 @@ bool HelloWorld::init()
 
     this->addChild(CResouceTable::getInstance()->label, 1);
 
-	string Name = "PortalGun";
-	string Data = "PortalGun.png";
-	if (CResouceTable::getInstance()->GetFileName(Name.c_str()) == Data.c_str())
-		CResouceTable::getInstance()->label->setString("True");
-	else
-		CResouceTable::getInstance()->label->setString("False");
+	std::string Data = CResouceTable::getInstance()->GetFileName("PortalGun");
+	CResouceTable::getInstance()->label->setString(Data);
 
 	for (int i = 0; i < 2; i++)
-	{
 		portals[i] = new CPortals(i, location);
-	}
 
-	
 	for (int i = 0; i < MAX_HORIZONTAL; ++i)
 	{
 		for (int j = 0; j < MAX_VERTICAL; ++j)

@@ -5,6 +5,7 @@
 
 #include "cocos2d.h"
 #include <map>
+#include <string>
 
 class CResouceTable
 {
@@ -12,7 +13,7 @@ private:
 	static CResouceTable* instance;
 	CResouceTable(void);
 	static const char* filename;
-	std::map<const char*,const char*> table;
+	std::map<std::string,std::string*> table;
 public:
 	cocos2d::Label* label;
 	inline static CResouceTable* getInstance()
@@ -21,7 +22,7 @@ public:
 		return instance;
 	}
 	~CResouceTable(void);
-	inline const char* GetFileName (const char* name){return table[name];}
+	inline const std::string GetFileName (const std::string name){return *table[name];}
 };
 
 #endif
