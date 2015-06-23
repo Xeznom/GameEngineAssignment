@@ -111,7 +111,7 @@ CPlayer::CPlayer(cocos2d::Layer* layer, const cocos2d::Point loc)
 	body->setContactTestBitmask(true);
 	m_Sprite->setPhysicsBody(body);
 
-	m_Sprite->setScale(0.3f);
+	m_Sprite->setScale(0.15f);
 	m_Sprite->setPosition(loc);
 
 	PortalGun = new CGun();
