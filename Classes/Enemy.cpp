@@ -1,11 +1,13 @@
 #include "Enemy.h"
 
+const int CEnemy::STATIC_SPRITE_TAG = 0;
+const char* CEnemy::filename = "spike.png";
 
 CEnemy::CEnemy(Layer* layer, const Point pos)
 {
 	facingLeft = false;
 	speed = 50.0f;
-	if (m_Sprite ==nullptr) m_Sprite = cocos2d::Sprite::create(g_EnemyFileName);
+	if (m_Sprite == nullptr) m_Sprite = cocos2d::Sprite::create(filename);
 
 	//player physics
 	auto body = PhysicsBody::createCircle(m_Sprite->getContentSize().width);

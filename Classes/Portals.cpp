@@ -1,5 +1,10 @@
 #include "Portals.h"
 
+const char* CPortals::filename[] = { "blueP.png", "orangeP.png" };
+
+void CPortals::update(float delta)
+{
+}
 
 CPortals::CPortals(int type, Point location)
 {
@@ -25,23 +30,14 @@ CPortals::~CPortals()
 {
 }
 
-
-void CPortals::update() {
-
-}
-
 void CPortals::setLoc(Point loc) {
 	location = loc;
 	m_Sprite->setPosition(loc);
 }
 
 int CPortals::getDirection() {
-	if (Up)
-		return 1;
-	if (Down)
-		return 2;
-	if (Left)
-		return 3;
-	if (Right)
-		return 4;
+	if (Up) return 1;
+	else if (Down) return 2;
+	else if (Left) return 3;
+	else if (Right) return 4;
 };

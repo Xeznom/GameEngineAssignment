@@ -4,6 +4,7 @@
 #pragma once
 
 #include "cocos2d.h"
+#include "ResouceTable.h"
 USING_NS_CC;
 
 class CEntity
@@ -14,6 +15,7 @@ public:
 
 	CEntity(void);
 	virtual ~CEntity(void);
+	virtual void update(float){};
 };
 
 #endif

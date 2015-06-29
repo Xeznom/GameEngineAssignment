@@ -213,6 +213,7 @@ bool HelloWorld::init()
 
 	auto MouseListener = EventListenerMouse::create();
 	MouseListener->onMouseMove = CC_CALLBACK_1(CPlayer::MouseMove,player);
+	MouseListener->onMouseDown = CC_CALLBACK_1(CGun::MouseDown, player->PortalGun);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(MouseListener,player->m_Sprite);
 
 	auto contactListener = EventListenerPhysicsContact::create();
@@ -239,10 +240,10 @@ void HelloWorld::LoadFile(const string mapName)
 			// If this line is not a comment line, then process it
 			if (!(aLineOfText.find("//") == NULL) && aLineOfText != "")
 			{
+				string token;
 				if (theLineCounter == 0)
 				{
 					// This is the first line of the map data file
-					string token;
 					istringstream iss(aLineOfText);
 					while (getline(iss, token, ','))
 					{
@@ -254,7 +255,6 @@ void HelloWorld::LoadFile(const string mapName)
 				{
 					int theColumnCounter = 0;
 
-					string token;
 					istringstream iss(aLineOfText);
 					while (getline(iss, token, ','))
 					{

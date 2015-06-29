@@ -1,33 +1,18 @@
 #include "Player.h"
 #include <cmath>
 
-const char* CPlayer::filename = "Player.png";
-
 void CPlayer::update (float delta)
 {
 	cocos2d::Vec2 loc = m_Sprite->getPosition();
 	
-	bool Change = false;
 	if (Up)
-	{
-		Change = true;
 		loc.y += speed * delta;
-	}
 	if (Left)
-	{
-		Change = true;
 		loc.x -= speed * delta;
-	}
 	if (Down)
-	{
-		Change = true;
 		loc.y -= speed * delta;
-	}
 	if (Right)
-	{
-		Change = true;
 		loc.x += speed * delta;
-	}
 
 	m_Sprite->setPosition(loc);
 	PortalGun->m_Sprite->setPosition(Point(loc.x+PortalGun->Offset,loc.y));
@@ -53,8 +38,6 @@ void CPlayer::MouseMove (cocos2d::Event* event)
 			m_Sprite->setFlippedX(true); //Flip to face left.
 		}
 	}
-
-	PortalGun->MouseMove(event);
 }
 
 void CPlayer::KeyPress (cocos2d::EventKeyboard::KeyCode keycode,cocos2d::Event* event)
@@ -78,24 +61,24 @@ void CPlayer::KeyPress (cocos2d::EventKeyboard::KeyCode keycode,cocos2d::Event* 
 	}
 }
 
-void CPlayer::KeyRelease (cocos2d::EventKeyboard::KeyCode keycode,cocos2d::Event* event)
+void CPlayer::KeyRelease(cocos2d::EventKeyboard::KeyCode keycode, cocos2d::Event* event)
 {
 	switch (keycode)
 	{
-		case cocos2d::EventKeyboard::KeyCode::KEY_W:
-			Up = false;
-			break;
-		case cocos2d::EventKeyboard::KeyCode::KEY_A:
-			Left = false;
-			break;
-		case cocos2d::EventKeyboard::KeyCode::KEY_S:
-			Down = false;
-			break;
-		case cocos2d::EventKeyboard::KeyCode::KEY_D:
-			Right = false;
-			break;
-		default:
-			break;
+	case cocos2d::EventKeyboard::KeyCode::KEY_W:
+		Up = false;
+		break;
+	case cocos2d::EventKeyboard::KeyCode::KEY_A:
+		Left = false;
+		break;
+	case cocos2d::EventKeyboard::KeyCode::KEY_S:
+		Down = false;
+		break;
+	case cocos2d::EventKeyboard::KeyCode::KEY_D:
+		Right = false;
+		break;
+	default:
+		break;
 	}
 }
 
@@ -103,6 +86,7 @@ CPlayer::CPlayer(cocos2d::Layer* layer, const cocos2d::Point loc)
 {
 	Up = Left = Down = Right = false;
 	speed = 50.0f;
+	std::string filename = CResouceTable::getInstance()->GetFileName("Player");
 	if (m_Sprite ==nullptr) m_Sprite = cocos2d::Sprite::create(filename);
 
 	//player physics
@@ -127,5 +111,5 @@ CPlayer::CPlayer(cocos2d::Layer* layer, const cocos2d::Point loc)
 CPlayer::~CPlayer(void)
 {
 	delete PortalGun;
-	PortalGun = NULL;
+	PortalGun = nullptr;
 }

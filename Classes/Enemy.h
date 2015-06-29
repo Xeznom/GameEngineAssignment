@@ -3,28 +3,22 @@
 
 #pragma once
 
-#include "Enemy.h"
 #include "Entity.h"
-
-static const char* const g_EnemyFileName = {
-	"spike.png"
-};
-
 
 class CEnemy : public CEntity
 {
 private:
-
+	static const int STATIC_SPRITE_TAG;
+	static const char* filename;
 	bool facingLeft;
 	float speed;
 public:
-
 	CEnemy(Layer*, const Point);
 	~CEnemy(void);
 
-	void update (float delta);
+	void update (float);
 
-	bool onContactBegin(PhysicsContact& contact);
+	bool onContactBegin(PhysicsContact&);
 };
 
 #endif

@@ -11,13 +11,10 @@ enum P_PORTALS_TYPES {
 	P_TOTAL
 };
 
-static const char* const filename[P_TOTAL] = {
-	"blueP.png", "orangeP.png"
-};
-
 class CPortals : public CEntity
 {
 private:
+	static const char* filename[P_TOTAL];
 	Point location;
 
 	bool existing, connecting;
@@ -27,7 +24,7 @@ public:
 	CPortals(int, Point);
 	~CPortals(void);
 
-	void update();
+	void update(float);
 
 	void setConnection(bool status) { connecting = status; };
 	
