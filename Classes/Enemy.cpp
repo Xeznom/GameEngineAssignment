@@ -1,17 +1,17 @@
 #include "Enemy.h"
 
 const int CEnemy::STATIC_SPRITE_TAG = 0;
-const char* CEnemy::filename = "spike.png";
 
 CEnemy::CEnemy(Layer* layer, const Point pos)
 {
 	facingLeft = false;
-	speed = 50.0f;
-	if (m_Sprite == nullptr) m_Sprite = cocos2d::Sprite::create(filename);
+	speed = GETVALUE("EnemyWalkSpeed");
+	std::string filename = GETFILE("Enemy");
+	m_Sprite = cocos2d::Sprite::create(filename);
 
 	//player physics
-	auto body = PhysicsBody::createCircle(m_Sprite->getContentSize().width);
-	body->setMass(10);
+	PhysicsBody* body = PhysicsBody::createCircle(m_Sprite->getContentSize().width);
+	body->setMass(GETVALUE("EnemyMass"));
 	body->setCollisionBitmask(1);
 	body->setContactTestBitmask(true);
 	m_Sprite->setPhysicsBody(body);
@@ -23,8 +23,7 @@ CEnemy::CEnemy(Layer* layer, const Point pos)
 
 
 CEnemy::~CEnemy(void)
-{
-}
+{}
 
 void CEnemy::update (float delta)
 {
@@ -41,8 +40,8 @@ void CEnemy::update (float delta)
 void CEnemy::Render(Point location)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
-	float f_posX = visibleSize.width*0.5f + (location.x - 10) * TILESIZE * 1.5;
-	float f_posY = visibleSize.height - (location.y)* TILESIZE * 1.5;
+	float f_posX = visibleSize.width*0.5f + (location.x - 10) * TileSize * 1.5;
+	float f_posY = visibleSize.height - (location.y)* TileSize * 1.5;
 	m_Sprite->setPosition( Point(f_posX, f_posY) );
 }
 

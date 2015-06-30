@@ -1,8 +1,8 @@
 #include "Entity.h"
 
-CEntity::CEntity(void)
+CEntity::CEntity(void) : TileSize(GETVALUE("TileSize"))
 {
-	m_Sprite = NULL;
+	m_Sprite = nullptr;
 }
 
 

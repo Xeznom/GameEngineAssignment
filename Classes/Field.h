@@ -25,9 +25,7 @@ static const char* const g_scTileFileName[M_TOTAL] = {
 class CField : public CEntity
 {
 private:
-
 	int tiles;
-
 public:
 	CField(int, USHORT, USHORT);
 	~CField(void);

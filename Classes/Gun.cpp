@@ -2,9 +2,9 @@
 
 void CGun::update (float delta){}
 
-void CGun::MouseMove (cocos2d::Event* event)
+void CGun::MouseMove (Event* event)
 {
-	cocos2d::EventMouse* e = (cocos2d::EventMouse*) event;
+	EventMouse* e = (EventMouse*) event;
 
 	float ax = e->getCursorX() - PlayerSprite->getPositionX();
 	
@@ -12,8 +12,8 @@ void CGun::MouseMove (cocos2d::Event* event)
 	{
 		if (Left) //If facing left
 		{
-			Offset = 25;
-			cocos2d::Point gunloc = Point(m_Sprite->getPositionX()+Offset,m_Sprite->getPositionY());
+			Offset = abs(Offset);
+			Point gunloc = Point(m_Sprite->getPositionX()+Offset,m_Sprite->getPositionY());
 			m_Sprite->setPosition(gunloc);
 			Left = false;
 		}
@@ -22,8 +22,8 @@ void CGun::MouseMove (cocos2d::Event* event)
 	{
 		if (!Left) //If facing right
 		{
-			Offset = -25;
-			cocos2d::Point gunloc = Point(m_Sprite->getPositionX()+Offset,m_Sprite->getPositionY());
+			Offset = -abs(Offset);
+			Point gunloc = Point(m_Sprite->getPositionX()+Offset,m_Sprite->getPositionY());
 			m_Sprite->setPosition(gunloc);
 			Left = true;
 		}
@@ -35,9 +35,9 @@ void CGun::MouseMove (cocos2d::Event* event)
 	m_Sprite->setRotation(90 + degrees);
 }
 
-void CGun::MouseDown(cocos2d::Event* event)
+void CGun::MouseDown(Event* event)
 {
-	cocos2d::EventMouse* e = (cocos2d::EventMouse*) event;
+	EventMouse* e = (EventMouse*) event;
 	int mouseButton = e->getMouseButton();
 
 	switch (mouseButton)

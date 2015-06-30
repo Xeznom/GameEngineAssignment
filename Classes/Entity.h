@@ -7,12 +7,12 @@
 #include "ResourceTable.h"
 
 USING_NS_CC;
-#define TILESIZE 28
 
 class CEntity
 {
 public:
-	cocos2d::Sprite* m_Sprite;
+	const int TileSize;
+	Sprite* m_Sprite;
 	float x, y;
 
 	CEntity(void);
