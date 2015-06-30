@@ -258,7 +258,14 @@ void HelloWorld::LoadFile(const string mapName)
 					istringstream iss(aLineOfText);
 					while (getline(iss, token, ','))
 					{
-						m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter );
+						if (atoi(token.c_str()) == 4)
+						{
+							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(0, theColumnCounter, theLineCounter);
+							CEnemy spawn = new CEnemy(this, Point(theColumnCounter * 30, theLineCounter * 30)
+						}
+						else
+							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter );
+
 						addChild(m_arrayMap[theLineCounter-1][theColumnCounter]->m_Sprite, 0);
 						theColumnCounter++;
 					}

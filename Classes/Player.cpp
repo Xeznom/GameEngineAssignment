@@ -113,3 +113,23 @@ CPlayer::~CPlayer(void)
 	delete PortalGun;
 	PortalGun = nullptr;
 }
+
+bool CPlayer::onContactBegin(PhysicsContact& contact)
+{
+	auto nodeA = contact.getShapeA()->getBody()->getNode();
+	auto nodeB = contact.getShapeB()->getBody()->getNode();
+	if (nodeA && nodeB)
+	{
+		if (nodeA->getTag() == STATIC_SPRITE_TAG)
+		{
+			nodeB->removeFromParentAndCleanup(true);
+		}
+		else if (nodeB->getTag() == STATIC_SPRITE_TAG)
+		{
+			nodeA->removeFromParentAndCleanup(true);
+		}
+	}
+
+	//bodies can collide
+	return true;
+}

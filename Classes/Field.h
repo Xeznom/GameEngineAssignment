@@ -18,7 +18,7 @@ enum M_TILE_TYPES {
 } ;
 
 static const char* const g_scTileFileName[M_TOTAL] = {
-	"empty.png", "white.png"
+	"empty.png", "white.png", "door.png", "spike.png"
 };
 
 class CField : public CEntity

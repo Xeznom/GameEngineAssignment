@@ -22,7 +22,8 @@ public:
 	void MouseMove(cocos2d::Event*);
 	void MouseDown(cocos2d::Event*);
 
-	void update (float);
+	void update(float);
+	bool onContactBegin(PhysicsContact&);
 };
 
 #endif
