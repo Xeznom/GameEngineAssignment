@@ -12,7 +12,7 @@
 #include "Portals.h"
 #include "Traps.h"
 #include "Enemy.h"
-#include "ResouceTable.h"
+#include "ResourceTable.h"
 
 USING_NS_CC;
 

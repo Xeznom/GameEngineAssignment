@@ -104,11 +104,11 @@ void HelloWorld::cleanup()
 Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
-    auto scene = Scene::createWithPhysics();
+    Scene* scene = Scene::createWithPhysics();
 	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
     
     // 'layer' is an autorelease object
-    auto layer = HelloWorld::create();
+    HelloWorld* layer = HelloWorld::create();
 	layer->setPhyWorld(scene->getPhysicsWorld());
 
 	layer->scheduleUpdate();
@@ -122,9 +122,13 @@ Scene* HelloWorld::createScene()
 	Point center = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 	edgeNode->setPosition(center);
 	
-	/*Size RoomSize = Size(600,600);
+	/*
+	float RoomWidth = GETVALUE("RoomWidth");
+	float RoomHeight = GETVALUE("RoomHeight");
+	Size RoomSize = Size(RoomWidth,RoomHeight);
 	PhysicsBody* body = PhysicsBody::createEdgeBox(RoomSize, PHYSICSBODY_MATERIAL_DEFAULT, 3);
-	edgeNode->setPhysicsBody(body);*/
+	edgeNode->setPhysicsBody(body);
+	*/
 
 	scene->addChild(edgeNode);
 
@@ -181,21 +185,21 @@ bool HelloWorld::init()
     this->addChild(sprite, 0);
     */
 
-	LoadFile("MapDesign.csv");
+	LoadFile(GETFILE("Map"));
 
 	Point location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 
 	player = new CPlayer(this,location);
 
 	Traps = new CTraps(this,100,100);
-	//CResouceTable::getInstance()->label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    CResouceTable::getInstance()->label->setPosition(Vec2(origin.x + visibleSize.width*0.5f,
-                    origin.y + visibleSize.height - 50 - CResouceTable::getInstance()->label->getContentSize().height));
+	//CResourceTable::getInstance()->label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    CResourceTable::getInstance()->label->setPosition(Vec2(origin.x + visibleSize.width*0.5f,
+                    origin.y + visibleSize.height - 50 - CResourceTable::getInstance()->label->getContentSize().height));
 
-    this->addChild(CResouceTable::getInstance()->label, 1);
+    this->addChild(CResourceTable::getInstance()->label, 1);
 
-	std::string Data = CResouceTable::getInstance()->GetFileName("PortalGun");
-	CResouceTable::getInstance()->label->setString(Data);
+	std::string Data = CResourceTable::getInstance()->GetFileName("PortalGun");
+	CResourceTable::getInstance()->label->setString(Data);
 
 	for (int i = 0; i < 2; i++)
 		portals[i] = new CPortals(i, location);

@@ -2,11 +2,12 @@
 #define __CENTITY_H__
 
 #pragma once
-#define TILESIZE 28
 
 #include "cocos2d.h"
-#include "ResouceTable.h"
+#include "ResourceTable.h"
+
 USING_NS_CC;
+#define TILESIZE 28
 
 class CEntity
 {

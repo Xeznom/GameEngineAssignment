@@ -49,18 +49,15 @@ public:
 	void Update(void);
 	void ChangeTexture(E_GEM_TYPES);
 
-	cocos2d::Sprite* getSprite(void) {return m_Sprite;};
+	inline cocos2d::Sprite* getSprite(void) {return m_Sprite;};
 
-	E_GEM_STATE getState(void) {return m_eState;};
-	void setState(E_GEM_STATE eState) {m_eState = eState);
+	inline E_GEM_STATE getState(void) {return m_eState;};
+	inline void setState(E_GEM_STATE eState) {m_eState = eState;}
 
-	E_GEM_TYPES getType(void) {return m_eType;};
-	void setType(E_GEM_TYPES newType) {m_eType = newType);
+	inline E_GEM_TYPES getType(void) {return m_eType;};
+	inline void setType(E_GEM_TYPES newType) {m_eType = newType;}
 
-	void setY (float newY)
-	{
-		m_Sprite->setPositionY(newY);
-	};
+	inline void setY (float newY){m_Sprite->setPositionY(newY);};
 };
 
 #endif //__GEM_H__
