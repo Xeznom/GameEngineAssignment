@@ -261,7 +261,7 @@ void HelloWorld::LoadFile(const string mapName)
 						if (atoi(token.c_str()) == 4)
 						{
 							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(0, theColumnCounter, theLineCounter);
-							CEnemy spawn = new CEnemy(this, Point(theColumnCounter * 30, theLineCounter * 30)
+							CEnemy *spawn = new CEnemy(this, Point(theColumnCounter * 30, theLineCounter * 30) );
 						}
 						else
 							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter );

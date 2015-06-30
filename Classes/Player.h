@@ -8,6 +8,7 @@
 class CPlayer : public CEntity
 {
 private:
+	static const int STATIC_SPRITE_TAG;
 	bool Up,Down,Left,Right;
 	float speed;
 public:

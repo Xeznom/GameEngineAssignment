@@ -14,6 +14,8 @@ using namespace std;
 enum M_TILE_TYPES {
 	M_WHITE,
 	M_EMPTY,
+	M_DOOR,
+	M_TRAP,
 	M_TOTAL
 } ;
 

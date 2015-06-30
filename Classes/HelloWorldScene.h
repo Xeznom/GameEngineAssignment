@@ -11,6 +11,7 @@
 #include "Field.h"
 #include "Portals.h"
 #include "Traps.h"
+#include "Enemy.h"
 #include "ResouceTable.h"
 
 USING_NS_CC;

@@ -1,6 +1,8 @@
 #include "Player.h"
 #include <cmath>
 
+const int CPlayer::STATIC_SPRITE_TAG = 0;
+
 void CPlayer::update (float delta)
 {
 	cocos2d::Vec2 loc = m_Sprite->getPosition();
