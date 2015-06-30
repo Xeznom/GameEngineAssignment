@@ -16,8 +16,7 @@ CEnemy::CEnemy(Layer* layer, const Point pos)
 	body->setContactTestBitmask(true);
 	m_Sprite->setPhysicsBody(body);
 
-	m_Sprite->setScale(0.15f);
-	m_Sprite->setPosition(pos);
+	Render(pos);
 
 	layer->addChild(m_Sprite,0);
 }
@@ -37,6 +36,14 @@ void CEnemy::update (float delta)
 		loc.x -= speed * delta;
 
 	m_Sprite->setPosition(loc);
+}
+
+void CEnemy::Render(Point location)
+{
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	float f_posX = visibleSize.width*0.5f + (location.x - 10) * TILESIZE * 1.5;
+	float f_posY = visibleSize.height - (location.y)* TILESIZE * 1.5;
+	m_Sprite->setPosition( Point(f_posX, f_posY) );
 }
 
 bool CEnemy::onContactBegin(PhysicsContact& contact)
