@@ -7,7 +7,6 @@
 using namespace std;
 
 #pragma once
-#define TILESIZE 30
 
 #include "Entity.h"
 

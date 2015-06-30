@@ -2,6 +2,7 @@
 #define __CENTITY_H__
 
 #pragma once
+#define TILESIZE 28
 
 #include "cocos2d.h"
 #include "ResouceTable.h"

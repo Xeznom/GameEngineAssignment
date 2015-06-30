@@ -122,9 +122,9 @@ Scene* HelloWorld::createScene()
 	Point center = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 	edgeNode->setPosition(center);
 	
-	Size RoomSize = Size(600,600);
+	/*Size RoomSize = Size(600,600);
 	PhysicsBody* body = PhysicsBody::createEdgeBox(RoomSize, PHYSICSBODY_MATERIAL_DEFAULT, 3);
-	edgeNode->setPhysicsBody(body);
+	edgeNode->setPhysicsBody(body);*/
 
 	scene->addChild(edgeNode);
 
@@ -261,7 +261,7 @@ void HelloWorld::LoadFile(const string mapName)
 						if (atoi(token.c_str()) == 4)
 						{
 							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(0, theColumnCounter, theLineCounter);
-							CEnemy *spawn = new CEnemy(this, Point(theColumnCounter * 30, theLineCounter * 30) );
+							CEnemy *spawn = new CEnemy(this, Point(theColumnCounter, theLineCounter) );
 						}
 						else
 							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter );

@@ -16,8 +16,8 @@ CField::~CField(void)
 void CField::Render(USHORT x, USHORT y)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
-	float f_posX = visibleSize.width*0.5f + (x - 10) * TILESIZE + TILESIZE/2;
-	float f_posY = visibleSize.height - (y)* TILESIZE;
+	float f_posX = visibleSize.width*0.5f + (x - 10) * TILESIZE * 1.5;
+	float f_posY = visibleSize.height - (y)* TILESIZE * 1.5;
 	m_Sprite->setPosition( Point(f_posX, f_posY) );
 	
 	//sprite Physics

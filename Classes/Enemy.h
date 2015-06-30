@@ -17,6 +17,7 @@ public:
 	~CEnemy(void);
 
 	void update (float);
+	void Render(Point);
 
 	bool onContactBegin(PhysicsContact&);
 };

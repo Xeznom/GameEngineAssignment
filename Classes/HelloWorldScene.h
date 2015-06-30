@@ -3,8 +3,8 @@
 
 #pragma once
 
-#define MAX_HORIZONTAL 20
-#define MAX_VERTICAL 20
+#define MAX_HORIZONTAL 40
+#define MAX_VERTICAL 15
 
 #include "cocos2d.h"
 #include "Player.h"
