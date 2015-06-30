@@ -9,7 +9,6 @@ class CEnemy : public CEntity
 {
 private:
 	static const int STATIC_SPRITE_TAG;
-	static const char* filename;
 	bool facingLeft;
 	float speed;
 public:
@@ -17,6 +16,7 @@ public:
 	~CEnemy(void);
 
 	void update (float);
+	void Render(Point);
 
 	bool onContactBegin(PhysicsContact&);
 };

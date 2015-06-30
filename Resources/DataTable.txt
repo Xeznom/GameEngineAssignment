@@ -1,0 +1,8 @@
+WalkSpeed:50
+GunOffset:25
+PlayerMass:10
+RoomWidth:600
+RoomHeight:600
+EnemyMass:10
+EnemyWalkSpeed:50
+TileSize:28

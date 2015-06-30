@@ -7,12 +7,11 @@ void CPlayer::update (float delta)
 {
 	cocos2d::Vec2 loc = m_Sprite->getPosition();
 	
-	if (Up)
+	if (Jump)
 		loc.y += speed * delta;
+
 	if (Left)
 		loc.x -= speed * delta;
-	if (Down)
-		loc.y -= speed * delta;
 	if (Right)
 		loc.x += speed * delta;
 
@@ -40,6 +39,8 @@ void CPlayer::MouseMove (cocos2d::Event* event)
 			m_Sprite->setFlippedX(true); //Flip to face left.
 		}
 	}
+
+	PortalGun->MouseMove(event);
 }
 
 void CPlayer::KeyPress (cocos2d::EventKeyboard::KeyCode keycode,cocos2d::Event* event)
@@ -47,13 +48,10 @@ void CPlayer::KeyPress (cocos2d::EventKeyboard::KeyCode keycode,cocos2d::Event* 
 	switch (keycode)
 	{
 		case cocos2d::EventKeyboard::KeyCode::KEY_W:
-			Up = true;
+			Jump = true;
 			break;
 		case cocos2d::EventKeyboard::KeyCode::KEY_A:
 			Left = true;
-			break;
-		case cocos2d::EventKeyboard::KeyCode::KEY_S:
-			Down = true;
 			break;
 		case cocos2d::EventKeyboard::KeyCode::KEY_D:
 			Right = true;
@@ -67,34 +65,38 @@ void CPlayer::KeyRelease(cocos2d::EventKeyboard::KeyCode keycode, cocos2d::Event
 {
 	switch (keycode)
 	{
-	case cocos2d::EventKeyboard::KeyCode::KEY_W:
-		Up = false;
-		break;
-	case cocos2d::EventKeyboard::KeyCode::KEY_A:
-		Left = false;
-		break;
-	case cocos2d::EventKeyboard::KeyCode::KEY_S:
-		Down = false;
-		break;
-	case cocos2d::EventKeyboard::KeyCode::KEY_D:
-		Right = false;
-		break;
-	default:
-		break;
+		case cocos2d::EventKeyboard::KeyCode::KEY_W:
+			Jump = false;
+			break;
+		case cocos2d::EventKeyboard::KeyCode::KEY_A:
+			Left = false;
+			break;
+		case cocos2d::EventKeyboard::KeyCode::KEY_D:
+			Right = false;
+			break;
+		default:
+			break;
 	}
 }
 
 CPlayer::CPlayer(cocos2d::Layer* layer, const cocos2d::Point loc)
 {
+<<<<<<< HEAD
 	HP = 3;
 	Up = Left = Down = Right = false;
 	speed = 50.0f;
 	std::string filename = CResouceTable::getInstance()->GetFileName("Player");
 	if (m_Sprite ==nullptr) m_Sprite = cocos2d::Sprite::create(filename);
+=======
+	Jump = Left = Right = false;
+	speed = GETVALUE("WalkSpeed");
+	std::string filename = GETFILE("Player");
+	m_Sprite = cocos2d::Sprite::create(filename);
+>>>>>>> origin/master
 
 	//player physics
 	auto body = PhysicsBody::createCircle(m_Sprite->getContentSize().width);
-	body->setMass(10);
+	body->setMass( GETVALUE("PlayerMass") );
 	body->setCollisionBitmask(1);
 	body->setContactTestBitmask(true);
 	m_Sprite->setPhysicsBody(body);
@@ -102,13 +104,9 @@ CPlayer::CPlayer(cocos2d::Layer* layer, const cocos2d::Point loc)
 	m_Sprite->setScale(0.3f);
 	m_Sprite->setPosition(loc);
 
-	PortalGun = new CGun(m_Sprite);
-	cocos2d::Point gunloc = Point(loc.x+20,loc.y);
-	PortalGun->m_Sprite->setPosition(gunloc);
-	PortalGun->m_Sprite->setAnchorPoint(Vec2(0.5f,0));
+	PortalGun = new CGun(layer, loc, m_Sprite);
 
 	layer->addChild(m_Sprite,0);
-	layer->addChild(PortalGun->m_Sprite,0);
 }
 
 CPlayer::~CPlayer(void)
@@ -119,8 +117,9 @@ CPlayer::~CPlayer(void)
 
 bool CPlayer::onContactBegin(PhysicsContact& contact)
 {
-	auto nodeA = contact.getShapeA()->getBody()->getNode();
-	auto nodeB = contact.getShapeB()->getBody()->getNode();
+	cocos2d::Node* nodeA = contact.getShapeA()->getBody()->getNode();
+	cocos2d::Node* nodeB = contact.getShapeB()->getBody()->getNode();
+
 	if (nodeA && nodeB)
 	{
 		if (nodeA->getTag() == STATIC_SPRITE_TAG)

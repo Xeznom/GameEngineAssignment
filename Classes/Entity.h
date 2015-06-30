@@ -4,13 +4,15 @@
 #pragma once
 
 #include "cocos2d.h"
-#include "ResouceTable.h"
+#include "ResourceTable.h"
+
 USING_NS_CC;
 
 class CEntity
 {
 public:
-	cocos2d::Sprite* m_Sprite;
+	const int TileSize;
+	Sprite* m_Sprite;
 	float x, y;
 
 	CEntity(void);

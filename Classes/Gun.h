@@ -8,16 +8,16 @@
 class CGun : public CEntity
 {
 private:
-	static const char* filename;
 	CProjectile* projectile[2]; //Two projectiles?
-	Sprite* PlayerSprite;
+	const Sprite* PlayerSprite;
 	bool Left;
 public:
 	float Offset;
-	CGun(Sprite*);
+	CGun(Layer*, const Point, const Sprite*);
 	~CGun(void);
 	void update(float);
-	void MouseDown(cocos2d::Event*);
+	void MouseMove(Event*);
+	void MouseDown(Event*);
 };
 
 #endif

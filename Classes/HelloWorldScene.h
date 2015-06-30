@@ -3,8 +3,8 @@
 
 #pragma once
 
-#define MAX_HORIZONTAL 20
-#define MAX_VERTICAL 20
+#define MAX_HORIZONTAL 40
+#define MAX_VERTICAL 15
 
 #include "cocos2d.h"
 #include "Player.h"
@@ -12,18 +12,18 @@
 #include "Portals.h"
 #include "Traps.h"
 #include "Enemy.h"
-#include "ResouceTable.h"
+#include "ResourceTable.h"
 
 USING_NS_CC;
 
-class HelloWorld : public cocos2d::Layer
+class HelloWorld : public Layer
 {
 private:
 	CField* m_arrayMap[MAX_HORIZONTAL][MAX_VERTICAL];
 	CPortals* portals[2];
 	CPlayer* player;
-	cocos2d::PhysicsWorld* m_world;
-	inline void setPhyWorld(cocos2d::PhysicsWorld* world){ m_world = world; }
+	PhysicsWorld* m_world;
+	inline void setPhyWorld(PhysicsWorld* world){ m_world = world; }
 public:
 	CTraps* Traps;
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
@@ -36,20 +36,20 @@ public:
 	
 	void LoadFile(const string mapName);
     
-	virtual void onMouseMove (cocos2d::Event*);
-	virtual void onMouseDown (cocos2d::Event*);
-	virtual void onMouseUp (cocos2d::Event*);
-	virtual void onMouseScroll (cocos2d::Event*);
+	virtual void onMouseMove (Event*);
+	virtual void onMouseDown (Event*);
+	virtual void onMouseUp (Event*);
+	virtual void onMouseScroll (Event*);
 
 	void teleportaling(int, int);
 
     // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
+    void menuCloseCallback(Ref* pSender);
     
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 
-	bool onContactBegin(cocos2d::PhysicsContact &contact);
+	bool onContactBegin(PhysicsContact &contact);
 };
 
 #endif // __HELLOWORLD_SCENE_H__
