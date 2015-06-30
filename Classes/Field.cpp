@@ -25,7 +25,7 @@ void CField::Render(USHORT x, USHORT y)
 	//check if tile is not empty
 	if (tiles != 0)
 	{
-		auto body = PhysicsBody::createCircle(m_Sprite->getContentSize().width/2);
+		auto body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().width/2,m_Sprite->getContentSize().width/2));
 		body->setDynamic(false);
 		m_Sprite->setPhysicsBody(body);
 	}

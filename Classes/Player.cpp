@@ -86,6 +86,7 @@ void CPlayer::KeyRelease(cocos2d::EventKeyboard::KeyCode keycode, cocos2d::Event
 
 CPlayer::CPlayer(cocos2d::Layer* layer, const cocos2d::Point loc)
 {
+	HP = 3;
 	Up = Left = Down = Right = false;
 	speed = 50.0f;
 	std::string filename = CResouceTable::getInstance()->GetFileName("Player");
@@ -135,3 +136,13 @@ bool CPlayer::onContactBegin(PhysicsContact& contact)
 	//bodies can collide
 	return true;
 }
+
+void CPlayer :: setHP(int Set)
+{
+	HP = Set;
+}
+
+int CPlayer :: getHp()
+{
+	return HP;
+} 

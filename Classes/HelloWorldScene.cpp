@@ -321,7 +321,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 2) || (First->getCollisionBitmask() == 2 && Second->getCollisionBitmask() == 1))
 	{
-		//lose
+		player->setHP(player->getHp() - 1);
 	}
 
 	return true;

@@ -11,6 +11,7 @@ private:
 	static const int STATIC_SPRITE_TAG;
 	bool Up,Down,Left,Right;
 	float speed;
+	int HP;
 public:
 	CGun* PortalGun;
 
@@ -22,6 +23,8 @@ public:
 	void KeyRelease(cocos2d::EventKeyboard::KeyCode,cocos2d::Event*);
 	void MouseMove(cocos2d::Event*);
 	void MouseDown(cocos2d::Event*);
+	void setHP(int Set);
+	int getHp();
 
 	void update(float);
 	bool onContactBegin(PhysicsContact&);
