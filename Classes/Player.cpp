@@ -8,7 +8,7 @@ void CPlayer::update (float delta)
 	cocos2d::Vec2 loc = m_Sprite->getPosition();
 	
 	if (Jump)
-		loc.y += speed * delta;
+		loc.y += speed * delta * 5;
 
 	if (Left)
 		loc.x -= speed * delta;
@@ -99,7 +99,7 @@ CPlayer::CPlayer(cocos2d::Layer* layer, const cocos2d::Point loc)
 	body->setContactTestBitmask(true);
 	m_Sprite->setPhysicsBody(body);
 
-	m_Sprite->setScale(0.3f);
+	m_Sprite->setScale(0.15f);
 	m_Sprite->setPosition(loc);
 
 	PortalGun = new CGun(layer, loc, m_Sprite);

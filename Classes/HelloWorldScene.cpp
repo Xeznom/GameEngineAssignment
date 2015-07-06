@@ -5,12 +5,17 @@ USING_NS_CC;
 void HelloWorld::update (float dt)
 {
 	player->update(dt);
+	//tempDMGTimer++;
 	//Point temp2 = player->m_Sprite->getPosition();
 	//this->Traps->m_Sprite->getPosition();
 	//Point temp3 = Traps->m_Sprite->getPosition();
 	//if (portals[0]->getExist())
 	//{
 
+	//}
+	//if(player->getHp() == 0)
+	//{
+	//	Director::getInstance()->end();
 	//}
 }
 
@@ -185,13 +190,15 @@ bool HelloWorld::init()
     this->addChild(sprite, 0);
     */
 
+	tempDMGTimer = 0;
+
 	LoadFile(GETFILE("Map"));
 
 	Point location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 
 	player = new CPlayer(this,location);
 
-	Traps = new CTraps(this,100,100);
+	//Traps = new CTraps(this,100,100);
 	//CResourceTable::getInstance()->label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
     CResourceTable::getInstance()->label->setPosition(Vec2(origin.x + visibleSize.width*0.5f,
                     origin.y + visibleSize.height - 50 - CResourceTable::getInstance()->label->getContentSize().height));
@@ -267,6 +274,16 @@ void HelloWorld::LoadFile(const string mapName)
 							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(0, theColumnCounter, theLineCounter);
 							CEnemy *spawn = new CEnemy(this, Point(theColumnCounter, theLineCounter) );
 						}
+						if (atoi(token.c_str()) == 2)
+						{
+							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(0, theColumnCounter, theLineCounter);
+							theDoors[0] = new Door(this, theColumnCounter, theLineCounter );
+						}
+						if (atoi(token.c_str()) == 5)
+						{
+							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(0, theColumnCounter, theLineCounter);
+							theButtons[0] = new Button(this, theColumnCounter, theLineCounter );
+						}
 						else
 							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter );
 
@@ -316,16 +333,75 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 
 	//bitmask 1 = player
 	//bitmask 2 = traps
-	//bitmaks 3 = portal
+	//bitmask 3 = portal/opendoor/tiles with portal/pressed button/enemyspawner
+	//bitmask 4 = portal projectile
+	//bitmask 5 = tiles/closedoor
+	//bitmask 6 = button
 
+	//player with portal/opendoor
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 3) || (First->getCollisionBitmask() == 3 && Second->getCollisionBitmask() == 1))
 	{
 		return false;
 	}
-
+	//portal projectile with tiles
+	if((First->getCollisionBitmask() == 4 && Second->getCollisionBitmask() == 5) || (First->getCollisionBitmask() == 5 && Second->getCollisionBitmask() == 4))
+	{
+		if(First->getCollisionBitmask() == 4)//if portal projectile is First
+		{
+			//remove projectile
+			//spawn portal sprite
+		}
+		else if (Second->getCollisionBitmask() == 4)//if portal projectile is Second instead
+		{
+			//remove projectile
+			//spawn portal sprite
+		}
+		if(First->getCollisionBitmask() == 5)//if tile is First
+		{
+			First->setCollisionBitmask(3);//tile is now a "tile with portal"
+		}
+		else if(Second->getCollisionBitmask() == 5)//if tile is Second instead
+		{
+			First->setContactTestBitmask(3);//tile is now a "tile with portal"
+		}
+		//return false;
+	}
+	//player with traps
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 2) || (First->getCollisionBitmask() == 2 && Second->getCollisionBitmask() == 1))
 	{
-		player->setHP(player->getHp() - 1);
+		//player->setHP(player->getHp() - 1);
+		Director::getInstance()->end();
+	}
+	//player with button
+	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 6) || (First->getCollisionBitmask() == 6 && Second->getCollisionBitmask() == 1))
+	{
+		if(First->getCollisionBitmask() == 6)//if first is button
+		{
+			First->setCollisionBitmask(3);//button is now a "pressed button"
+			//for(int i = 0;i<buttonDoorTotal;i++)
+			//{
+				theButtons[0]->pressed();
+			//}
+			//for(int i = 0;i<buttonDoorTotal;i++)
+			//{
+				theDoors[0]->openDoor();
+			//}
+			//corressponding door opens
+		}
+		else if(Second->getCollisionBitmask() == 6)//if second is button instead
+		{
+			Second->setCollisionBitmask(3);//button is now a "pressed button"
+			//for(int i = 0;i<buttonDoorTotal;i++)
+			//{
+				theButtons[0]->pressed();
+			//}
+			//for(int i = 0;i<buttonDoorTotal;i++)
+			//{
+				theDoors[0]->openDoor();
+			//}
+			//corressponding door opens
+		}
+		//return false;
 	}
 
 	return true;

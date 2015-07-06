@@ -13,13 +13,16 @@ using namespace std;
 enum M_TILE_TYPES {
 	M_WHITE,
 	M_EMPTY,
-	M_DOOR,
+	M_CLOSEDOOR,
 	M_TRAP,
+	M_ENEMY,
+	M_BUTTON,
 	M_TOTAL
+	
 } ;
 
 static const char* const g_scTileFileName[M_TOTAL] = {
-	"empty.png", "white.png", "door.png", "spike.png"
+	"empty.png", "white.png", "empty.png", "spike.png","empty.png","empty.png"
 };
 
 class CField : public CEntity

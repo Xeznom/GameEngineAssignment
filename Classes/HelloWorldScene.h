@@ -13,18 +13,25 @@
 #include "Traps.h"
 #include "Enemy.h"
 #include "ResourceTable.h"
+#include "Door.h"
+#include "Button.h"
 
 USING_NS_CC;
+
+const int buttonDoorTotal = 1;
 
 class HelloWorld : public Layer
 {
 private:
+	int tempDMGTimer;
 	CField* m_arrayMap[MAX_HORIZONTAL][MAX_VERTICAL];
 	CPortals* portals[2];
 	CPlayer* player;
 	PhysicsWorld* m_world;
 	inline void setPhyWorld(PhysicsWorld* world){ m_world = world; }
 public:
+	Door* theDoors[buttonDoorTotal];
+	Button* theButtons[buttonDoorTotal];
 	CTraps* Traps;
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();

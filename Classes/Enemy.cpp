@@ -12,7 +12,7 @@ CEnemy::CEnemy(Layer* layer, const Point pos)
 	//player physics
 	PhysicsBody* body = PhysicsBody::createCircle(m_Sprite->getContentSize().width);
 	body->setMass(GETVALUE("EnemyMass"));
-	body->setCollisionBitmask(1);
+	body->setCollisionBitmask(8);//changed to 8 temporally
 	body->setContactTestBitmask(true);
 	m_Sprite->setPhysicsBody(body);
 
