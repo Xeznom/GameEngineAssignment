@@ -28,6 +28,7 @@ private:
 	CPortals* portals[2];
 	CPlayer* player;
 	PhysicsWorld* m_world;
+	CEnemy* enemies;
 	inline void setPhyWorld(PhysicsWorld* world){ m_world = world; }
 public:
 	Door* theDoors[buttonDoorTotal];

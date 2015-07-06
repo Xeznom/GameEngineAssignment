@@ -13,10 +13,17 @@ void HelloWorld::update (float dt)
 	//{
 
 	//}
+
 	//if(player->getHp() == 0)
 	//{
 	//	Director::getInstance()->end();
 	//}
+
+	for (int i = 0; i < 10; i++)
+	{
+		enemies.at(i)->update(dt);
+	}
+
 }
 
 void HelloWorld::onMouseDown(cocos2d::Event* eevent)
@@ -272,7 +279,7 @@ void HelloWorld::LoadFile(const string mapName)
 						if (atoi(token.c_str()) == 4)
 						{
 							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(0, theColumnCounter, theLineCounter);
-							CEnemy *spawn = new CEnemy(this, Point(theColumnCounter, theLineCounter) );
+							enemies = new CEnemy(this, Point(theColumnCounter, theLineCounter));
 						}
 						if (atoi(token.c_str()) == 2)
 						{
