@@ -81,18 +81,16 @@ void CPlayer::KeyRelease(cocos2d::EventKeyboard::KeyCode keycode, cocos2d::Event
 
 CPlayer::CPlayer(cocos2d::Layer* layer, const cocos2d::Point loc)
 {
-<<<<<<< HEAD
 	HP = 3;
-	Up = Left = Down = Right = false;
-	speed = 50.0f;
-	std::string filename = CResouceTable::getInstance()->GetFileName("Player");
-	if (m_Sprite ==nullptr) m_Sprite = cocos2d::Sprite::create(filename);
-=======
+	//Up = Left = Down = Right = false;
+	//speed = 50.0f;
+	//std::string filename = CResouceTable::getInstance()->GetFileName("Player");
+	//if (m_Sprite ==nullptr) m_Sprite = cocos2d::Sprite::create(filename);
+
 	Jump = Left = Right = false;
 	speed = GETVALUE("WalkSpeed");
 	std::string filename = GETFILE("Player");
 	m_Sprite = cocos2d::Sprite::create(filename);
->>>>>>> origin/master
 
 	//player physics
 	auto body = PhysicsBody::createCircle(m_Sprite->getContentSize().width);

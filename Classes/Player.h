@@ -20,19 +20,16 @@ public:
 	~CPlayer(void);
 	void Render();
 
-<<<<<<< HEAD
 	void KeyPress (cocos2d::EventKeyboard::KeyCode,cocos2d::Event*);
 	void KeyRelease(cocos2d::EventKeyboard::KeyCode,cocos2d::Event*);
 	void MouseMove(cocos2d::Event*);
 	void MouseDown(cocos2d::Event*);
 	void setHP(int Set);
 	int getHp();
-=======
-	void KeyPress (EventKeyboard::KeyCode,Event*);
-	void KeyRelease(EventKeyboard::KeyCode,Event*);
-	void MouseMove(Event*);
-	void MouseDown(Event*);
->>>>>>> origin/master
+	//void KeyPress (EventKeyboard::KeyCode,Event*);
+	//void KeyRelease(EventKeyboard::KeyCode,Event*);
+	//void MouseMove(Event*);
+	//void MouseDown(Event*);
 
 	void update(float);
 	bool onContactBegin(PhysicsContact&);
