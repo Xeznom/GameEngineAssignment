@@ -13,6 +13,7 @@ private:
 	bool Left,Right;
 	float speed;
 	int HP;
+	PhysicsBody* body;
 public:
 	CGun* PortalGun;
 
@@ -24,8 +25,8 @@ public:
 	void KeyRelease(cocos2d::EventKeyboard::KeyCode,cocos2d::Event*);
 	void MouseMove(cocos2d::Event*);
 	void MouseDown(cocos2d::Event*);
-	void setHP(int Set);
-	int getHp();
+	void setHP(const int Set);
+	const int getHp() const;
 	//void KeyPress (EventKeyboard::KeyCode,Event*);
 	//void KeyRelease(EventKeyboard::KeyCode,Event*);
 	//void MouseMove(Event*);
