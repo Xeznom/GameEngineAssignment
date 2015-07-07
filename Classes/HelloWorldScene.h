@@ -31,6 +31,8 @@ private:
 	CEnemy* enemies;
 	inline void setPhyWorld(PhysicsWorld* world){ m_world = world; }
 public:
+	void setViewPoint(CCPoint position);
+
 	Door* theDoors[buttonDoorTotal];
 	Button* theButtons[buttonDoorTotal];
 	CTraps* Traps;

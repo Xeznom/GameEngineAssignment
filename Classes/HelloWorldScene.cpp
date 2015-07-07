@@ -340,12 +340,14 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 
 	//bitmask 1 = player
 	//bitmask 2 = traps
-	//bitmask 3 = portal/opendoor/tiles with portal/pressed button/enemyspawner
+	//bitmask 3 = opendoor/tiles with portal/pressed button/enemyspawner
 	//bitmask 4 = portal projectile
 	//bitmask 5 = tiles/closedoor
 	//bitmask 6 = button
+	//bitmask 7 = portal
+	//bitmask 8 = enemy
 
-	//player with portal/opendoor
+	//player with opendoor
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 3) || (First->getCollisionBitmask() == 3 && Second->getCollisionBitmask() == 1))
 	{
 		return false;
@@ -408,8 +410,33 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 			//}
 			//corressponding door opens
 		}
-		//return false;
+		return false;
+	}
+	//player with portal
+	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 7) || (First->getCollisionBitmask() == 7 && Second->getCollisionBitmask() == 1))
+	{
+		//portal teleport code
+	}
+	//enemy with everything
+	if((First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() != 5) || (First->getCollisionBitmask() != 5 && Second->getCollisionBitmask() == 8))
+	{
+		return false;
 	}
 
 	return true;
+}
+
+void HelloWorld::setViewPoint(CCPoint position)
+{
+	 CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+ 
+    int x = MAX(position.x, winSize.width/2);
+    int y = MAX(position.y, winSize.height/2);
+	x = MIN(x, ((MAX_HORIZONTAL * m_arrayMap[0][0]->m_Sprite->getContentSize().width) * m_arrayMap[0][0]->m_Sprite->getContentSize().width) - winSize.width / 2);
+	y = MIN(y, ((MAX_VERTICAL * m_arrayMap[0][0]->m_Sprite->getContentSize().height) * m_arrayMap[0][0]->m_Sprite->getContentSize().height) - winSize.height/2);
+    CCPoint actualPosition = ccp(x, y);
+ 
+    CCPoint centerOfView = ccp(winSize.width/2, winSize.height/2);
+    CCPoint viewPoint = ccpSub(centerOfView, actualPosition);
+    this->setPosition(viewPoint);
 }

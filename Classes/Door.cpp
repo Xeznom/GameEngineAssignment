@@ -31,11 +31,12 @@ Door::~Door(void)
 void Door::openDoor()
 {
 	m_Sprite->setTexture(CCTextureCache::sharedTextureCache()->addImage("opendoor.png"));
-	auto body = PhysicsBody::createBox(Size(this->m_Sprite->getContentSize().width/100,this->m_Sprite->getContentSize().width/100));
-	body->setCollisionBitmask(3);
-	body->setContactTestBitmask(true);
-	body->setDynamic(false);
-	m_Sprite->setPhysicsBody(body);
+	//auto body = PhysicsBody::createBox(Size(this->m_Sprite->getContentSize().width/100,this->m_Sprite->getContentSize().width/100));
+	//body->setCollisionBitmask(3);
+	//body->setContactTestBitmask(true);
+	//body->setDynamic(false);
+	//m_Sprite->setPhysicsBody(body);
+	m_Sprite->getPhysicsBody()->setCollisionBitmask(3);
 }
 
 void Door::render(USHORT x, USHORT y)

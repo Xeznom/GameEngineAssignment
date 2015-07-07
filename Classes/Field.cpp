@@ -23,7 +23,7 @@ void CField::Render(USHORT x, USHORT y)
 	//sprite Physics
 	//future if check
 	//check if tile is not empty
-	if (tiles != 0)
+	if (tiles != M_EMPTY )//|| tiles != M_ENEMY || tiles != M_BUTTON || tiles != M_CLOSEDOOR)
 	{
 		auto body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().width,m_Sprite->getContentSize().height));
 		//PhysicsBody* body = PhysicsBody::createCircle(m_Sprite->getContentSize().width*0.5f);
@@ -36,11 +36,11 @@ void CField::Render(USHORT x, USHORT y)
 			body->setCollisionBitmask(5);
 			body->setContactTestBitmask(true);
 		}
-		//if(tiles == 2)//opendoor
-		//{
-		//	body->setCollisionBitmask(3);
-		//	body->setContactTestBitmask(true);
-		//}
+		if(tiles == 2)//opendoor
+		{
+			body->setCollisionBitmask(3);
+			body->setContactTestBitmask(true);
+		}
 		if(tiles == 3)//traps
 		{
 			body->setCollisionBitmask(2);
