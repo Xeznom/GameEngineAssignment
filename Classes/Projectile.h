@@ -8,10 +8,11 @@
 class CProjectile : public CEntity
 {
 private:
-	static const char* filename[2];
+	PhysicsBody* body;
+	static Sprite* sprites[2];
 	float speed;
 public:
-	CProjectile();
+	CProjectile(short, Vect);
 	~CProjectile();
 	void update(float);
 };

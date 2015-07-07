@@ -9,6 +9,7 @@ class CGun : public CEntity
 {
 private:
 	CProjectile* projectile[2]; //Two projectiles?
+	short Alternate;
 	const Sprite* PlayerSprite;
 	bool Left;
 public:
