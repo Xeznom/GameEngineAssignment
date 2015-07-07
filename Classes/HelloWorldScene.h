@@ -24,7 +24,6 @@ class HelloWorld : public Layer
 {
 private:
 	int tempDMGTimer;
-	CField* m_arrayMap[MAX_HORIZONTAL][MAX_VERTICAL];
 	CPortals* portals[2];
 	CPlayer* player;
 	PhysicsWorld* m_world;

@@ -11,8 +11,8 @@ using namespace std;
 #include "Entity.h"
 
 enum M_TILE_TYPES {
-	M_WHITE,
 	M_EMPTY,
+	M_WHITE,
 	M_CLOSEDOOR,
 	M_TRAP,
 	M_ENEMY,
