@@ -42,6 +42,7 @@ public:
 	virtual bool init(); 
 	
 	void LoadFile(const string mapName);
+	void HUD();
     
 	virtual void onMouseMove (Event*);
 	virtual void onMouseDown (Event*);

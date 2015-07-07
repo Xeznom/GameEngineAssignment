@@ -19,10 +19,8 @@ void HelloWorld::update (float dt)
 	//	Director::getInstance()->end();
 	//}
 
-	for (int i = 0; i < 10; i++)
-	{
-		enemies->update(dt);
-	}
+	//if (enemies != NULL)
+	//	enemies->update(dt);
 
 }
 
@@ -190,6 +188,7 @@ bool HelloWorld::init()
 
 	tempDMGTimer = 0;
 
+
 	thread MapLoad(LoadFile,GETFILE("Map"));
 
 	Point location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
@@ -292,6 +291,20 @@ void HelloWorld::LoadFile(const string mapName)
 	}
 }
 
+void HelloWorld::HUD()
+{
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+	Label* label = Label::createWithTTF("Hello World %d", "fonts/Marker Felt.ttf", 24);
+    
+    // position the label on the center of the screen
+    label->setPosition(Vec2(origin.x + visibleSize.width*0.5f,
+                    origin.y + visibleSize.height - label->getContentSize().height));
+
+    // add the label as a child to this layer
+    this->addChild(label, 1);
+}
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {

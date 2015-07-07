@@ -9,8 +9,6 @@ CResourceTable::CResourceTable(void)
 {
 	if (instance == nullptr)
 	{
-		label = cocos2d::Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-
 		std::ifstream myfile;
 		myfile.open("ResourceTable.txt");
 		if (myfile.is_open())
