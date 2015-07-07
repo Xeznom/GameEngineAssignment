@@ -21,7 +21,7 @@ void HelloWorld::update (float dt)
 
 	for (int i = 0; i < 10; i++)
 	{
-		enemies.at(i)->update(dt);
+		enemies->update(dt);
 	}
 
 }
