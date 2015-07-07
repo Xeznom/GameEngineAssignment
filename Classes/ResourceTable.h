@@ -6,6 +6,7 @@
 #include "cocos2d.h"
 #include <map>
 #include <string>
+#include <thread>
 
 #define GETFILE(X) CResourceTable::getInstance()->GetFileName(X)
 #define GETVALUE(X) CResourceTable::getInstance()->GetValue(X)

@@ -21,7 +21,7 @@ void HelloWorld::update (float dt)
 
 	for (int i = 0; i < 10; i++)
 	{
-		enemies->update(dt);
+		enemies.at(i)->update(dt);
 	}
 
 }
@@ -199,7 +199,7 @@ bool HelloWorld::init()
 
 	tempDMGTimer = 0;
 
-	LoadFile(GETFILE("Map"));
+	thread MapLoad(LoadFile,GETFILE("Map"));
 
 	Point location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 
@@ -211,9 +211,6 @@ bool HelloWorld::init()
                     origin.y + visibleSize.height - 50 - CResourceTable::getInstance()->label->getContentSize().height));
 
     this->addChild(CResourceTable::getInstance()->label, 1);
-
-	std::string Data = CResourceTable::getInstance()->GetFileName("PortalGun");
-	CResourceTable::getInstance()->label->setString(Data);
 
 	for (int i = 0; i < 2; i++)
 		portals[i] = new CPortals(i, location);
@@ -237,6 +234,8 @@ bool HelloWorld::init()
 	auto contactListener = EventListenerPhysicsContact::create();
 	contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegin,this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener,this);
+
+	MapLoad.join();
 
 	return true;
 }
