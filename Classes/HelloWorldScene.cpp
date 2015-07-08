@@ -100,6 +100,15 @@ void HelloWorld::cleanup()
 		delete portals[i];
 		portals[i] = nullptr;
 	}
+
+	for (int i = 0; i < MAX_HORIZONTAL; ++i)
+	{
+		for (int j = 0; j < MAX_VERTICAL; ++j)
+		{
+			delete m_arrayMap[i][j];
+			m_arrayMap[i][j] = nullptr;
+		}
+	}
 }
 
 Scene* HelloWorld::createScene()
@@ -205,7 +214,11 @@ bool HelloWorld::init()
 	for (int i = 0; i < 2; i++)
 		portals[i] = new CPortals(i, location);
 
-
+	for (int i = 0; i < MAX_HORIZONTAL; ++i)
+	{
+		for (int j = 0; j < MAX_VERTICAL; ++j)
+			m_arrayMap[i][j] = nullptr;
+	}
 
 	auto KeyboardListener = EventListenerKeyboard::create();
 	KeyboardListener->onKeyPressed = CC_CALLBACK_2(CPlayer::KeyPress,player);
@@ -257,30 +270,30 @@ void HelloWorld::LoadFile(const string mapName)
 				else
 				{
 					int theColumnCounter = 0;
-					CField* m_arrayMap;
+					//CField* m_arrayMap;
 					istringstream iss(aLineOfText);
 
 					while (getline(iss, token, ','))
 					{
 						if (atoi(token.c_str()) == 4)
 						{
-							m_arrayMap = new CField(0, theColumnCounter, theLineCounter);
+							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(0, theColumnCounter, theLineCounter);
 							enemies = new CEnemy(this, Point(theColumnCounter, theLineCounter));
 						}
 						if (atoi(token.c_str()) == 2)
 						{
-							m_arrayMap = new CField(0, theColumnCounter, theLineCounter);
+							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(0, theColumnCounter, theLineCounter);
 							theDoors[0] = new Door(this, theColumnCounter, theLineCounter );
 						}
 						if (atoi(token.c_str()) == 5)
 						{
-							m_arrayMap = new CField(0, theColumnCounter, theLineCounter);
+							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(0, theColumnCounter, theLineCounter);
 							theButtons[0] = new Button(this, theColumnCounter, theLineCounter );
 						}
 						else
-							m_arrayMap = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter );
+							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter);
 
-						addChild(m_arrayMap->m_Sprite, 0);
+						addChild(m_arrayMap[theLineCounter - 1][theColumnCounter]->m_Sprite, 0);
 						theColumnCounter++;
 					}
 				}
@@ -294,16 +307,14 @@ void HelloWorld::LoadFile(const string mapName)
 void HelloWorld::HUD()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	Label* label = Label::createWithTTF("Hello World %d", "fonts/Marker Felt.ttf", 24);
-    
-    // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width*0.5f,
-                    origin.y + visibleSize.height - label->getContentSize().height));
-
-    // add the label as a child to this layer
-    this->addChild(label, 1);
+	CHUD* _hud;
+	_hud->createHUD("Lives: ",
+					Point ( origin.x,
+							origin.y + visibleSize.height) );
+	
+	this->addChild(_hud, 1);
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)

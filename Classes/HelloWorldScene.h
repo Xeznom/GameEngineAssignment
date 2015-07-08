@@ -15,6 +15,7 @@
 #include "ResourceTable.h"
 #include "Door.h"
 #include "Button.h"
+#include "HUD.h"
 
 USING_NS_CC;
 
@@ -27,6 +28,7 @@ private:
 	CPortals* portals[2];
 	CPlayer* player;
 	PhysicsWorld* m_world;
+	CField* m_arrayMap[MAX_HORIZONTAL][MAX_VERTICAL];
 	CEnemy* enemies;
 	inline void setPhyWorld(PhysicsWorld* world){ m_world = world; }
 public:
