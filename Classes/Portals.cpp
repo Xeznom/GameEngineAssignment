@@ -4,14 +4,15 @@ const char* CPortals::filename[] = { "blueP.png", "orangeP.png" };
 
 void CPortals::update(float delta)
 {
-	if (existing)
-		m_Sprite->setTexture(CCTextureCache::sharedTextureCache()->addImage(filename[type]));
-	else
-		m_Sprite->setTexture(CCTextureCache::sharedTextureCache()->addImage("empty.png"));
+	if (existing)	m_Sprite->setTexture(Portals[type]);
+	else			m_Sprite->setTexture(empty);
 }
 
-CPortals::CPortals(int type, Point location)
+CPortals::CPortals(const int type, const Point location)
 {
+	empty = CCTextureCache::sharedTextureCache()->addImage(GETFILE("Empty"));
+	Portals[P_BLUE] = CCTextureCache::sharedTextureCache()->addImage(GETFILE("BluePortal"));
+	Portals[P_ORANGE] = CCTextureCache::sharedTextureCache()->addImage(GETFILE("OrangePortal"));
 	Up = Left = Down = Right = false;
 
 	this->type = type;
@@ -24,7 +25,7 @@ CPortals::CPortals(int type, Point location)
 	m_Sprite->setPosition(location);
 
 	//portal physics
-	auto body = PhysicsBody::createCircle(m_Sprite->getContentSize().width);
+	PhysicsBody* body = PhysicsBody::createCircle(m_Sprite->getContentSize().width);
 	body->setDynamic(false);
 	body->setCollisionBitmask(7);
 	body->setContactTestBitmask(true);
@@ -35,12 +36,14 @@ CPortals::~CPortals()
 {
 }
 
-void CPortals::setLoc(Point loc) {
+void CPortals::setLoc(Point loc) 
+{
 	location = loc;
 	m_Sprite->setPosition(loc);
 }
 
-int CPortals::getDirection() {
+int CPortals::getDirection()
+{
 	if (Up) return 1;
 	else if (Down) return 2;
 	else if (Left) return 3;

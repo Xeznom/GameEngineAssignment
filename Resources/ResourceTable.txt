@@ -1,4 +1,10 @@
-Map:MapDesign.csv
+Map0:MapDesign.csv
+Map1:Level1.csv
+Map2:Level2.csv
+Map3:Level3.csv
 Player:Player.png
 PortalGun:PortalGun.png
 Enemy:Enemy.png
+Empty:empty.png
+BluePortal:blueP.png
+OrangePortal:orangeP.png

@@ -5,7 +5,8 @@
 
 #include "Entity.h"
 
-enum P_PORTALS_TYPES {
+enum P_PORTALS_TYPES
+{
 	P_BLUE,
 	P_ORANGE,
 	P_TOTAL
@@ -20,22 +21,22 @@ private:
 	int type;
 	bool existing, connecting;
 	bool Up, Down, Left, Right;
-
+	Texture2D* empty;
+	Texture2D* Portals[P_TOTAL];
 public:
-	CPortals(int, Point);
+	CPortals(const int, const Point);
 	~CPortals(void);
 
 	void update(float);
 
-	void setConnection(bool status) { connecting = status; };
+	inline void setConnection(const bool status) { connecting = status; };
 	
 	void setLoc(Point loc);
-	Point getLoc() { return location; };
+	inline const Point getLoc() const { return location; };
 
 	int getDirection();
-	bool getExist() { return existing; };
-	bool getConnection() { return connecting; };
+	inline const bool getExist() const { return existing; };
+	inline const bool getConnection() const { return connecting; };
 };
-
 
 #endif

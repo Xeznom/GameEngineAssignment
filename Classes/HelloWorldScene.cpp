@@ -168,11 +168,12 @@ bool HelloWorld::init()
 	player = new CPlayer(this,location);
 
 	//Traps = new CTraps(this,100,100);
-	CResourceTable::getInstance()->label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    CResourceTable::getInstance()->label->setPosition(Vec2(origin.x + visibleSize.width*0.5f,
-                    origin.y + visibleSize.height - 50 - CResourceTable::getInstance()->label->getContentSize().height));
 
-    this->addChild(CResourceTable::getInstance()->label, G_LAYERING_TYPES::G_GAME);
+	CResourceTable::getInstance()->label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+   	CResourceTable::getInstance()->label->setPosition(Vec2(origin.x + visibleSize.width*0.5f,
+        origin.y + visibleSize.height - 50 - CResourceTable::getInstance()->label->getContentSize().height));
+
+    //this->addChild(CResourceTable::getInstance()->label, G_LAYERING_TYPES::G_GAME);
 
 	std::string Data = CResourceTable::getInstance()->GetFileName("PortalGun");
 	CResourceTable::getInstance()->label->setString(Data);
@@ -419,37 +420,37 @@ void HelloWorld::setViewPoint(CCPoint position)
 {
 	 CCSize winSize = CCDirector::sharedDirector()->getWinSize();
  
-    int x = MAX(position.x, winSize.width/2);
-    int y = MAX(position.y, winSize.height/2);
-	x = MIN(x, ((MAX_HORIZONTAL * m_arrayMap[0][0]->m_Sprite->getContentSize().width) * m_arrayMap[0][0]->m_Sprite->getContentSize().width) - winSize.width / 2);
-	y = MIN(y, ((MAX_VERTICAL * m_arrayMap[0][0]->m_Sprite->getContentSize().height) * m_arrayMap[0][0]->m_Sprite->getContentSize().height) - winSize.height/2);
+    int x = MAX(position.x, winSize.width * 0.5f);
+    int y = MAX(position.y, winSize.height * 0.5f);
+	x = MIN(x, ((MAX_HORIZONTAL * m_arrayMap[0][0]->m_Sprite->getContentSize().width)
+		* m_arrayMap[0][0]->m_Sprite->getContentSize().width) - winSize.width * 0.5f);
+	y = MIN(y, ((MAX_VERTICAL * m_arrayMap[0][0]->m_Sprite->getContentSize().height)
+		* m_arrayMap[0][0]->m_Sprite->getContentSize().height) - winSize.height *0.5f);
     CCPoint actualPosition = ccp(x, y);
  
-    CCPoint centerOfView = ccp(winSize.width/2, winSize.height/2);
+    CCPoint centerOfView = ccp(winSize.width * 0.5f, winSize.height * 0.5f);
     CCPoint viewPoint = ccpSub(centerOfView, actualPosition);
     this->setPosition(viewPoint);
 }
 
 void HelloWorld::loadLevel(void)
 {
-	if(levelCounter == 0)
+	switch (levelCounter)
 	{
-		LoadFile("MapDesign.csv");
-	}
-	else if(levelCounter == 1)
-	{
-		LoadFile("Level1.csv");
-	}
-	else if(levelCounter == 2)
-	{
-		LoadFile("Level2.csv");
-	}
-	else if(levelCounter == 3)
-	{
-		LoadFile("Level3.csv");
-	}
-	else
-	{
-		Director::getInstance()->end();
+		case 0:
+			LoadFile( GETFILE("Map0") );
+			break;
+		case 1:
+			LoadFile( GETFILE("Map1") );
+			break;
+		case 2:
+			LoadFile( GETFILE("Map2") );
+			break;
+		case 3:
+			LoadFile( GETFILE("Map3") );
+			break;
+		default:
+			Director::getInstance()->end();
+			break;
 	}
 }
