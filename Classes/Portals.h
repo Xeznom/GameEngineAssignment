@@ -27,14 +27,14 @@ public:
 
 	void update(float);
 
-	void setConnection(bool status) { connecting = status; };
+	inline void setConnection(bool status) { connecting = status; };
 	
 	void setLoc(Point loc);
-	Point getLoc() { return location; };
+	inline Point getLoc() { return location; };
 
 	int getDirection();
-	bool getExist() { return existing; };
-	bool getConnection() { return connecting; };
+	inline bool getExist() { return existing; };
+	inline bool getConnection() { return connecting; };
 };
 
 

@@ -43,8 +43,7 @@ void CGun::MouseDown(Event* event)
 	switch (mouseButton)
 	{
 		case 0:
-			if (projectile[Alternate] != nullptr)
-				delete projectile[Alternate];
+			if (projectile[Alternate] != nullptr) delete projectile[Alternate];
 			projectile[Alternate] = new CProjectile(Alternate,e->getLocation());
 			Alternate = (Alternate == 0) ? 1 : 0;
 
