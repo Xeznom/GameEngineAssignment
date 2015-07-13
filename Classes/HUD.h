@@ -14,6 +14,8 @@ public:
 	~CHUD();
 
 	CHUD* createHUD(String, Point);
+
+	Label* GetHUD() { return message; };
 };
 
 #endif

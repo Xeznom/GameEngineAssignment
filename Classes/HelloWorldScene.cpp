@@ -171,7 +171,7 @@ bool HelloWorld::init()
     // create menu, it's an autorelease object
     auto menu = Menu::create(closeItem, NULL);
     menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
+    this->addChild(menu, G_LAYERING_TYPES::G_HUD);
 
     /////////////////////////////
     // 3. add your codes below...
@@ -197,8 +197,7 @@ bool HelloWorld::init()
 
 	tempDMGTimer = 0;
 
-
-	LoadFile("Map");
+	LoadFile("MapDesign.csv");
 
 	Point location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 
@@ -209,7 +208,7 @@ bool HelloWorld::init()
     CResourceTable::getInstance()->label->setPosition(Vec2(origin.x + visibleSize.width*0.5f,
                     origin.y + visibleSize.height - 50 - CResourceTable::getInstance()->label->getContentSize().height));
 
-    this->addChild(CResourceTable::getInstance()->label, 1);
+    this->addChild(CResourceTable::getInstance()->label, G_LAYERING_TYPES::G_GAME);
 
 	for (int i = 0; i < 2; i++)
 		portals[i] = new CPortals(i, location);
@@ -293,7 +292,7 @@ void HelloWorld::LoadFile(const string mapName)
 						else
 							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter);
 
-						addChild(m_arrayMap[theLineCounter - 1][theColumnCounter]->m_Sprite, 0);
+						addChild(m_arrayMap[theLineCounter - 1][theColumnCounter]->m_Sprite, G_LAYERING_TYPES::G_GAME);
 						theColumnCounter++;
 					}
 				}
@@ -310,11 +309,16 @@ void HelloWorld::HUD()
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	CHUD* _hud;
-	_hud->createHUD("Lives: ",
-					Point ( origin.x,
-							origin.y + visibleSize.height) );
+		
+	_hud = _hud->createHUD("Lives: " + 6,
+							Point ( origin.x,
+									origin.y + visibleSize.height - _hud->getContentSize().height) );
+	this->addChild(_hud, G_LAYERING_TYPES::G_HUD);
 	
-	this->addChild(_hud, 1);
+	_hud = _hud->createHUD("Timer: 00:00 ",
+							Point ( origin.x + visibleSize.width - _hud->getContentSize().width,
+									origin.y + visibleSize.height - _hud->getContentSize().height) );
+	this->addChild(_hud, G_LAYERING_TYPES::G_HUD);
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
