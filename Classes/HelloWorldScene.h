@@ -21,6 +21,14 @@ USING_NS_CC;
 
 const int buttonDoorTotal = 1;
 
+enum G_LAYERING_TYPES {
+	G_BACKGROUND,
+	G_GAME,
+	G_HUD,
+	M_TOTAL
+
+};
+
 class HelloWorld : public Layer
 {
 private:
