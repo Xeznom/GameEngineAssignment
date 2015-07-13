@@ -112,7 +112,8 @@ bool HelloWorld::init()
 {
     //////////////////////////////
     // 1. super init first
-    if (!Layer::init()) return false;
+    if (!Layer::init()) 
+		return false;
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -156,7 +157,7 @@ bool HelloWorld::init()
     this->addChild(sprite, 0);
     */
 
-	int levelCounter = 0;
+	levelCounter = 0;
 
 	tempDMGTimer = 0;
 
@@ -167,11 +168,14 @@ bool HelloWorld::init()
 	player = new CPlayer(this,location);
 
 	//Traps = new CTraps(this,100,100);
-	//CResourceTable::getInstance()->label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+	CResourceTable::getInstance()->label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
     CResourceTable::getInstance()->label->setPosition(Vec2(origin.x + visibleSize.width*0.5f,
                     origin.y + visibleSize.height - 50 - CResourceTable::getInstance()->label->getContentSize().height));
 
     this->addChild(CResourceTable::getInstance()->label, G_LAYERING_TYPES::G_GAME);
+
+	std::string Data = CResourceTable::getInstance()->GetFileName("PortalGun");
+	CResourceTable::getInstance()->label->setString(Data);
 
 	for (int i = 0; i < 2; i++)
 		portals[i] = new CPortals(i, location);
@@ -430,7 +434,7 @@ void HelloWorld::loadLevel(void)
 {
 	if(levelCounter == 0)
 	{
-		LoadFile("Map.csv");
+		LoadFile("MapDesign.csv");
 	}
 	else if(levelCounter == 1)
 	{

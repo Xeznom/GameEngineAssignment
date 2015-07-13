@@ -45,7 +45,7 @@ public:
 	void loadLevel(void);
 	Door* theDoors[buttonDoorTotal];
 	Button* theButtons[buttonDoorTotal];
-	CTraps* Traps;
+	//CTraps* Traps;
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
 
