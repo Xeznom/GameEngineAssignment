@@ -17,6 +17,7 @@ private:
 	static const char* filename[P_TOTAL];
 	Point location;
 
+	int type;
 	bool existing, connecting;
 	bool Up, Down, Left, Right;
 

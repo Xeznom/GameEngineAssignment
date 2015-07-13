@@ -9,18 +9,21 @@ void HelloWorld::update (float dt)
 	//Point temp2 = player->m_Sprite->getPosition();
 	//this->Traps->m_Sprite->getPosition();
 	//Point temp3 = Traps->m_Sprite->getPosition();
-	//if (portals[0]->getExist())
-	//{
+	
+	for (int i = 0; i < 2; i++)
+	{
+		if (portals[i] != NULL)
+			portals[i]->update(dt);
+	}
 
-	//}
 
 	//if(player->getHp() == 0)
 	//{
 	//	Director::getInstance()->end();
 	//}
 
-	//if (enemies != NULL)
-	//	enemies->update(dt);
+	if (enemies != NULL)
+		enemies->update(dt);
 	setViewPoint(player->m_Sprite->getPosition());
 }
 
@@ -40,53 +43,11 @@ void HelloWorld::onMouseScroll(cocos2d::Event* eevent)
 {
 }
 
-void HelloWorld::teleportaling(int por, int enter)
+void HelloWorld::teleportaling(int exit)
 {
 	if (portals[0]->getConnection() && portals[1]->getConnection())
 	{
-		//player pos = portals[por]->getLoc();
-		
-		//  U D L R
-		//U R X < >
-		//D X R < >
-		//L ^ v R X
-		//R ^ v X R
-		
-		switch (portals[por]->getDirection()) {
-		case 1: //up
-			//if (portals[enter]->getDirection() == portals[por]->getDirection())
-			//	dir.y = -dir.y;
-			//if (portals[enter]->getDirection() == 3)
-			//	dir.x = dir.y;
-			//if (portals[enter]->getDirection() == 4)
-			//	dir.x = -dir.y;
-			break;
-		case 2: //down
-			//if (portals[enter]->getDirection() == portals[por]->getDirection())
-			//	dir.y = -dir.y;
-			//if (portals[enter]->getDirection() == 3)
-			//	dir.x = -dir.y;
-			//if (portals[enter]->getDirection() == 4)
-			//	dir.x = dir.y;
-			break;
-		case 3: //left
-			//if (portals[enter]->getDirection() == portals[por]->getDirection())
-			//	dir.x = -dir.x;
-			//if (portals[enter]->getDirection() == 1)
-			//	dir.y = dir.x;
-			//if (portals[enter]->getDirection() == 2)
-			//	dir.y = -dir.x;
-			break;
-		case 4: // right
-			//if (portals[enter]->getDirection() == portals[por]->getDirection())
-			//	dir.x = -dir.x;
-			//if (portals[enter]->getDirection() == 1)
-			//	dir.y = -dir.x;
-			//if (portals[enter]->getDirection() == 2)
-			//	dir.y = dir.x;
-			break;
-		}
-	
+		player->setPos(portals[exit]->getLoc());
 	}
 }
 

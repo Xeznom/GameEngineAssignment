@@ -146,3 +146,9 @@ const int CPlayer::getHp() const
 {
 	return HP;
 } 
+
+void CPlayer::setPos(const Point Set)
+{
+	m_Sprite->setPosition(Set);
+	PortalGun->m_Sprite->setPosition(Point(Set.x + PortalGun->Offset, Set.y));
+}

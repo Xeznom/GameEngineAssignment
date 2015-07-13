@@ -4,12 +4,17 @@ const char* CPortals::filename[] = { "blueP.png", "orangeP.png" };
 
 void CPortals::update(float delta)
 {
+	if (existing)
+		m_Sprite->setTexture(CCTextureCache::sharedTextureCache()->addImage(filename[type]));
+	else
+		m_Sprite->setTexture(CCTextureCache::sharedTextureCache()->addImage("empty.png"));
 }
 
 CPortals::CPortals(int type, Point location)
 {
 	Up = Left = Down = Right = false;
 
+	this->type = type;
 	existing = true;
 	connecting = false;
 

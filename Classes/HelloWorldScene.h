@@ -61,7 +61,7 @@ public:
 	virtual void onMouseUp (Event*);
 	virtual void onMouseScroll (Event*);
 
-	void teleportaling(int, int);
+	void teleportaling(int);
 
     // a selector callback
     void menuCloseCallback(Ref* pSender);

@@ -27,6 +27,8 @@ public:
 	void MouseDown(cocos2d::Event*);
 	void setHP(const int Set);
 	const int getHp() const;
+
+	void setPos(const Point);
 	//void KeyPress (EventKeyboard::KeyCode,Event*);
 	//void KeyRelease(EventKeyboard::KeyCode,Event*);
 	//void MouseMove(Event*);
