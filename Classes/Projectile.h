@@ -12,7 +12,7 @@ private:
 	static Sprite* sprites[2];
 	float speed;
 public:
-	CProjectile(short, Vect);
+	CProjectile(const short, const Vect);
 	~CProjectile();
 	void update(float);
 };

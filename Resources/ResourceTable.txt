@@ -5,3 +5,6 @@ Map3:Level3.csv
 Player:Player.png
 PortalGun:PortalGun.png
 Enemy:Enemy.png
+Empty:empty.png
+BluePortal:blueP.png
+OrangePortal:orangeP.png

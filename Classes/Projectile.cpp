@@ -2,7 +2,7 @@
 
 Sprite* CProjectile::sprites[];
 
-CProjectile::CProjectile(short alternate, Vect velocity)
+CProjectile::CProjectile(const short alternate,const Vect velocity)
 {
 	if (sprites[0] == nullptr)
 		sprites[0] = Sprite::create(GETFILE("OrangePortal"));
