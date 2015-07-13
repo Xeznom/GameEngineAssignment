@@ -36,7 +36,7 @@ void Door::openDoor()
 	//body->setContactTestBitmask(true);
 	//body->setDynamic(false);
 	//m_Sprite->setPhysicsBody(body);
-	m_Sprite->getPhysicsBody()->setCollisionBitmask(3);
+	m_Sprite->getPhysicsBody()->setCollisionBitmask(9);//object is now a opendoor
 }
 
 void Door::render(USHORT x, USHORT y)

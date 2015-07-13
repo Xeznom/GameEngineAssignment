@@ -156,9 +156,11 @@ bool HelloWorld::init()
     this->addChild(sprite, 0);
     */
 
+	int levelCounter = 0;
+
 	tempDMGTimer = 0;
 
-	LoadFile("MapDesign.csv");
+	loadLevel();
 
 	Point location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 
@@ -316,12 +318,13 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 
 	//bitmask 1 = player
 	//bitmask 2 = traps
-	//bitmask 3 = opendoor/tiles with portal/pressed button/enemyspawner
+	//bitmask 3 = tiles with portal/pressed button/enemyspawner - cannot be collided with
 	//bitmask 4 = portal projectile
 	//bitmask 5 = tiles/closedoor
 	//bitmask 6 = button
 	//bitmask 7 = portal
 	//bitmask 8 = enemy
+	//bitmask 9 = opendoor
 
 	//player with opendoor
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 3) || (First->getCollisionBitmask() == 3 && Second->getCollisionBitmask() == 1))
@@ -397,6 +400,13 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	{
 		return false;
 	}
+	//player with opendoor
+	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() != 9) || (First->getCollisionBitmask() != 9 && Second->getCollisionBitmask() == 1))
+	{
+		levelCounter++;
+		loadLevel();
+		return false;
+	}
 
 	return true;
 }
@@ -414,4 +424,28 @@ void HelloWorld::setViewPoint(CCPoint position)
     CCPoint centerOfView = ccp(winSize.width/2, winSize.height/2);
     CCPoint viewPoint = ccpSub(centerOfView, actualPosition);
     this->setPosition(viewPoint);
+}
+
+void HelloWorld::loadLevel(void)
+{
+	if(levelCounter == 0)
+	{
+		LoadFile("Map.csv");
+	}
+	else if(levelCounter == 1)
+	{
+		LoadFile("Level1.csv");
+	}
+	else if(levelCounter == 2)
+	{
+		LoadFile("Level2.csv");
+	}
+	else if(levelCounter == 3)
+	{
+		LoadFile("Level3.csv");
+	}
+	else
+	{
+		Director::getInstance()->end();
+	}
 }

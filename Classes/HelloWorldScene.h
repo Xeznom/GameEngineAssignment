@@ -32,7 +32,8 @@ enum G_LAYERING_TYPES {
 class HelloWorld : public Layer
 {
 private:
-	int tempDMGTimer;
+	int levelCounter;
+	int tempDMGTimer;//not in use yet/may not even be used
 	CPortals* portals[2];
 	CPlayer* player;
 	PhysicsWorld* m_world;
@@ -41,7 +42,7 @@ private:
 	inline void setPhyWorld(PhysicsWorld* world){ m_world = world; }
 public:
 	void setViewPoint(CCPoint position);
-
+	void loadLevel(void);
 	Door* theDoors[buttonDoorTotal];
 	Button* theButtons[buttonDoorTotal];
 	CTraps* Traps;
