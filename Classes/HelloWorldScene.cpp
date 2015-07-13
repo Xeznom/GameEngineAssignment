@@ -21,7 +21,7 @@ void HelloWorld::update (float dt)
 
 	//if (enemies != NULL)
 	//	enemies->update(dt);
-
+	setViewPoint(player->m_Sprite->getPosition());
 }
 
 void HelloWorld::onMouseDown(cocos2d::Event* eevent)
@@ -198,7 +198,7 @@ bool HelloWorld::init()
 	tempDMGTimer = 0;
 
 
-	thread MapLoad(LoadFile,GETFILE("Map"));
+	LoadFile("Map");
 
 	Point location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 
@@ -234,7 +234,7 @@ bool HelloWorld::init()
 	contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegin,this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener,this);
 
-	MapLoad.join();
+	//MapLoad.join();
 
 	return true;
 }
@@ -384,7 +384,6 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		{
 			First->setContactTestBitmask(3);//tile is now a "tile with portal"
 		}
-		//return false;
 	}
 	//player with traps
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 2) || (First->getCollisionBitmask() == 2 && Second->getCollisionBitmask() == 1))
@@ -398,28 +397,28 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		if(First->getCollisionBitmask() == 6)//if first is button
 		{
 			First->setCollisionBitmask(3);//button is now a "pressed button"
-			//for(int i = 0;i<buttonDoorTotal;i++)
-			//{
+			for(int i = 0;i<buttonDoorTotal;i++)
+			{
 				theButtons[0]->pressed();
-			//}
-			//for(int i = 0;i<buttonDoorTotal;i++)
-			//{
+			}
+			for(int i = 0;i<buttonDoorTotal;i++)
+			{
 				theDoors[0]->openDoor();
-			//}
-			//corressponding door opens
+			}
+			//corressponding door opens code
 		}
 		else if(Second->getCollisionBitmask() == 6)//if second is button instead
 		{
 			Second->setCollisionBitmask(3);//button is now a "pressed button"
-			//for(int i = 0;i<buttonDoorTotal;i++)
-			//{
+			for(int i = 0;i<buttonDoorTotal;i++)
+			{
 				theButtons[0]->pressed();
-			//}
-			//for(int i = 0;i<buttonDoorTotal;i++)
-			//{
+			}
+			for(int i = 0;i<buttonDoorTotal;i++)
+			{
 				theDoors[0]->openDoor();
-			//}
-			//corressponding door opens
+			}
+			//corressponding door opens code
 		}
 		return false;
 	}
