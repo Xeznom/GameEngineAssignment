@@ -25,7 +25,7 @@ enum G_LAYERING_TYPES {
 	G_BACKGROUND,
 	G_GAME,
 	G_HUD,
-	M_TOTAL
+	G_TOTAL
 
 };
 

@@ -5,6 +5,9 @@ CHUD::CHUD()
 {
 }
 
+CHUD::~CHUD()
+{
+}
 
 CHUD* CHUD::createHUD(String _message, Point pos)
 {
