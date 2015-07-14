@@ -19,7 +19,7 @@
 
 USING_NS_CC;
 
-const int buttonDoorTotal = 1;
+//const int buttonDoorTotal = 1;//not in use yet/may not even be used
 
 enum G_LAYERING_TYPES {
 	G_BACKGROUND,
@@ -32,8 +32,9 @@ enum G_LAYERING_TYPES {
 class HelloWorld : public Layer
 {
 private:
+	bool firstTimeInit;
 	int levelCounter;
-	int tempDMGTimer;//not in use yet/may not even be used
+	//int tempDMGTimer;//not in use yet/may not even be used
 	CPortals* portals[2];
 	CPlayer* player;
 	PhysicsWorld* m_world;
@@ -43,8 +44,8 @@ private:
 public:
 	void setViewPoint(CCPoint position);
 	void loadLevel(void);
-	Door* theDoors[buttonDoorTotal];
-	Button* theButtons[buttonDoorTotal];
+	Door* theDoors;
+	Button* theButtons;
 	//CTraps* Traps;
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
@@ -56,6 +57,7 @@ public:
 	
 	void LoadFile(const string mapName);
 	void HUD();
+	void despawnObjects();
     
 	virtual void onMouseMove (Event*);
 	virtual void onMouseDown (Event*);

@@ -157,11 +157,10 @@ bool HelloWorld::init()
     this->addChild(sprite, 0);
     */
 
-	levelCounter = 0;
+	firstTimeInit = false;// boolean to check if all data is initialised for init
+	levelCounter = 0;//what Level youre on
 
-	tempDMGTimer = 0;
-
-	loadLevel();
+	//tempDMGTimer = 0;
 
 	Point location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 
@@ -187,6 +186,8 @@ bool HelloWorld::init()
 			m_arrayMap[i][j] = nullptr;
 	}
 
+	loadLevel();
+
 	auto KeyboardListener = EventListenerKeyboard::create();
 	KeyboardListener->onKeyPressed = CC_CALLBACK_2(CPlayer::KeyPress,player);
 	KeyboardListener->onKeyReleased = CC_CALLBACK_2(CPlayer::KeyRelease,player);
@@ -202,6 +203,8 @@ bool HelloWorld::init()
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener,this);
 
 	//MapLoad.join();
+
+	firstTimeInit = true;
 
 	return true;
 }
@@ -250,12 +253,12 @@ void HelloWorld::LoadFile(const string mapName)
 						if (atoi(token.c_str()) == 2)
 						{
 							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(0, theColumnCounter, theLineCounter);
-							theDoors[0] = new Door(this, theColumnCounter, theLineCounter );
+							theDoors = new Door(this, theColumnCounter, theLineCounter );
 						}
 						if (atoi(token.c_str()) == 5)
 						{
 							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(0, theColumnCounter, theLineCounter);
-							theButtons[0] = new Button(this, theColumnCounter, theLineCounter );
+							theButtons = new Button(this, theColumnCounter, theLineCounter );
 						}
 						else
 							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter);
@@ -370,27 +373,15 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		if(First->getCollisionBitmask() == 6)//if first is button
 		{
 			First->setCollisionBitmask(3);//button is now a "pressed button"
-			for(int i = 0;i<buttonDoorTotal;i++)
-			{
-				theButtons[0]->pressed();
-			}
-			for(int i = 0;i<buttonDoorTotal;i++)
-			{
-				theDoors[0]->openDoor();
-			}
+			theButtons->pressed();
+			theDoors->openDoor();
 			//corressponding door opens code
 		}
 		else if(Second->getCollisionBitmask() == 6)//if second is button instead
 		{
 			Second->setCollisionBitmask(3);//button is now a "pressed button"
-			for(int i = 0;i<buttonDoorTotal;i++)
-			{
-				theButtons[0]->pressed();
-			}
-			for(int i = 0;i<buttonDoorTotal;i++)
-			{
-				theDoors[0]->openDoor();
-			}
+			theButtons->pressed();
+			theDoors->openDoor();
 			//corressponding door opens code
 		}
 		return false;
@@ -435,22 +426,65 @@ void HelloWorld::setViewPoint(CCPoint position)
 
 void HelloWorld::loadLevel(void)
 {
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Point location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
+
+	if(firstTimeInit != false)//if all data has been initialised in init
+	{
+		despawnObjects();//despawn the objects
+	}
+
 	switch (levelCounter)
 	{
 		case 0:
-			LoadFile( GETFILE("Map0") );
-			break;
+			{
+				player->setPos(location);
+				LoadFile( GETFILE("Map0") );
+				break;
+			}
 		case 1:
-			LoadFile( GETFILE("Map1") );
-			break;
+			{
+				player->setPos(location);
+				LoadFile( GETFILE("Map1") );
+				break;
+			}
 		case 2:
-			LoadFile( GETFILE("Map2") );
-			break;
+			{
+				player->setPos(location);
+				LoadFile( GETFILE("Map2") );
+				break;
+			}
 		case 3:
-			LoadFile( GETFILE("Map3") );
-			break;
+			{
+				player->setPos(location);
+				LoadFile( GETFILE("Map3") );
+				break;
+			}
 		default:
-			Director::getInstance()->end();
-			break;
+			{
+				Director::getInstance()->end();
+				break;
+			}
+
 	}
+}
+
+void HelloWorld :: despawnObjects()
+{
+	if(theButtons != NULL)
+	{
+		delete theButtons;
+		theButtons = NULL;
+	}
+	if(theDoors != NULL)
+	{
+		delete theDoors;
+		theDoors = NULL;
+	}
+	if(enemies != NULL)
+	{
+		delete enemies;
+		enemies = NULL;
+	}
+	//despawn portals
 }
