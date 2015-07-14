@@ -1,18 +1,16 @@
 #include "Portals.h"
 
-const char* CPortals::filename[] = { "blueP.png", "orangeP.png" };
-
 void CPortals::update(float delta)
 {
-	if (existing)	m_Sprite->setTexture(Portals[type]);
-	else			m_Sprite->setTexture(empty);
+	if (existing)	m_Sprite = Portals[type];
+	else			m_Sprite = empty;
 }
 
 CPortals::CPortals(const int type, const Point location)
 {
-	empty = CCTextureCache::sharedTextureCache()->addImage(GETFILE("Empty"));
-	Portals[P_BLUE] = CCTextureCache::sharedTextureCache()->addImage(GETFILE("BluePortal"));
-	Portals[P_ORANGE] = CCTextureCache::sharedTextureCache()->addImage(GETFILE("OrangePortal"));
+	empty = Sprite::create(GETFILE("Empty"));
+	Portals[P_BLUE] = Sprite::create(GETFILE("BluePortal"));
+	Portals[P_ORANGE] = Sprite::create(GETFILE("OrangePortal"));
 	Up = Left = Down = Right = false;
 
 	this->type = type;
@@ -21,7 +19,8 @@ CPortals::CPortals(const int type, const Point location)
 
 	this->location = location;
 
-	m_Sprite = Sprite::create(filename[type]);
+	m_Sprite = Portals[type];
+
 	m_Sprite->setPosition(location);
 
 	//portal physics

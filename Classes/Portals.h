@@ -15,14 +15,13 @@ enum P_PORTALS_TYPES
 class CPortals : public CEntity
 {
 private:
-	static const char* filename[P_TOTAL];
 	Point location;
 
 	int type;
 	bool existing, connecting;
 	bool Up, Down, Left, Right;
-	Texture2D* empty;
-	Texture2D* Portals[P_TOTAL];
+	Sprite* empty;
+	Sprite* Portals[P_TOTAL];
 public:
 	CPortals(const int, const Point);
 	~CPortals(void);

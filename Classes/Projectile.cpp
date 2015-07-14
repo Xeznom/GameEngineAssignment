@@ -1,23 +1,25 @@
 #include "Projectile.h"
 
-Sprite* CProjectile::sprites[];
-
-CProjectile::CProjectile(const short alternate,const Vect velocity)
+CProjectile::CProjectile()
 {
+	sprites[0]=sprites[1]=nullptr;
 	std::string temp=GETFILE("OrangePortal");
-	if (sprites[0] == nullptr)
-		sprites[0] = Sprite::create(GETFILE("OrangePortal"));
-	if (sprites[1] == nullptr)
-		sprites[1] = Sprite::create(GETFILE("BluePortal"));
+	m_Sprite=nullptr;
+	body=nullptr;
+}
 
+void CProjectile::Init(const short alternate,const Vect velocity)
+{
+	sprites[0] = cocos2d::Sprite::create("orangeP.png");
+	sprites[1] = cocos2d::Sprite::create(GETFILE("BluePortal"));
 	m_Sprite = sprites[alternate];
 
-	auto body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().height,m_Sprite->getContentSize().width));
+	body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().height,m_Sprite->getContentSize().width));
 	body->setCollisionBitmask(4);
 	body->setContactTestBitmask(true);
-	m_Sprite->setPhysicsBody(body);
 	body->addMass(10);
 	body->setVelocity(velocity);
+	m_Sprite->setPhysicsBody(body);
 }
 
 CProjectile::~CProjectile()
