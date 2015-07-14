@@ -278,14 +278,15 @@ void HelloWorld::HUD()
 
 	CHUD* _hud = nullptr;
 		
-	_hud = _hud->createHUD("Lives: " + 6,
-							Point ( origin.x,
-									origin.y + visibleSize.height - _hud->getContentSize().height) );
+	_hud = new CHUD("Lives: ",
+					Vec2(origin.x,
+						 origin.y + visibleSize.height), 1, 1 );
 	this->addChild(_hud, G_LAYERING_TYPES::G_HUD);
 	
-	_hud = _hud->createHUD("Timer: 00:00 ",
-							Point ( origin.x + visibleSize.width - _hud->getContentSize().width,
-									origin.y + visibleSize.height - _hud->getContentSize().height) );
+	_hud = new CHUD("Timer: 00:00 ",
+					Vec2(origin.x + visibleSize.width,
+						 origin.y + visibleSize.height), 1, -1 );
+
 	this->addChild(_hud, G_LAYERING_TYPES::G_HUD);
 }
 
@@ -353,6 +354,11 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 
 			//remove projectile
 			//spawn portal sprite
+			if (portals[0] == NULL)
+				portals[0] = new CPortals(0, Second->getPosition() );
+			else
+				portals[1] = new CPortals(1, Second->getPosition() );
+
 		}
 		else if (Second->getCollisionBitmask() == 4)//if portal projectile is Second instead
 		{
@@ -367,6 +373,10 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 
 			//remove projectile
 			//spawn portal sprite
+			if (portals[0] == NULL)
+				portals[0] = new CPortals(0, First->getPosition() );
+			else
+				portals[1] = new CPortals(1, First->getPosition() );
 		}
 
 		if (number != 2)
