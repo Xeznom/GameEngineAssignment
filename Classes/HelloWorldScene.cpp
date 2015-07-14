@@ -281,31 +281,17 @@ void HelloWorld::HUD()
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	 Label* label = Label::createWithTTF("Lives: ", "fonts/Marker Felt.ttf", 24);
-    
-    label->setPosition(Vec2(origin.x + label->getContentSize().width,
-                    origin.y + visibleSize.height - label->getContentSize().height));
-
-    this->addChild(label, G_LAYERING_TYPES::G_HUD);
-
-
-	label = Label::createWithTTF("Timer: 00:00", "fonts/Marker Felt.ttf", 24);
-    
-    label->setPosition(Vec2(origin.x - visibleSize.width + label->getContentSize().width,
-                    origin.y + visibleSize.height - label->getContentSize().height));
-
-    this->addChild(label, G_LAYERING_TYPES::G_HUD);
-	/*CHUD* _hud;
+	CHUD* _hud;
 		
 	_hud = new CHUD("Lives: ",
-							Vec2 ( origin.x,
-									origin.y + visibleSize.height *0.9f));
+					Vec2(origin.x,
+						 origin.y + visibleSize.height), 1, 1 );
 	this->addChild(_hud, G_LAYERING_TYPES::G_HUD);
 	
 	_hud = new CHUD("Timer: 00:00 ",
-							Vec2 ( origin.x + visibleSize.width,
-								origin.y + visibleSize.height) );
-	this->addChild(_hud, 0);*/
+					Vec2(origin.x + visibleSize.width,
+						 origin.y + visibleSize.height), 1, -1 );
+	this->addChild(_hud, G_LAYERING_TYPES::G_HUD);
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
@@ -362,11 +348,20 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		{
 			//remove projectile
 			//spawn portal sprite
+			if (portals[0] == NULL)
+				portals[0] = new CPortals(0, Second->getPosition() );
+			else
+				portals[1] = new CPortals(1, Second->getPosition() );
+
 		}
 		else if (Second->getCollisionBitmask() == 4)//if portal projectile is Second instead
 		{
 			//remove projectile
 			//spawn portal sprite
+			if (portals[0] == NULL)
+				portals[0] = new CPortals(0, First->getPosition() );
+			else
+				portals[1] = new CPortals(1, First->getPosition() );
 		}
 		if(First->getCollisionBitmask() == 5)//if tile is First
 		{
