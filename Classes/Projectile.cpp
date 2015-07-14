@@ -4,6 +4,7 @@ Sprite* CProjectile::sprites[];
 
 CProjectile::CProjectile(const short alternate,const Vect velocity)
 {
+	std::string temp=GETFILE("OrangePortal");
 	if (sprites[0] == nullptr)
 		sprites[0] = Sprite::create(GETFILE("OrangePortal"));
 	if (sprites[1] == nullptr)
@@ -11,7 +12,7 @@ CProjectile::CProjectile(const short alternate,const Vect velocity)
 
 	m_Sprite = sprites[alternate];
 
-	body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().height,m_Sprite->getContentSize().width));
+	auto body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().height,m_Sprite->getContentSize().width));
 	body->setCollisionBitmask(4);
 	body->setContactTestBitmask(true);
 	m_Sprite->setPhysicsBody(body);

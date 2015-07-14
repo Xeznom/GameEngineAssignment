@@ -375,14 +375,14 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 			First->setCollisionBitmask(3);//button is now a "pressed button"
 			theButtons->pressed();
 			theDoors->openDoor();
-			//corressponding door opens code
+			//corressponding door opens code//scraped
 		}
 		else if(Second->getCollisionBitmask() == 6)//if second is button instead
 		{
 			Second->setCollisionBitmask(3);//button is now a "pressed button"
 			theButtons->pressed();
 			theDoors->openDoor();
-			//corressponding door opens code
+			//corressponding door opens code//scraped
 		}
 		return false;
 	}
@@ -397,7 +397,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		return false;
 	}
 	//player with opendoor
-	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() != 9) || (First->getCollisionBitmask() != 9 && Second->getCollisionBitmask() == 1))
+	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 9) || (First->getCollisionBitmask() == 9 && Second->getCollisionBitmask() == 1))
 	{
 		levelCounter++;
 		loadLevel();
