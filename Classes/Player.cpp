@@ -5,7 +5,8 @@ const int CPlayer::STATIC_SPRITE_TAG = 0;
 
 void CPlayer::update (float delta)
 {
-	Vec2 loc = m_Sprite->getPosition();
+	Vec2 loc;
+	loc = m_Sprite->getPosition();
 	
 	if (Jump)
 		loc.y += speed * delta * 2.5;
@@ -96,7 +97,7 @@ CPlayer::CPlayer(Layer* layer, const Point loc)
 	m_Sprite = Sprite::create(filename);
 
 	//player physics
-	body = PhysicsBody::createCircle(m_Sprite->getContentSize().width);
+	body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().width,m_Sprite->getContentSize().height));
 	body->setMass( GETVALUE("PlayerMass") );
 	body->setCollisionBitmask(1);
 	body->setContactTestBitmask(true);
@@ -147,7 +148,7 @@ const int CPlayer::getHp() const
 	return HP;
 } 
 
-void CPlayer::setPos(const Point Set)
+void CPlayer::setPos(const Vec2 Set)
 {
 	m_Sprite->setPosition(Set);
 	PortalGun->m_Sprite->setPosition(Point(Set.x + PortalGun->Offset, Set.y));

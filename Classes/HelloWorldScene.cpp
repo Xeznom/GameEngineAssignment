@@ -164,8 +164,6 @@ bool HelloWorld::init()
 
 	location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 
-	player = new CPlayer(this,location);
-
 	//Traps = new CTraps(this,100,100);
 
 	CResourceTable::getInstance()->label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
@@ -184,6 +182,8 @@ bool HelloWorld::init()
 		for (int j = 0; j < MAX_VERTICAL; ++j)
 			m_arrayMap[i][j] = nullptr;
 	}
+
+	player = new CPlayer(this,location);//initialise player
 
 	loadLevel();
 
@@ -388,21 +388,26 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 			player->PortalGun->Alternate = (player->PortalGun->Alternate == 0) ? 1 : 0;
 		}
 
-		if(First->getCollisionBitmask() == 5)//if tile is First
-		{
-			First->setCollisionBitmask(3);//tile is now a "tile with portal"
-		}
-		else if(Second->getCollisionBitmask() == 5)//if tile is Second instead
-		{
-			First->setContactTestBitmask(3);//tile is now a "tile with portal"
-		}
+		//scraped code
+		//if(First->getCollisionBitmask() == 5)//if tile is First
+		//{
+		//	First->setCollisionBitmask(3);//tile is now a "tile with portal"
+		//}
+		//else if(Second->getCollisionBitmask() == 5)//if tile is Second instead
+		//{
+		//	First->setContactTestBitmask(3);//tile is now a "tile with portal"
+		//}
 	}
 	//player with traps
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 2) || (First->getCollisionBitmask() == 2 && Second->getCollisionBitmask() == 1))
 	{
 		//player->setHP(player->getHp() - 1);
-		player->setPos(location);
+		//this->removeChild(player->m_Sprite);
+		//this->removeChild(player->PortalGun->m_Sprite);
+		//loadLevel();
 		//Director::getInstance()->end();
+		player->setPos(location);
+		return false;
 	}
 	//player with button
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 6) || (First->getCollisionBitmask() == 6 && Second->getCollisionBitmask() == 1))
@@ -508,6 +513,7 @@ void HelloWorld::loadLevel(void)
 
 void HelloWorld :: despawnObjects()
 {
+	//this->removeAllChildren();
 	if(theButtons != nullptr)
 	{
 		this->removeChild(theButtons->m_Sprite);
@@ -529,18 +535,18 @@ void HelloWorld :: despawnObjects()
 	//despawn portals
 
 
-	for(int i = 0 ; i < MAX_HORIZONTAL;i++)
+	for(int i = 0 ; i < MAX_VERTICAL;i++)
 	{
-		for(int j = 0 ; j < MAX_VERTICAL ; j++)
+		for(int j = 0 ; j < MAX_HORIZONTAL ; j++)
 		{ 
 			if(m_arrayMap[i][j]!=nullptr)
 				this->removeChild(m_arrayMap[i][j]->m_Sprite);	
 		}
 	}
 	
-	for(int i = 0 ; i < MAX_HORIZONTAL;i++)
+	for(int i = 0 ; i < MAX_VERTICAL;i++)
 	{
-		for(int j = 0 ; j < MAX_VERTICAL ; j++)
+		for(int j = 0 ; j < MAX_HORIZONTAL ; j++)
 		{
 				delete m_arrayMap[i][j];
 				m_arrayMap[i][j]=nullptr;
@@ -554,5 +560,8 @@ void HelloWorld :: despawnObjects()
 			portals[i] = NULL;
 		}
 	}
+
+	//firstTimeInit = false;
+	//init();
 
 }
