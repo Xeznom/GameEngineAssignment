@@ -13,7 +13,7 @@ using namespace std;
 enum M_TILE_TYPES {
 	M_EMPTY,
 	M_WHITE,
-	M_CLOSEDOOR,
+	M_DOOR,
 	M_TRAP,
 	M_ENEMY,
 	M_BUTTON,

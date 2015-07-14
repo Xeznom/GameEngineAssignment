@@ -23,7 +23,7 @@ void HelloWorld::update (float dt)
 	//}
 
 	if (enemies != NULL)
-		enemies->update(dt);
+	enemies->update(dt);
 	setViewPoint(player->m_Sprite->getPosition());
 }
 
@@ -123,17 +123,17 @@ bool HelloWorld::init()
     //    you may modify it.
 
     // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",
-					CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+    //auto closeItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",
+	//				CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
     
-	closeItem->setPosition(Vec2(origin.x + visibleSize.width -
-						closeItem->getContentSize().width*0.5f,
-						origin.y + closeItem->getContentSize().height*0.5f));
+	//closeItem->setPosition(Vec2(origin.x + visibleSize.width -
+	//					closeItem->getContentSize().width*0.5f,
+	//					origin.y + closeItem->getContentSize().height*0.5f));
 
     // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, G_LAYERING_TYPES::G_HUD);
+   // auto menu = Menu::create(closeItem, NULL);
+   // menu->setPosition(Vec2::ZERO);
+   // this->addChild(menu, G_LAYERING_TYPES::G_HUD);
 
     /////////////////////////////
     // 3. add your codes below...
@@ -158,11 +158,11 @@ bool HelloWorld::init()
     */
 
 	firstTimeInit = false;// boolean to check if all data is initialised for init
-	levelCounter = 0;//what Level youre on
+	levelCounter = 3;//what Level youre on
 
 	//tempDMGTimer = 0;
 
-	Point location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
+	location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 
 	player = new CPlayer(this,location);
 
@@ -365,7 +365,8 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 2) || (First->getCollisionBitmask() == 2 && Second->getCollisionBitmask() == 1))
 	{
 		//player->setHP(player->getHp() - 1);
-		Director::getInstance()->end();
+		player->setPos(location);
+		//Director::getInstance()->end();
 	}
 	//player with button
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 6) || (First->getCollisionBitmask() == 6 && Second->getCollisionBitmask() == 1))
@@ -426,8 +427,8 @@ void HelloWorld::setViewPoint(CCPoint position)
 
 void HelloWorld::loadLevel(void)
 {
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Point location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
+	//Size visibleSize = Director::getInstance()->getVisibleSize();
+	//Point location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 
 	if(firstTimeInit != false)//if all data has been initialised in init
 	{
@@ -473,18 +474,38 @@ void HelloWorld :: despawnObjects()
 {
 	if(theButtons != NULL)
 	{
+		this->removeChild(theButtons->m_Sprite);
 		delete theButtons;
 		theButtons = NULL;
 	}
 	if(theDoors != NULL)
 	{
+		this->removeChild(theDoors->m_Sprite);
 		delete theDoors;
 		theDoors = NULL;
 	}
 	if(enemies != NULL)
 	{
+		this->removeChild(enemies->m_Sprite);
 		delete enemies;
 		enemies = NULL;
 	}
 	//despawn portals
+	for(int i = 0 ; i < MAX_HORIZONTAL;i++)
+	{
+		for(int j = 0 ; j < MAX_VERTICAL ; j++)
+		{ 
+			if(m_arrayMap[i][j]!=nullptr)
+				this->removeChild(m_arrayMap[i][j]->m_Sprite);	
+		}
+	}
+	
+	for(int i = 0 ; i < MAX_HORIZONTAL;i++)
+	{
+		for(int j = 0 ; j < MAX_VERTICAL ; j++)
+		{
+				delete m_arrayMap[i][j];
+				m_arrayMap[i][j]=nullptr;
+		}
+	}
 }

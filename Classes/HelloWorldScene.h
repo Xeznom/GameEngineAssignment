@@ -41,6 +41,7 @@ private:
 	CField* m_arrayMap[MAX_HORIZONTAL][MAX_VERTICAL];
 	CEnemy* enemies;
 	inline void setPhyWorld(PhysicsWorld* world){ m_world = world; }
+	Point location;
 public:
 	void setViewPoint(CCPoint position);
 	void loadLevel(void);

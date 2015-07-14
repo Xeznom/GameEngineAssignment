@@ -8,7 +8,7 @@ void CPlayer::update (float delta)
 	Vec2 loc = m_Sprite->getPosition();
 	
 	if (Jump)
-		loc.y += speed * delta * 5;
+		loc.y += speed * delta * 2.5;
 
 	if (Left)
 	{
