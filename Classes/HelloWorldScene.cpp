@@ -12,7 +12,7 @@ void HelloWorld::update (float dt)
 	
 	for (int i = 0; i < 2; i++)
 	{
-		if (portals[i] != NULL)
+		if (portals[i] != nullptr)
 			portals[i]->update(dt);
 	}
 
@@ -186,6 +186,8 @@ bool HelloWorld::init()
 			m_arrayMap[i][j] = nullptr;
 	}
 
+	HUD();
+
 	loadLevel();
 
 	auto KeyboardListener = EventListenerKeyboard::create();
@@ -279,17 +281,31 @@ void HelloWorld::HUD()
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	CHUD* _hud;
+	 Label* label = Label::createWithTTF("Lives: ", "fonts/Marker Felt.ttf", 24);
+    
+    label->setPosition(Vec2(origin.x + label->getContentSize().width,
+                    origin.y + visibleSize.height - label->getContentSize().height));
+
+    this->addChild(label, G_LAYERING_TYPES::G_HUD);
+
+
+	label = Label::createWithTTF("Timer: 00:00", "fonts/Marker Felt.ttf", 24);
+    
+    label->setPosition(Vec2(origin.x - visibleSize.width + label->getContentSize().width,
+                    origin.y + visibleSize.height - label->getContentSize().height));
+
+    this->addChild(label, G_LAYERING_TYPES::G_HUD);
+	/*CHUD* _hud;
 		
-	_hud = _hud->createHUD("Lives: " + 6,
-							Point ( origin.x,
-									origin.y + visibleSize.height - _hud->getContentSize().height) );
+	_hud = new CHUD("Lives: ",
+							Vec2 ( origin.x,
+									origin.y + visibleSize.height *0.9f));
 	this->addChild(_hud, G_LAYERING_TYPES::G_HUD);
 	
-	_hud = _hud->createHUD("Timer: 00:00 ",
-							Point ( origin.x + visibleSize.width - _hud->getContentSize().width,
-									origin.y + visibleSize.height - _hud->getContentSize().height) );
-	this->addChild(_hud, G_LAYERING_TYPES::G_HUD);
+	_hud = new CHUD("Timer: 00:00 ",
+							Vec2 ( origin.x + visibleSize.width,
+								origin.y + visibleSize.height) );
+	this->addChild(_hud, 0);*/
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
@@ -389,6 +405,14 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//player with portal
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 7) || (First->getCollisionBitmask() == 7 && Second->getCollisionBitmask() == 1))
 	{
+		for (int i = 0; i < 2; i++)
+		{
+			if (Second->getCollisionBitmask() == 7 && Second->getPosition() == portals[i]->getLoc() )
+				if (i == 0)
+					teleportaling(i+1);
+				else
+					teleportaling(0);
+		}
 		//portal teleport code
 	}
 	//enemy with everything
@@ -487,4 +511,12 @@ void HelloWorld :: despawnObjects()
 		enemies = NULL;
 	}
 	//despawn portals
+	for (int i = 0; i < 2; i++)
+	{
+		if(portals[i] != NULL)
+		{
+			delete portals[i];
+			portals[i] = NULL;
+		}
+	}
 }
