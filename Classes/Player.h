@@ -15,6 +15,7 @@ private:
 	int HP;
 	PhysicsBody* body;
 public:
+	bool inAir;
 	CGun* PortalGun;
 
 	CPlayer(Layer*, const Point);

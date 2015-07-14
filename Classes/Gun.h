@@ -8,11 +8,11 @@
 class CGun : public CEntity
 {
 private:
-	CProjectile* projectile[2]; //Two projectiles?
-	short Alternate;
 	const Sprite* PlayerSprite;
 	bool Left;
 public:
+	short Alternate;
+	CProjectile* projectile[2]; //Two projectiles?
 	float Offset;
 	CGun(Layer*, const Point, const Sprite*);
 	~CGun(void);

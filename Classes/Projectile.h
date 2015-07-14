@@ -9,13 +9,12 @@ class CProjectile : public CEntity
 {
 private:
 	PhysicsBody* body;
-	Sprite* sprites[2];
 	float speed;
 public:
-	CProjectile();
+	CProjectile(Layer*,const short);
 	~CProjectile();
 	void update(float);
-	void Init(const short alternate,const Vect velocity);
+	void Init(const Vec2, const Vec2);
 };
 
 #endif

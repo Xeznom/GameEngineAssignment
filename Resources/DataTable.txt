@@ -6,3 +6,4 @@ RoomHeight:600
 EnemyMass:10
 EnemyWalkSpeed:5
 TileSize:28
+ProjectileSpeed:10

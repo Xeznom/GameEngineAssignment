@@ -21,12 +21,12 @@ USING_NS_CC;
 
 //const int buttonDoorTotal = 1;//not in use yet/may not even be used
 
-enum G_LAYERING_TYPES {
+enum G_LAYERING_TYPES
+{
 	G_BACKGROUND,
 	G_GAME,
 	G_HUD,
 	G_TOTAL
-
 };
 
 class HelloWorld : public Layer
@@ -43,7 +43,7 @@ private:
 	inline void setPhyWorld(PhysicsWorld* world){ m_world = world; }
 	Point location;
 public:
-	void setViewPoint(CCPoint position);
+	void setViewPoint(Vec2 position);
 	void loadLevel(void);
 	Door* theDoors;
 	Button* theButtons;
