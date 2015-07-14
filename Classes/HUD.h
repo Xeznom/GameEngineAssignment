@@ -5,15 +5,13 @@
 
 #include "Entity.h"
 
-class CHUD : public cocos2d::LayerColor
+class CHUD : public cocos2d::Layer
 {
 private:
 	Label* message;
 public:
-	CHUD();
+	CHUD(String, Vec2, int, int);
 	~CHUD();
-
-	CHUD* createHUD(std::string, Point);
 
 	inline Label* GetHUD() { return message; };
 };

@@ -1,25 +1,17 @@
 #include "HUD.h"
 
 
-CHUD::CHUD()
+CHUD::CHUD(String _message, Vec2 pos, int topbottom, int leftright)
 {
+	this->create();
+	message = Label::createWithTTF(_message.getCString(), "fonts/Marker Felt.ttf", 24);
+
+	addChild(message, 2);
+
+	message->setPosition( Vec2 (pos.x + message->getContentSize().width * leftright,
+								pos.y - message->getContentSize().height * topbottom));
 }
 
 CHUD::~CHUD()
 {
-}
-
-CHUD* CHUD::createHUD(std::string _message, Point pos)
-{
-	CHUD* newHUD = new CHUD();
-
-	newHUD->message = Label::createWithTTF(_message.data(), "fonts/Marker Felt.ttf", 24);
-	newHUD->message->setColor(cocos2d::Color3B(255, 255, 255));
-	
-	//newHUD->addChild()
-	
-	newHUD->message->setPosition(pos);
-
-
-	return newHUD;
 }
