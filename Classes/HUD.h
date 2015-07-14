@@ -13,7 +13,7 @@ public:
 	CHUD();
 	~CHUD();
 
-	CHUD* createHUD(String, Point);
+	CHUD* createHUD(std::string, Point);
 
 	inline Label* GetHUD() { return message; };
 };

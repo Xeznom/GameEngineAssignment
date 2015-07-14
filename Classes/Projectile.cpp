@@ -1,29 +1,32 @@
 #include "Projectile.h"
 
-CProjectile::CProjectile()
+CProjectile::CProjectile(Layer* layer,const short alternate)
 {
-	sprites[0]=sprites[1]=nullptr;
-	std::string temp=GETFILE("OrangePortal");
-	m_Sprite=nullptr;
-	body=nullptr;
-}
+	speed = GETVALUE("ProjectileSpeed");
+	if (alternate == 0)
+		m_Sprite = Sprite::create(GETFILE("OrangePortal"));
+	else
+		m_Sprite = Sprite::create(GETFILE("BluePortal"));
+	m_Sprite->setAnchorPoint(Vec2(0.5f,0));
 
-void CProjectile::Init(const short alternate,const Vect velocity)
-{
-	sprites[0] = cocos2d::Sprite::create("orangeP.png");
-	sprites[1] = cocos2d::Sprite::create(GETFILE("BluePortal"));
-	m_Sprite = sprites[alternate];
-
-	body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().height,m_Sprite->getContentSize().width));
+	body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().height
+								,m_Sprite->getContentSize().width));
 	body->setCollisionBitmask(4);
 	body->setContactTestBitmask(true);
-	body->addMass(10);
-	body->setVelocity(velocity);
 	m_Sprite->setPhysicsBody(body);
+	thelayer = layer;
+	layer->addChild(m_Sprite,0);
+}
+
+void CProjectile::Init(const Vec2 Location,const Vec2 velocity)
+{
+	m_Sprite->setPosition(Location + velocity);
+	body->applyForce(velocity * speed);
 }
 
 CProjectile::~CProjectile()
 {
+	thelayer->removeChild(m_Sprite,0);
 }
 
 void CProjectile::update(float delta)

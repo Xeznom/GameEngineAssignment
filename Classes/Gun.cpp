@@ -38,16 +38,18 @@ void CGun::MouseMove (Event* event)
 void CGun::MouseDown(Event* event)
 {
 	EventMouse* e = (EventMouse*) event;
-	int mouseButton = e->getMouseButton();
+	const int mouseButton = e->getMouseButton();
 
 	switch (mouseButton)
 	{
 		case 0:
-			if (projectile[Alternate] != nullptr) delete projectile[Alternate];
-			projectile[Alternate] = new CProjectile();
-			projectile[Alternate]->Init(Alternate,e->getLocation());
-			Alternate = (Alternate == 0) ? 1 : 0;
-
+			if (projectile[Alternate] == nullptr)
+			{
+				Vec2 aim = e->getLocation() - m_Sprite->getPosition();
+				aim.normalize();
+				projectile[Alternate] = new CProjectile(thelayer,Alternate);
+				projectile[Alternate]->Init(m_Sprite->getPosition(),aim);
+			}
 			break;
 		default:
 			break;
@@ -56,7 +58,7 @@ void CGun::MouseDown(Event* event)
 
 CGun::CGun(Layer* layer, const Point loc,const Sprite* playersprite)
 {
-	projectile[0] = projectile[1] = nullptr;
+	projectile[0] =  projectile[1] = nullptr;
 	Alternate = 0;
 	PlayerSprite = playersprite;
 	Offset = GETVALUE("GunOffset");
@@ -70,6 +72,7 @@ CGun::CGun(Layer* layer, const Point loc,const Sprite* playersprite)
 	m_Sprite->setPosition(gunloc);
 	m_Sprite->setAnchorPoint(Vec2(0.5f,0));
 
+	thelayer = layer;
 	layer->addChild(m_Sprite,0);
 }
 

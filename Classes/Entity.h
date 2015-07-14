@@ -11,6 +11,7 @@ USING_NS_CC;
 class CEntity
 {
 public:
+	Layer* thelayer;
 	const int TileSize;
 	Sprite* m_Sprite;
 	float x, y;

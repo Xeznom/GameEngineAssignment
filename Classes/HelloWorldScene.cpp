@@ -12,7 +12,7 @@ void HelloWorld::update (float dt)
 	
 	for (int i = 0; i < 2; i++)
 	{
-		if (portals[i] != nullptr)
+		if (portals[i] != NULL)
 			portals[i]->update(dt);
 	}
 
@@ -22,8 +22,7 @@ void HelloWorld::update (float dt)
 	//	Director::getInstance()->end();
 	//}
 
-	if (enemies != NULL)
-		enemies->update(dt);
+	if (enemies != NULL) enemies->update(dt);
 	setViewPoint(player->m_Sprite->getPosition());
 }
 
@@ -112,8 +111,7 @@ bool HelloWorld::init()
 {
     //////////////////////////////
     // 1. super init first
-    if (!Layer::init()) 
-		return false;
+    if (!Layer::init()) return false;
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -177,8 +175,7 @@ bool HelloWorld::init()
 	std::string Data = CResourceTable::getInstance()->GetFileName("PortalGun");
 	CResourceTable::getInstance()->label->setString(Data);
 
-	for (int i = 0; i < 2; i++)
-		portals[i] = new CPortals(i, location);
+	for (int i = 0; i < 2; i++) portals[i] = new CPortals(i, location);
 
 	for (int i = 0; i < MAX_HORIZONTAL; ++i)
 	{
@@ -186,21 +183,19 @@ bool HelloWorld::init()
 			m_arrayMap[i][j] = nullptr;
 	}
 
-	HUD();
-
 	loadLevel();
 
-	auto KeyboardListener = EventListenerKeyboard::create();
+	EventListenerKeyboard* KeyboardListener = EventListenerKeyboard::create();
 	KeyboardListener->onKeyPressed = CC_CALLBACK_2(CPlayer::KeyPress,player);
 	KeyboardListener->onKeyReleased = CC_CALLBACK_2(CPlayer::KeyRelease,player);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(KeyboardListener,player->m_Sprite);
 
-	auto MouseListener = EventListenerMouse::create();
+	EventListenerMouse* MouseListener = EventListenerMouse::create();
 	MouseListener->onMouseMove = CC_CALLBACK_1(CPlayer::MouseMove,player);
 	MouseListener->onMouseDown = CC_CALLBACK_1(CGun::MouseDown, player->PortalGun);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(MouseListener,player->m_Sprite);
 
-	auto contactListener = EventListenerPhysicsContact::create();
+	EventListenerPhysicsContact* contactListener = EventListenerPhysicsContact::create();
 	contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegin,this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener,this);
 
@@ -281,31 +276,17 @@ void HelloWorld::HUD()
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	 Label* label = Label::createWithTTF("Lives: ", "fonts/Marker Felt.ttf", 24);
-    
-    label->setPosition(Vec2(origin.x + label->getContentSize().width,
-                    origin.y + visibleSize.height - label->getContentSize().height));
-
-    this->addChild(label, G_LAYERING_TYPES::G_HUD);
-
-
-	label = Label::createWithTTF("Timer: 00:00", "fonts/Marker Felt.ttf", 24);
-    
-    label->setPosition(Vec2(origin.x - visibleSize.width + label->getContentSize().width,
-                    origin.y + visibleSize.height - label->getContentSize().height));
-
-    this->addChild(label, G_LAYERING_TYPES::G_HUD);
-	/*CHUD* _hud;
+	CHUD* _hud = nullptr;
 		
-	_hud = new CHUD("Lives: ",
-							Vec2 ( origin.x,
-									origin.y + visibleSize.height *0.9f));
+	_hud = _hud->createHUD("Lives: " + 6,
+							Point ( origin.x,
+									origin.y + visibleSize.height - _hud->getContentSize().height) );
 	this->addChild(_hud, G_LAYERING_TYPES::G_HUD);
 	
-	_hud = new CHUD("Timer: 00:00 ",
-							Vec2 ( origin.x + visibleSize.width,
-								origin.y + visibleSize.height) );
-	this->addChild(_hud, 0);*/
+	_hud = _hud->createHUD("Timer: 00:00 ",
+							Point ( origin.x + visibleSize.width - _hud->getContentSize().width,
+									origin.y + visibleSize.height - _hud->getContentSize().height) );
+	this->addChild(_hud, G_LAYERING_TYPES::G_HUD);
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
@@ -358,16 +339,43 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//portal projectile with tiles
 	if((First->getCollisionBitmask() == 4 && Second->getCollisionBitmask() == 5) || (First->getCollisionBitmask() == 5 && Second->getCollisionBitmask() == 4))
 	{
+		unsigned short number = 2;
 		if(First->getCollisionBitmask() == 4)//if portal projectile is First
 		{
+			if (player->PortalGun->projectile[0] != nullptr)
+			{
+				number = 0;
+			}
+			if (player->PortalGun->projectile[1] != nullptr)
+			{
+				number = 1;
+			}
+
 			//remove projectile
 			//spawn portal sprite
 		}
 		else if (Second->getCollisionBitmask() == 4)//if portal projectile is Second instead
 		{
+			if (player->PortalGun->projectile[0] != nullptr)
+			{
+				number = 0;
+			}
+			if (player->PortalGun->projectile[1] != nullptr)
+			{
+				number = 1;
+			}
+
 			//remove projectile
 			//spawn portal sprite
 		}
+
+		if (number != 2)
+		{
+			delete player->PortalGun->projectile[number];
+			player->PortalGun->projectile[number] = nullptr;
+			player->PortalGun->Alternate = (player->PortalGun->Alternate == 0) ? 1 : 0;
+		}
+
 		if(First->getCollisionBitmask() == 5)//if tile is First
 		{
 			First->setCollisionBitmask(3);//tile is now a "tile with portal"
@@ -405,14 +413,6 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//player with portal
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 7) || (First->getCollisionBitmask() == 7 && Second->getCollisionBitmask() == 1))
 	{
-		for (int i = 0; i < 2; i++)
-		{
-			if (Second->getCollisionBitmask() == 7 && Second->getPosition() == portals[i]->getLoc() )
-				if (i == 0)
-					teleportaling(i+1);
-				else
-					teleportaling(0);
-		}
 		//portal teleport code
 	}
 	//enemy with everything
@@ -431,9 +431,9 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	return true;
 }
 
-void HelloWorld::setViewPoint(CCPoint position)
+void HelloWorld::setViewPoint(Vec2 position)
 {
-	 CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+	Size winSize = CCDirector::getInstance()->getWinSize();
  
     int x = MAX(position.x, winSize.width * 0.5f);
     int y = MAX(position.y, winSize.height * 0.5f);
@@ -441,10 +441,10 @@ void HelloWorld::setViewPoint(CCPoint position)
 		* m_arrayMap[0][0]->m_Sprite->getContentSize().width) - winSize.width * 0.5f);
 	y = MIN(y, ((MAX_VERTICAL * m_arrayMap[0][0]->m_Sprite->getContentSize().height)
 		* m_arrayMap[0][0]->m_Sprite->getContentSize().height) - winSize.height *0.5f);
-    CCPoint actualPosition = ccp(x, y);
+    Vec2 actualPosition = Vec2(x, y);
  
-    CCPoint centerOfView = ccp(winSize.width * 0.5f, winSize.height * 0.5f);
-    CCPoint viewPoint = ccpSub(centerOfView, actualPosition);
+    Vec2 centerOfView = Vec2(winSize.width * 0.5f, winSize.height * 0.5f);
+    Vec2 viewPoint = centerOfView - actualPosition;
     this->setPosition(viewPoint);
 }
 
@@ -495,28 +495,20 @@ void HelloWorld::loadLevel(void)
 
 void HelloWorld :: despawnObjects()
 {
-	if(theButtons != NULL)
+	if(theButtons != nullptr)
 	{
 		delete theButtons;
-		theButtons = NULL;
+		theButtons = nullptr;
 	}
-	if(theDoors != NULL)
+	if(theDoors != nullptr)
 	{
 		delete theDoors;
-		theDoors = NULL;
+		theDoors = nullptr;
 	}
-	if(enemies != NULL)
+	if(enemies != nullptr)
 	{
 		delete enemies;
-		enemies = NULL;
+		enemies = nullptr;
 	}
 	//despawn portals
-	for (int i = 0; i < 2; i++)
-	{
-		if(portals[i] != NULL)
-		{
-			delete portals[i];
-			portals[i] = NULL;
-		}
-	}
 }
