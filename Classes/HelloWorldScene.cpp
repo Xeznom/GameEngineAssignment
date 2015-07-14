@@ -12,7 +12,7 @@ void HelloWorld::update (float dt)
 	
 	for (int i = 0; i < 2; i++)
 	{
-		if (portals[i] != NULL)
+		if (portals[i] != nullptr)
 			portals[i]->update(dt);
 	}
 
@@ -186,6 +186,8 @@ bool HelloWorld::init()
 			m_arrayMap[i][j] = nullptr;
 	}
 
+	HUD();
+
 	loadLevel();
 
 	auto KeyboardListener = EventListenerKeyboard::create();
@@ -281,14 +283,14 @@ void HelloWorld::HUD()
 
 	CHUD* _hud;
 		
-	_hud = _hud->createHUD("Lives: " + 6,
-							Point ( origin.x,
-									origin.y + visibleSize.height - _hud->getContentSize().height) );
+	_hud = new CHUD("Lives: ",
+					Vec2(origin.x,
+						 origin.y + visibleSize.height), 1, 1 );
 	this->addChild(_hud, G_LAYERING_TYPES::G_HUD);
 	
-	_hud = _hud->createHUD("Timer: 00:00 ",
-							Point ( origin.x + visibleSize.width - _hud->getContentSize().width,
-									origin.y + visibleSize.height - _hud->getContentSize().height) );
+	_hud = new CHUD("Timer: 00:00 ",
+					Vec2(origin.x + visibleSize.width,
+						 origin.y + visibleSize.height), 1, -1 );
 	this->addChild(_hud, G_LAYERING_TYPES::G_HUD);
 }
 
@@ -346,11 +348,20 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		{
 			//remove projectile
 			//spawn portal sprite
+			if (portals[0] == NULL)
+				portals[0] = new CPortals(0, Second->getPosition() );
+			else
+				portals[1] = new CPortals(1, Second->getPosition() );
+
 		}
 		else if (Second->getCollisionBitmask() == 4)//if portal projectile is Second instead
 		{
 			//remove projectile
 			//spawn portal sprite
+			if (portals[0] == NULL)
+				portals[0] = new CPortals(0, First->getPosition() );
+			else
+				portals[1] = new CPortals(1, First->getPosition() );
 		}
 		if(First->getCollisionBitmask() == 5)//if tile is First
 		{
@@ -390,6 +401,14 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//player with portal
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 7) || (First->getCollisionBitmask() == 7 && Second->getCollisionBitmask() == 1))
 	{
+		for (int i = 0; i < 2; i++)
+		{
+			if (Second->getCollisionBitmask() == 7 && Second->getPosition() == portals[i]->getLoc() )
+				if (i == 0)
+					teleportaling(i+1);
+				else
+					teleportaling(0);
+		}
 		//portal teleport code
 	}
 	//enemy with everything
@@ -491,6 +510,7 @@ void HelloWorld :: despawnObjects()
 		enemies = NULL;
 	}
 	//despawn portals
+
 	for(int i = 0 ; i < MAX_HORIZONTAL;i++)
 	{
 		for(int j = 0 ; j < MAX_VERTICAL ; j++)
@@ -506,6 +526,14 @@ void HelloWorld :: despawnObjects()
 		{
 				delete m_arrayMap[i][j];
 				m_arrayMap[i][j]=nullptr;
+		}
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		if(portals[i] != NULL)
+		{
+			delete portals[i];
+			portals[i] = NULL;
 		}
 	}
 }
