@@ -158,7 +158,7 @@ bool HelloWorld::init()
     */
 
 	firstTimeInit = false;// boolean to check if all data is initialised for init
-	levelCounter = 3;//what Level youre on
+	levelCounter = 0;//what Level youre on
 
 	//tempDMGTimer = 0;
 
