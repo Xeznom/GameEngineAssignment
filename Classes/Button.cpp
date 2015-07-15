@@ -1,7 +1,7 @@
 #include "Button.h"
 
 
-Button::Button(cocos2d::Layer* layer,float posx, float posy)
+Button::Button(Layer* layer,float posx, float posy)
 {
 	index = 0;//default index
 
@@ -22,6 +22,7 @@ Button::Button(cocos2d::Layer* layer,float posx, float posy)
 	render(posx,posy);
 
 	layer->addChild(m_Sprite,0);
+	thelayer = layer;
 }
 
 

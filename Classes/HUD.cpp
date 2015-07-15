@@ -15,6 +15,10 @@ CHUD::CHUD(const std::string& _message, Vec2 pos, int topbottom, int leftright)
 CHUD::~CHUD()
 {
 }
+void CHUD::draw(Renderer*, const Mat4&, bool)
+{
+
+}
 
 void CHUD::initOptions(const std::string& _message, Vec2 pos, int topbottom, int leftright)
 {

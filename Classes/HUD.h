@@ -14,9 +14,9 @@ public:
 	CHUD(const std::string&, Vec2, int, int);
 	~CHUD();
 
-	void initOptions(const std::string& _message, Vec2 pos, int topbottom, int leftright);
+	void initOptions(const std::string&,Vec2,int,int);
 
-	virtual void draw(cocos2d::Renderer * renderer, const cocos2d::Mat4 & transform, bool transformUpdated);
+	virtual void draw(Renderer*, const Mat4& , bool);
 
 	//inline Label* GetHUD() { return message; };
 };
