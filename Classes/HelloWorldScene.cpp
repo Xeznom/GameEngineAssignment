@@ -5,6 +5,7 @@ USING_NS_CC;
 void HelloWorld::update (float dt)
 {
 	player->update(dt);
+	
 	//tempDMGTimer++;
 	//Point temp2 = player->m_Sprite->getPosition();
 	//this->Traps->m_Sprite->getPosition();
@@ -184,6 +185,8 @@ bool HelloWorld::init()
 	}
 
 	player = new CPlayer(this,location);//initialise player
+
+
 
 	loadLevel();
 

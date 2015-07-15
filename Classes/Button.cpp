@@ -3,7 +3,8 @@
 
 Button::Button(cocos2d::Layer* layer,float posx, float posy)
 {
-	
+	index = 0;//default index
+
 	x = posx;
 	y = posy;
 
@@ -40,4 +41,14 @@ void Button::render(USHORT x, USHORT y)
 	float f_posX = visibleSize.width*0.5f + (x - 10) * TileSize * 1.5f;
 	float f_posY = visibleSize.height - (y)* TileSize * 1.5f;
 	this->m_Sprite->setPosition( Point(f_posX, f_posY) );
+}
+
+int Button :: GetIndex()
+{
+	return index;
+}
+
+void Button :: SetIndex(int index)
+{
+	this->index = index;
 }

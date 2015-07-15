@@ -10,7 +10,7 @@
 #include "Player.h"
 #include "Field.h"
 #include "Portals.h"
-#include "Traps.h"
+#include "spike.h"
 #include "Enemy.h"
 #include "ResourceTable.h"
 #include "Door.h"
@@ -47,7 +47,7 @@ public:
 	void loadLevel(void);
 	Door* theDoors;
 	Button* theButtons;
-	//CTraps* Traps;
+	//CTraps* Traps;//traps are now cfield since both are static objects and do not require to edit the trap data
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
 
