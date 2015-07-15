@@ -450,11 +450,17 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		return false;
 	}
 	//enemy with everything but tiles and spike/mobile spike
-	if ( (First->getCollisionBitmask() == 8 && (Second->getCollisionBitmask() != 5 || Second->getCollisionBitmask() != 3)) || ((First->getCollisionBitmask() != 5 || Second->getCollisionBitmask() != 3) && Second->getCollisionBitmask() == 8) )
+	if ( (First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() != 5 ) || (First->getCollisionBitmask() != 5  && Second->getCollisionBitmask() == 8) )
 	{
 		//no collision
 		return false;
 	}
+	//enemy 
+	//if ( (First->getCollisionBitmask() == 8 && (Second->getCollisionBitmask() != 5 || Second->getCollisionBitmask() != 3)) || ((First->getCollisionBitmask() != 5 || Second->getCollisionBitmask() != 3) && Second->getCollisionBitmask() == 8) )
+	//{
+		//no collision
+	//	return false;
+	//}
 	//enemy with laser
 	if ((First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() == 10 )|| (First->getCollisionBitmask() != 5  && Second->getCollisionBitmask() == 10))
 	{
@@ -543,21 +549,21 @@ void HelloWorld :: despawnObjects()
 
 	if(theButtons != nullptr)
 	{
-		this->removeChild(theButtons->m_Sprite);
+		//this->removeChild(theButtons->m_Sprite);
 		delete theButtons;
 		theButtons = nullptr;
 	}
 
 	if(theDoors != nullptr)
 	{
-		this->removeChild(theDoors->m_Sprite);
+		//this->removeChild(theDoors->m_Sprite);
 		delete theDoors;
 		theDoors = nullptr;
 	}
 
 	if(enemies != nullptr)
 	{
-		this->removeChild(enemies->m_Sprite);
+		//this->removeChild(enemies->m_Sprite);
 		delete enemies;
 		enemies = nullptr;
 	}

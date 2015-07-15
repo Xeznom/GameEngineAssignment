@@ -48,6 +48,10 @@ void CField::Render(USHORT x, USHORT y)
 			body->setContactTestBitmask(true);
 		}
 		if(tiles == 7)//laser
+		{
+			body->setCollisionBitmask(10);
+			body->setContactTestBitmask(true);
+		}
 		m_Sprite->setPhysicsBody(body);
 	}
 }
