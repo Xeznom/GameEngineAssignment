@@ -269,7 +269,7 @@ void HelloWorld::LoadFile(const string mapName)
 						//else if (atoi(token.c_str()) == 7)
 						//{
 						//	m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
-							//theLaser = new CLaser(this,theColumnCounter, theLineCounter);
+						//theLaser = new CLaser(this,theColumnCounter, theLineCounter);
 						//}
 						else
 							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter);
@@ -462,7 +462,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//	return false;
 	//}
 	//enemy with laser
-	if ((First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() == 10 )|| (First->getCollisionBitmask() != 5  && Second->getCollisionBitmask() == 10))
+	if ((First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() == 10) || (First->getCollisionBitmask() != 5 && Second->getCollisionBitmask() == 10))
 	{
 		//kill enemy
 		this->removeChild(enemies->m_Sprite);
@@ -547,42 +547,46 @@ void HelloWorld :: despawnObjects()
 {
 	//this->removeAllChildren();
 
-	if(theButtons != nullptr)
+	if (theButtons != nullptr)
 	{
 		//this->removeChild(theButtons->m_Sprite);
 		delete theButtons;
 		theButtons = nullptr;
 	}
 
-	if(theDoors != nullptr)
+	if (theDoors != nullptr)
 	{
 		//this->removeChild(theDoors->m_Sprite);
 		delete theDoors;
 		theDoors = nullptr;
 	}
 
-	if(enemies != nullptr)
+	if (enemies != nullptr)
 	{
 		//this->removeChild(enemies->m_Sprite);
 		delete enemies;
 		enemies = nullptr;
 	}
-
 	//despawn portals
 	
 	for(int i = 0 ; i < MAX_VERTICAL;i++)
 	{
 		for(int j = 0 ; j < MAX_HORIZONTAL ; j++)
 		{
-			delete m_arrayMap[i][j];
-			m_arrayMap[i][j] = nullptr;
-
+			if (m_arrayMap[i][j] != nullptr)
+			{
+				delete m_arrayMap[i][j];
+				m_arrayMap[i][j] = nullptr;
+			}
 		}
 	}
 	for (int i = 0; i < 2; i++)
 	{
-		delete portals[i];
-		portals[i] = nullptr;
+		if (portals[i] != nullptr)
+		{
+			delete portals[i];
+			portals[i] = nullptr;
+		}
 	}
 
 	//firstTimeInit = false;

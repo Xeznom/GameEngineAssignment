@@ -37,11 +37,11 @@ void CField::Render(USHORT x, USHORT y)
 			body->setCollisionBitmask(5);
 			body->setContactTestBitmask(true);
 		}
-		//if(tiles == 2)//door
-		//{
-		//	body->setCollisionBitmask(3);
-		//	body->setContactTestBitmask(true);
-		//}
+		if(tiles == 2)//door
+		{
+			body->setCollisionBitmask(3);
+			body->setContactTestBitmask(true);
+		}
 		if(tiles == 3)//traps
 		{
 			body->setCollisionBitmask(2);
