@@ -16,6 +16,8 @@
 #include "Door.h"
 #include "Button.h"
 #include "HUD.h"
+#include "mobilespike.h"
+#include "laser.h"
 
 USING_NS_CC;
 
@@ -32,6 +34,8 @@ enum G_LAYERING_TYPES
 class HelloWorld : public Layer
 {
 private:
+	int buttonCounter;
+	int laserCounter;
 	bool firstTimeInit;
 	int levelCounter;
 	//int tempDMGTimer;//not in use yet/may not even be used
@@ -42,6 +46,8 @@ private:
 	CEnemy* enemies;
 	inline void setPhyWorld(PhysicsWorld* world){ m_world = world; }
 	Point location;
+	CMobileSpike * theMobileSpike;
+	CLaser * theLaser;
 public:
 	void setViewPoint(Vec2 position);
 	void loadLevel(void);

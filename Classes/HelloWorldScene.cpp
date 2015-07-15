@@ -159,6 +159,8 @@ bool HelloWorld::init()
 
 	firstTimeInit = false;// boolean to check if all data is initialised for init
 	levelCounter = 0;//what Level youre on
+	buttonCounter = 0;
+	laserCounter = 0;
 
 	//tempDMGTimer = 0;
 
@@ -249,15 +251,25 @@ void HelloWorld::LoadFile(const string mapName)
 							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
 							enemies = new CEnemy(this, Point(theColumnCounter, theLineCounter));
 						}
-						if (atoi(token.c_str()) == 2)
+						else if (atoi(token.c_str()) == 2)
 						{
 							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
 							theDoors = new Door(this, theColumnCounter, theLineCounter );
 						}
-						if (atoi(token.c_str()) == 5)
+						else if (atoi(token.c_str()) == 5)
 						{
 							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
 							theButtons = new Button(this, theColumnCounter, theLineCounter );
+						}
+						else if (atoi(token.c_str()) == 6)
+						{
+							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
+							theMobileSpike = new CMobileSpike(this,theColumnCounter, theLineCounter);
+						}
+						else if (atoi(token.c_str()) == 7)
+						{
+							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
+							theLaser = new CLaser(this,theColumnCounter, theLineCounter);
 						}
 						else
 							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter);

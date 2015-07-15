@@ -47,16 +47,6 @@ void CField::Render(USHORT x, USHORT y)
 			body->setCollisionBitmask(2);
 			body->setContactTestBitmask(true);
 		}
-		if(tiles == 4)//enemy?
-		{
-			body->setCollisionBitmask(3);
-			body->setContactTestBitmask(true);
-		}
-		//if(tiles == 5)//closedoor
-		//{
-		//	body->setCollisionBitmask(5);
-		//	body->setContactTestBitmask(true);
-		//}
 		m_Sprite->setPhysicsBody(body);
 	}
 }

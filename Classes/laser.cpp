@@ -13,7 +13,7 @@ CLaser :: CLaser(cocos2d::Layer* layer,float posx,float posy)
 	m_Sprite->Sprite::setPosition(Point(x,y));
 
 	auto body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().width,m_Sprite->getContentSize().width));
-	body->setCollisionBitmask(2);
+	body->setCollisionBitmask(3);
 	body->setContactTestBitmask(true);
 	body->setDynamic(false);
 	m_Sprite->setPhysicsBody(body);
