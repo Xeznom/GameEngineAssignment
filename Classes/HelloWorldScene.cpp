@@ -266,11 +266,11 @@ void HelloWorld::LoadFile(const string mapName)
 							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
 							theMobileSpike = new CMobileSpike(this,theColumnCounter, theLineCounter);
 						}
-						else if (atoi(token.c_str()) == 7)
-						{
-							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
-							theLaser = new CLaser(this,theColumnCounter, theLineCounter);
-						}
+						//else if (atoi(token.c_str()) == 7)
+						//{
+						//	m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
+							//theLaser = new CLaser(this,theColumnCounter, theLineCounter);
+						//}
 						else
 							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter);
 
@@ -337,7 +337,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//}
 
 	//bitmask 1 = player
-	//bitmask 2 = traps
+	//bitmask 2 = spike/mobile spike
 	//bitmask 3 = tiles with portal/pressed button/enemyspawner - cannot be collided with
 	//bitmask 4 = portal projectile
 	//bitmask 5 = tiles/closedoor
@@ -345,6 +345,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//bitmask 7 = portal
 	//bitmask 8 = enemy
 	//bitmask 9 = opendoor
+	//bitmask 10 = laser
 
 	//player with opendoor
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 3) || (First->getCollisionBitmask() == 3 && Second->getCollisionBitmask() == 1))
@@ -448,9 +449,19 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		player->setPos(location);
 		return false;
 	}
-	//enemy with everything
-	if ((First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() != 5) || (First->getCollisionBitmask() != 5 && Second->getCollisionBitmask() == 8))
+	//enemy with everything but tiles and spike/mobile spike
+	if ( (First->getCollisionBitmask() == 8 && (Second->getCollisionBitmask() != 5 || Second->getCollisionBitmask() != 3)) || ((First->getCollisionBitmask() != 5 || Second->getCollisionBitmask() != 3) && Second->getCollisionBitmask() == 8) )
 	{
+		//no collision
+		return false;
+	}
+	//enemy with laser
+	if ((First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() == 10 )|| (First->getCollisionBitmask() != 5  && Second->getCollisionBitmask() == 10))
+	{
+		//kill enemy
+		this->removeChild(enemies->m_Sprite);
+		delete enemies;
+		enemies = nullptr;
 		return false;
 	}
 	//player with opendoor
@@ -530,14 +541,27 @@ void HelloWorld :: despawnObjects()
 {
 	//this->removeAllChildren();
 
-	delete theButtons;
-	theButtons = nullptr;
+	if(theButtons != nullptr)
+	{
+		this->removeChild(theButtons->m_Sprite);
+		delete theButtons;
+		theButtons = nullptr;
+	}
 
-	delete theDoors;
-	theDoors = nullptr;
+	if(theDoors != nullptr)
+	{
+		this->removeChild(theDoors->m_Sprite);
+		delete theDoors;
+		theDoors = nullptr;
+	}
 
-	delete enemies;
-	enemies = nullptr;
+	if(enemies != nullptr)
+	{
+		this->removeChild(enemies->m_Sprite);
+		delete enemies;
+		enemies = nullptr;
+	}
+
 	//despawn portals
 	
 	for(int i = 0 ; i < MAX_VERTICAL;i++)

@@ -7,12 +7,12 @@ CMobileSpike :: CMobileSpike(cocos2d::Layer* layer,float posx,float posy)
 	x = posx;
 	y = posy;
 
-	m_Sprite = cocos2d::Sprite::create("CloseNormal.png");
+	m_Sprite = cocos2d::Sprite::create("closedoor.png");
 	//m_Sprite->Sprite::setTexture("CloseNormal.png");
-	m_Sprite->setScale(10.0f);
+	m_Sprite->setScale(0.01f);
 	m_Sprite->Sprite::setPosition(Point(x,y));
 
-	auto body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().width,m_Sprite->getContentSize().width));
+	auto body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().width/100,m_Sprite->getContentSize().width/100));
 	body->setCollisionBitmask(3);
 	body->setContactTestBitmask(true);
 	body->setDynamic(false);
@@ -29,11 +29,10 @@ CMobileSpike :: ~CMobileSpike()
 
 void CMobileSpike :: Render(USHORT x, USHORT y)
 {
-	//Size visibleSize = Director::getInstance()->getVisibleSize();
-	//float f_posX = visibleSize.width*0.5f + (x - 10);
-	//float f_posY = visibleSize.height - (y);
-	//m_Sprite->setPosition( Point(f_posX, f_posY) );
-	Point temp = m_Sprite->getPosition();
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	float f_posX = visibleSize.width*0.5f + (x - 10) * TileSize * 1.5f;
+	float f_posY = visibleSize.height - (y)* TileSize * 1.5f;
+	this->m_Sprite->setPosition( Point(f_posX, f_posY) );
 }
 
 void CMobileSpike :: update(float delta)
