@@ -278,11 +278,7 @@ void HelloWorld::HUD()
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	CHUD* _hud = CHUD::createLayer("Lives: ",
-									Vec2(origin.x,
-									origin.y + visibleSize.height), 1, 1);
-
-	/*CHUD* _hud = nullptr;
+	CHUD* _hud = nullptr;
 		
 	_hud = new CHUD("Lives: ",
 					Vec2(origin.x,
@@ -293,7 +289,7 @@ void HelloWorld::HUD()
 					Vec2(origin.x + visibleSize.width,
 						 origin.y + visibleSize.height), 1, -1 );
 
-	this->addChild(_hud, G_LAYERING_TYPES::G_HUD);*/
+	this->addChild(_hud, G_LAYERING_TYPES::G_HUD);
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
