@@ -77,7 +77,8 @@ Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
     Scene* scene = Scene::createWithPhysics();
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//scene->getPhysicsWorld()->setGravity(Vect(0.0f, -98.0f * 2));
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
     
     // 'layer' is an autorelease object
     HelloWorld* layer = HelloWorld::create();
@@ -93,7 +94,7 @@ Scene* HelloWorld::createScene()
 	Node* edgeNode = Node::create();
 	Point center = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 	edgeNode->setPosition(center);
-	
+
 	/*
 	float RoomWidth = GETVALUE("RoomWidth");
 	float RoomHeight = GETVALUE("RoomHeight");
@@ -266,11 +267,11 @@ void HelloWorld::LoadFile(const string mapName)
 							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
 							theMobileSpike = new CMobileSpike(this,theColumnCounter, theLineCounter);
 						}
-						//else if (atoi(token.c_str()) == 7)
-						//{
-						//	m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
-						//theLaser = new CLaser(this,theColumnCounter, theLineCounter);
-						//}
+						else if (atoi(token.c_str()) == 8)
+						{
+							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
+							//add coin
+						}
 						else
 							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter);
 
@@ -389,6 +390,11 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		//	First->setContactTestBitmask(3);//tile is now a "tile with portal"
 		//}
 	}
+	//portal w
+	if((First->getCollisionBitmask() == 4 && Second->getCollisionBitmask() != 5) || (First->getCollisionBitmask() != 5 && Second->getCollisionBitmask() == 4))
+	{
+		return false;
+	}
 	//player with traps
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 2) || (First->getCollisionBitmask() == 2 && Second->getCollisionBitmask() == 1))
 	{
@@ -476,6 +482,11 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		levelCounter++;
 		loadLevel();
 		return false;
+	}
+	//player with tile
+	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 5) || (First->getCollisionBitmask() == 5 && Second->getCollisionBitmask() == 1))
+	{
+		player->inAir = false;
 	}
 
 	return true;
@@ -569,9 +580,9 @@ void HelloWorld :: despawnObjects()
 	}
 	//despawn portals
 	
-	for(int i = 0 ; i < MAX_VERTICAL;i++)
+	for(int i = 0 ; i < MAX_HORIZONTAL;i++)
 	{
-		for(int j = 0 ; j < MAX_HORIZONTAL ; j++)
+		for(int j = 0 ; j < MAX_VERTICAL ; j++)
 		{
 			if (m_arrayMap[i][j] != nullptr)
 			{

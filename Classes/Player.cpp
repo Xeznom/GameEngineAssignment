@@ -52,7 +52,12 @@ void CPlayer::KeyPress (EventKeyboard::KeyCode keycode,Event* event)
 	switch (keycode)
 	{
 		case EventKeyboard::KeyCode::KEY_W:
-			Jump = true;
+			if(inAir != true)
+			{
+				inAir = true;
+				Jump = true;
+				
+			}
 			break;
 		case EventKeyboard::KeyCode::KEY_A:
 			Left = true;
@@ -101,6 +106,7 @@ CPlayer::CPlayer(Layer* layer, const Point loc)
 	body->setMass( GETVALUE("PlayerMass") );
 	body->setCollisionBitmask(1);
 	body->setContactTestBitmask(true);
+	body->setRotationEnable(false);
 	m_Sprite->setPhysicsBody(body);
 
 	m_Sprite->setScale(0.15f);
