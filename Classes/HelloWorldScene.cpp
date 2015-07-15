@@ -246,23 +246,23 @@ void HelloWorld::LoadFile(const string mapName)
 					{
 						if (atoi(token.c_str()) == 4)
 						{
-							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(0, theColumnCounter, theLineCounter);
+							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
 							enemies = new CEnemy(this, Point(theColumnCounter, theLineCounter));
 						}
 						if (atoi(token.c_str()) == 2)
 						{
-							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(0, theColumnCounter, theLineCounter);
+							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
 							theDoors = new Door(this, theColumnCounter, theLineCounter );
 						}
 						if (atoi(token.c_str()) == 5)
 						{
-							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(0, theColumnCounter, theLineCounter);
+							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
 							theButtons = new Button(this, theColumnCounter, theLineCounter );
 						}
 						else
-							m_arrayMap[theLineCounter - 1][theColumnCounter] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter);
+							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter);
 
-						addChild(m_arrayMap[theLineCounter - 1][theColumnCounter]->m_Sprite, G_LAYERING_TYPES::G_GAME);
+						addChild(m_arrayMap[theColumnCounter][theLineCounter - 1]->m_Sprite, G_LAYERING_TYPES::G_GAME);
 						theColumnCounter++;
 					}
 				}
@@ -278,7 +278,11 @@ void HelloWorld::HUD()
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	CHUD* _hud = nullptr;
+	CHUD* _hud = CHUD::createLayer("Lives: ",
+									Vec2(origin.x,
+									origin.y + visibleSize.height), 1, 1);
+
+	/*CHUD* _hud = nullptr;
 		
 	_hud = new CHUD("Lives: ",
 					Vec2(origin.x,
@@ -289,7 +293,7 @@ void HelloWorld::HUD()
 					Vec2(origin.x + visibleSize.width,
 						 origin.y + visibleSize.height), 1, -1 );
 
-	this->addChild(_hud, G_LAYERING_TYPES::G_HUD);
+	this->addChild(_hud, G_LAYERING_TYPES::G_HUD);*/
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
@@ -356,10 +360,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 
 			//remove projectile
 			//spawn portal sprite
-			if (portals[0] == NULL)
-				portals[0] = new CPortals(0, Second->getPosition() );
-			else
-				portals[1] = new CPortals(1, Second->getPosition() );
+			portals[number] = new CPortals(number, First->getPosition());
 
 		}
 		else if (Second->getCollisionBitmask() == 4)//if portal projectile is Second instead
@@ -375,13 +376,10 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 
 			//remove projectile
 			//spawn portal sprite
-			if (portals[0] == NULL)
-				portals[0] = new CPortals(0, First->getPosition() );
-			else
-				portals[1] = new CPortals(1, First->getPosition() );
+			portals[number] = new CPortals(number, Second->getPosition());
 		}
 
-		if (number != 2)
+		if (number == 2)
 		{
 			delete player->PortalGun->projectile[number];
 			player->PortalGun->projectile[number] = nullptr;
@@ -432,9 +430,34 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 7) || (First->getCollisionBitmask() == 7 && Second->getCollisionBitmask() == 1))
 	{
 		//portal teleport code
+		if (First->getCollisionBitmask() == 7)//if first is portal
+		{
+			if (First->getPosition() == portals[0]->getLoc())
+				teleportaling(1);
+			else if (First->getPosition() == portals[1]->getLoc())
+				teleportaling(0);
+		}
+		else if (Second->getCollisionBitmask() == 7)//if second is portal instead
+		{
+			if (Second->getPosition() == portals[0]->getLoc())
+				teleportaling(1);
+			else if (Second->getPosition() == portals[1]->getLoc())
+				teleportaling(0);
+		}
+	}
+	//enemy with player
+	if ((First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() == 1) || (First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 8))
+	{
+		//player->setHP(player->getHp() - 1);
+		//this->removeChild(player->m_Sprite);
+		//this->removeChild(player->PortalGun->m_Sprite);
+		//loadLevel();
+		//Director::getInstance()->end();
+		player->setPos(location);
+		return false;
 	}
 	//enemy with everything
-	if((First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() != 5) || (First->getCollisionBitmask() != 5 && Second->getCollisionBitmask() == 8))
+	if ((First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() != 5) || (First->getCollisionBitmask() != 5 && Second->getCollisionBitmask() == 8))
 	{
 		return false;
 	}
