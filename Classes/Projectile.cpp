@@ -14,8 +14,8 @@ CProjectile::CProjectile(Layer* layer,const short alternate)
 	body->setCollisionBitmask(4);
 	body->setContactTestBitmask(true);
 	m_Sprite->setPhysicsBody(body);
+	layer->addChild(m_Sprite, 0);
 	thelayer = layer;
-	layer->addChild(m_Sprite,0);
 }
 
 void CProjectile::Init(const Vec2 Location,const Vec2 velocity)

@@ -109,6 +109,7 @@ CPlayer::CPlayer(Layer* layer, const Point loc)
 	PortalGun = new CGun(layer, loc, m_Sprite);
 
 	layer->addChild(m_Sprite,0);
+	thelayer = layer;
 }
 
 CPlayer::~CPlayer(void)

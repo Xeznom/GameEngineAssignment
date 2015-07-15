@@ -18,6 +18,7 @@ CTraps :: CTraps(cocos2d::Layer* layer,float posx,float posy)
 
 	Render(x,y);
 	layer->addChild(m_Sprite,0);
+	thelayer = layer;
 }
 
 CTraps :: ~CTraps()

@@ -1,7 +1,7 @@
 #include "Door.h"
 
 
-Door::Door(cocos2d::Layer* layer,float posx, float posy)
+Door::Door(cocos2d::Layer* layer, float posx, float posy)
 {
 	index = 0;//default index
 
@@ -22,6 +22,7 @@ Door::Door(cocos2d::Layer* layer,float posx, float posy)
 	render(posx,posy);
 
 	layer->addChild(m_Sprite,0);
+	thelayer = layer;
 }
 
 

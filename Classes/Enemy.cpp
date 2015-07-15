@@ -19,6 +19,7 @@ CEnemy::CEnemy(Layer* layer, const Point pos)
 	Render(pos);
 
 	layer->addChild(m_Sprite,0);
+	thelayer = layer;
 }
 
 
