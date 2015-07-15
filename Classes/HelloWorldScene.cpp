@@ -586,6 +586,7 @@ void HelloWorld :: despawnObjects()
 		{
 			if (m_arrayMap[i][j] != nullptr)
 			{
+				this->removeChild(m_arrayMap[i][j]->m_Sprite);
 				delete m_arrayMap[i][j];
 				m_arrayMap[i][j] = nullptr;
 			}
