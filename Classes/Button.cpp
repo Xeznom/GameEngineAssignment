@@ -32,7 +32,7 @@ Button::~Button(void)
 
 void Button :: pressed()
 {
-	m_Sprite->setTexture(CCTextureCache::sharedTextureCache()->addImage("buttondown.png"));
+	m_Sprite->setTexture(CCTextureCache::getInstance()->addImage("buttondown.png"));
 	//m_Sprite->setTexture("buttondown.png");
 }
 

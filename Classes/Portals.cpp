@@ -47,4 +47,5 @@ int CPortals::getDirection()
 	else if (Down) return 2;
 	else if (Left) return 3;
 	else if (Right) return 4;
+	else return 0;
 };

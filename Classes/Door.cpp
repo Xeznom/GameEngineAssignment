@@ -32,7 +32,7 @@ Door::~Door(void)
 
 void Door::openDoor()
 {
-	m_Sprite->setTexture(CCTextureCache::sharedTextureCache()->addImage("opendoor.png"));
+	m_Sprite->setTexture(CCTextureCache::getInstance()->addImage("opendoor.png"));
 	//auto body = PhysicsBody::createBox(Size(this->m_Sprite->getContentSize().width/100,this->m_Sprite->getContentSize().width/100));
 	//body->setCollisionBitmask(3);
 	//body->setContactTestBitmask(true);
