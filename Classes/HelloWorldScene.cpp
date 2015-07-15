@@ -368,11 +368,15 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 			portals[player->PortalGun->Alternate] = new CPortals(player->PortalGun->Alternate, Second->getPosition());
 		}
 
-		delete player->PortalGun->projectile[0];
-		player->PortalGun->projectile[0] = nullptr;
-		delete player->PortalGun->projectile[1];
-		player->PortalGun->projectile[1] = nullptr;
-		player->PortalGun->Alternate = (player->PortalGun->Alternate == 0) ? 1 : 0;
+		if (player->PortalGun->Fired)
+		{
+			delete player->PortalGun->projectile[0];
+			player->PortalGun->projectile[0] = nullptr;
+			delete player->PortalGun->projectile[1];
+			player->PortalGun->projectile[1] = nullptr;
+			player->PortalGun->Alternate = (player->PortalGun->Alternate == 0) ? 1 : 0;
+			player->PortalGun->Fired = false;
+		}
 
 		//scraped code
 		//if(First->getCollisionBitmask() == 5)//if tile is First

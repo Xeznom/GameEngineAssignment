@@ -11,6 +11,7 @@ private:
 	const Sprite* PlayerSprite;
 	bool Left;
 public:
+	bool Fired;
 	short Alternate;
 	CProjectile* projectile[2]; //Two projectiles?
 	float Offset;

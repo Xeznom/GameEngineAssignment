@@ -43,12 +43,13 @@ void CGun::MouseDown(Event* event)
 	switch (mouseButton)
 	{
 		case 0:
-			if (projectile[Alternate] == nullptr)
+			if (!Fired)
 			{
 				Vec2 aim = e->getLocation() - m_Sprite->getPosition();
 				aim.normalize();
 				projectile[Alternate] = new CProjectile(thelayer,Alternate);
 				projectile[Alternate]->Init(m_Sprite->getPosition(),aim);
+				Fired = true;
 			}
 			break;
 		default:
@@ -59,6 +60,7 @@ void CGun::MouseDown(Event* event)
 CGun::CGun(Layer* layer, const Point loc,const Sprite* playersprite)
 {
 	projectile[0] =  projectile[1] = nullptr;
+	Fired = false;
 	Alternate = 0;
 	PlayerSprite = playersprite;
 	Offset = GETVALUE("GunOffset");
