@@ -138,16 +138,6 @@ bool CPlayer::onContactBegin(PhysicsContact& contact)
 	return true;
 }
 
-void CPlayer::setHP(const int Set)
-{
-	HP = Set;
-}
-
-const int CPlayer::getHp() const
-{
-	return HP;
-} 
-
 void CPlayer::setPos(const Vec2 Set)
 {
 	m_Sprite->setPosition(Set);

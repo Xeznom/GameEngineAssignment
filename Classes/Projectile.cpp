@@ -26,7 +26,6 @@ void CProjectile::Init(const Vec2 Location,const Vec2 velocity)
 
 CProjectile::~CProjectile()
 {
-	thelayer->removeChild(m_Sprite,0);
 }
 
 void CProjectile::update(float delta)

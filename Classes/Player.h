@@ -10,7 +10,7 @@ class CPlayer : public CEntity
 private:
 	static const int STATIC_SPRITE_TAG;
 	bool Jump;
-	bool Left,Right;
+	bool Left, Right;
 	float speed;
 	int HP;
 	PhysicsBody* body;
@@ -22,14 +22,15 @@ public:
 	~CPlayer(void);
 	void Render();
 
-	void KeyPress (cocos2d::EventKeyboard::KeyCode,cocos2d::Event*);
-	void KeyRelease(cocos2d::EventKeyboard::KeyCode,cocos2d::Event*);
+	void KeyPress(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
+	void KeyRelease(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
 	void MouseMove(cocos2d::Event*);
 	void MouseDown(cocos2d::Event*);
-	void setHP(const int Set);
-	const int getHp() const;
 
-	void setPos(const Point);
+	inline void setHP(const int Set){ HP = Set; }
+
+	inline const int getHp() const { return HP; }
+
 	//void KeyPress (EventKeyboard::KeyCode,Event*);
 	//void KeyRelease(EventKeyboard::KeyCode,Event*);
 	//void MouseMove(Event*);
@@ -37,6 +38,6 @@ public:
 
 	void update(float);
 	bool onContactBegin(PhysicsContact&);
+	void setPos(const Vec2);
 };
-
 #endif

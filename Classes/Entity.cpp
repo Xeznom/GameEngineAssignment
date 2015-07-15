@@ -8,4 +8,5 @@ CEntity::CEntity(void) : TileSize(GETVALUE("TileSize"))
 
 CEntity::~CEntity(void)
 {
+	thelayer->removeChild(m_Sprite);
 }

@@ -5,7 +5,6 @@ USING_NS_CC;
 void HelloWorld::update (float dt)
 {
 	player->update(dt);
-	
 	//tempDMGTimer++;
 	//Point temp2 = player->m_Sprite->getPosition();
 	//this->Traps->m_Sprite->getPosition();
@@ -186,8 +185,6 @@ bool HelloWorld::init()
 
 	player = new CPlayer(this,location);//initialise player
 
-
-
 	loadLevel();
 
 	EventListenerKeyboard* KeyboardListener = EventListenerKeyboard::create();
@@ -345,45 +342,25 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//portal projectile with tiles
 	if((First->getCollisionBitmask() == 4 && Second->getCollisionBitmask() == 5) || (First->getCollisionBitmask() == 5 && Second->getCollisionBitmask() == 4))
 	{
-		unsigned short number = 2;
 		if(First->getCollisionBitmask() == 4)//if portal projectile is First
 		{
-			if (player->PortalGun->projectile[0] != nullptr)
-			{
-				number = 0;
-			}
-			if (player->PortalGun->projectile[1] != nullptr)
-			{
-				number = 1;
-			}
-
 			//remove projectile
 			//spawn portal sprite
-			portals[number] = new CPortals(number, First->getPosition());
-
+			portals[player->PortalGun->Alternate] = new CPortals(player->PortalGun->Alternate, First->getPosition());
 		}
 		else if (Second->getCollisionBitmask() == 4)//if portal projectile is Second instead
 		{
-			if (player->PortalGun->projectile[0] != nullptr)
-			{
-				number = 0;
-			}
-			if (player->PortalGun->projectile[1] != nullptr)
-			{
-				number = 1;
-			}
 
 			//remove projectile
 			//spawn portal sprite
-			portals[number] = new CPortals(number, Second->getPosition());
+			portals[player->PortalGun->Alternate] = new CPortals(player->PortalGun->Alternate, Second->getPosition());
 		}
 
-		if (number == 2)
-		{
-			delete player->PortalGun->projectile[number];
-			player->PortalGun->projectile[number] = nullptr;
-			player->PortalGun->Alternate = (player->PortalGun->Alternate == 0) ? 1 : 0;
-		}
+		delete player->PortalGun->projectile[0];
+		player->PortalGun->projectile[0] = nullptr;
+		delete player->PortalGun->projectile[1];
+		player->PortalGun->projectile[1] = nullptr;
+		player->PortalGun->Alternate = (player->PortalGun->Alternate == 0) ? 1 : 0;
 
 		//scraped code
 		//if(First->getCollisionBitmask() == 5)//if tile is First
@@ -536,51 +513,30 @@ void HelloWorld::loadLevel(void)
 void HelloWorld :: despawnObjects()
 {
 	//this->removeAllChildren();
-	if(theButtons != nullptr)
-	{
-		this->removeChild(theButtons->m_Sprite);
-		delete theButtons;
-		theButtons = nullptr;
-	}
-	if(theDoors != nullptr)
-	{
-		this->removeChild(theDoors->m_Sprite);
-		delete theDoors;
-		theDoors = nullptr;
-	}
-	if(enemies != nullptr)
-	{
-		this->removeChild(enemies->m_Sprite);
-		delete enemies;
-		enemies = nullptr;
-	}
+
+	delete theButtons;
+	theButtons = nullptr;
+
+	delete theDoors;
+	theDoors = nullptr;
+
+	delete enemies;
+	enemies = nullptr;
 	//despawn portals
-
-
-	for(int i = 0 ; i < MAX_VERTICAL;i++)
-	{
-		for(int j = 0 ; j < MAX_HORIZONTAL ; j++)
-		{ 
-			if(m_arrayMap[i][j]!=nullptr)
-				this->removeChild(m_arrayMap[i][j]->m_Sprite);	
-		}
-	}
 	
 	for(int i = 0 ; i < MAX_VERTICAL;i++)
 	{
 		for(int j = 0 ; j < MAX_HORIZONTAL ; j++)
 		{
-				delete m_arrayMap[i][j];
-				m_arrayMap[i][j]=nullptr;
+			delete m_arrayMap[i][j];
+			m_arrayMap[i][j] = nullptr;
+
 		}
 	}
 	for (int i = 0; i < 2; i++)
 	{
-		if(portals[i] != NULL)
-		{
-			delete portals[i];
-			portals[i] = NULL;
-		}
+		delete portals[i];
+		portals[i] = nullptr;
 	}
 
 	//firstTimeInit = false;
