@@ -48,6 +48,7 @@ private:
 	Point location;
 	CMobileSpike * theMobileSpike;
 	CLaser * theLaser;
+	CHUD* _hud[2];
 public:
 	void setViewPoint(Vec2 position);
 	void loadLevel(void);
