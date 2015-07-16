@@ -78,9 +78,9 @@ Scene* HelloWorld::createScene()
     // 'scene' is an autorelease object
     Scene* scene = Scene::createWithPhysics();
 	//scene->getPhysicsWorld()->setGravity(Vect(0.0f, -98.0f * 2));
-	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-	
-    
+
+	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+
     // 'layer' is an autorelease object
     HelloWorld* layer = HelloWorld::create();
 	layer->setPhyWorld(scene->getPhysicsWorld());
@@ -455,18 +455,17 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		player->setPos(location);
 		return false;
 	}
+	//enemy with spike
+	if ( (First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() == 2) || (First->getCollisionBitmask() != 2 && Second->getCollisionBitmask() == 8) )
+	{
+		return true;
+	}
 	//enemy with everything but tiles and spike/mobile spike
 	if ( (First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() != 5 ) || (First->getCollisionBitmask() != 5  && Second->getCollisionBitmask() == 8) )
 	{
 		//no collision
 		return false;
 	}
-	//enemy 
-	//if ( (First->getCollisionBitmask() == 8 && (Second->getCollisionBitmask() != 5 || Second->getCollisionBitmask() != 3)) || ((First->getCollisionBitmask() != 5 || Second->getCollisionBitmask() != 3) && Second->getCollisionBitmask() == 8) )
-	//{
-		//no collision
-	//	return false;
-	//}
 	//enemy with laser
 	if ((First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() == 10) || (First->getCollisionBitmask() != 5 && Second->getCollisionBitmask() == 10))
 	{
