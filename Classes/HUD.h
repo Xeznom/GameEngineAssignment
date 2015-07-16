@@ -5,11 +5,10 @@
 
 #include "Entity.h"
 
-class CHUD : public cocos2d::LayerColor
+class CHUD : public cocos2d::Layer
 {
 private:
-	//Label* message;
-	cocos2d::LabelBMFont* _messageLabel;
+	cocos2d::Label* _messageLabel;
 public:
 	CHUD(const std::string&, Vec2, int, int);
 	~CHUD();
@@ -17,8 +16,6 @@ public:
 	void initOptions(const std::string&,Vec2,int,int);
 
 	virtual void draw(Renderer*, const Mat4& , bool);
-
-	//inline Label* GetHUD() { return message; };
 };
 
 #endif

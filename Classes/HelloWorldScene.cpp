@@ -79,6 +79,7 @@ Scene* HelloWorld::createScene()
     Scene* scene = Scene::createWithPhysics();
 	//scene->getPhysicsWorld()->setGravity(Vect(0.0f, -98.0f * 2));
 	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	
     
     // 'layer' is an autorelease object
     HelloWorld* layer = HelloWorld::create();
@@ -94,7 +95,7 @@ Scene* HelloWorld::createScene()
 	Node* edgeNode = Node::create();
 	Point center = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 	edgeNode->setPosition(center);
-
+	
 	/*
 	float RoomWidth = GETVALUE("RoomWidth");
 	float RoomHeight = GETVALUE("RoomHeight");
@@ -190,6 +191,8 @@ bool HelloWorld::init()
 
 	loadLevel();
 
+	HUD();
+
 	EventListenerKeyboard* KeyboardListener = EventListenerKeyboard::create();
 	KeyboardListener->onKeyPressed = CC_CALLBACK_2(CPlayer::KeyPress,player);
 	KeyboardListener->onKeyReleased = CC_CALLBACK_2(CPlayer::KeyRelease,player);
@@ -249,33 +252,33 @@ void HelloWorld::LoadFile(const string mapName)
 					{
 						if (atoi(token.c_str()) == 4)
 						{
-							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
-							enemies = new CEnemy(this, Point(theColumnCounter, theLineCounter));
+							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
+							enemies = new CEnemy(this, Point(theColumnCounter, theLineCounter + 1));
 						}
 						else if (atoi(token.c_str()) == 2)
 						{
-							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
-							theDoors = new Door(this, theColumnCounter, theLineCounter );
+							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
+							theDoors = new Door(this, theColumnCounter, theLineCounter + 1);
 						}
 						else if (atoi(token.c_str()) == 5)
 						{
-							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
-							theButtons = new Button(this, theColumnCounter, theLineCounter );
+							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
+							theButtons = new Button(this, theColumnCounter, theLineCounter + 1);
 						}
 						else if (atoi(token.c_str()) == 6)
 						{
-							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
-							theMobileSpike = new CMobileSpike(this,theColumnCounter, theLineCounter);
+							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
+							theMobileSpike = new CMobileSpike(this, theColumnCounter, theLineCounter + 1);
 						}
 						else if (atoi(token.c_str()) == 8)
 						{
-							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter);
+							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
 							//add coin
 						}
 						else
-							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter);
+							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter + 1);
 
-						addChild(m_arrayMap[theColumnCounter][theLineCounter - 1]->m_Sprite, G_LAYERING_TYPES::G_GAME);
+						addChild(m_arrayMap[theColumnCounter][theLineCounter - 1]->m_Sprite, G_LAYERING_TYPES::G_BACKGROUND);
 						theColumnCounter++;
 					}
 				}
@@ -290,19 +293,20 @@ void HelloWorld::HUD()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	Size v = Director::sharedDirector()->getWinSize();
 
-	CHUD* _hud = nullptr;
+	//CHUD* _hud = NULL;
 		
-	_hud = new CHUD("Lives: ",
+	_hud[0] = new CHUD("Lives: ",
 					Vec2(origin.x,
-						 origin.y + visibleSize.height), 1, 1 );
-	this->addChild(_hud, G_LAYERING_TYPES::G_HUD);
+						 origin.y + v.height), 1, 1 );
+	this->addChild(_hud[0], G_LAYERING_TYPES::G_HUD);
 	
-	_hud = new CHUD("Timer: 00:00 ",
-					Vec2(origin.x + visibleSize.width,
-						 origin.y + visibleSize.height), 1, -1 );
+	_hud[1] = new CHUD("Timer: 00:00 ",
+					Vec2(origin.x + v.width,
+						 origin.y + v.height), 1, -1 );
 
-	this->addChild(_hud, G_LAYERING_TYPES::G_HUD);
+	this->addChild(_hud[1], G_LAYERING_TYPES::G_HUD);
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
@@ -391,7 +395,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		//}
 	}
 	//portal w
-	if((First->getCollisionBitmask() == 4 && Second->getCollisionBitmask() != 5) || (First->getCollisionBitmask() != 5 && Second->getCollisionBitmask() == 4))
+	if ((First->getCollisionBitmask() == 4 && Second->getCollisionBitmask() != 5) || (First->getCollisionBitmask() != 5 && Second->getCollisionBitmask() == 4))
 	{
 		return false;
 	}
@@ -431,17 +435,13 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		//portal teleport code
 		if (First->getCollisionBitmask() == 7)//if first is portal
 		{
-			if (First->getPosition() == portals[0]->getLoc())
-				teleportaling(1);
-			else if (First->getPosition() == portals[1]->getLoc())
-				teleportaling(0);
+			(First->getPosition() == portals[0]->getLoc())
+				? teleportaling(1) : teleportaling(0);
 		}
 		else if (Second->getCollisionBitmask() == 7)//if second is portal instead
 		{
-			if (Second->getPosition() == portals[0]->getLoc())
-				teleportaling(1);
-			else if (Second->getPosition() == portals[1]->getLoc())
-				teleportaling(0);
+			(Second->getPosition() == portals[0]->getLoc())
+				? teleportaling(1) : teleportaling(0);
 		}
 	}
 	//enemy with player
@@ -484,7 +484,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		return false;
 	}
 	//player with tile
-	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 5) || (First->getCollisionBitmask() == 5 && Second->getCollisionBitmask() == 1))
+	if ((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 5) || (First->getCollisionBitmask() == 5 && Second->getCollisionBitmask() == 1))
 	{
 		player->inAir = false;
 	}
@@ -507,6 +507,9 @@ void HelloWorld::setViewPoint(Vec2 position)
     Vec2 centerOfView = Vec2(winSize.width * 0.5f, winSize.height * 0.5f);
     Vec2 viewPoint = centerOfView - actualPosition;
     this->setPosition(viewPoint);
+
+	_hud[0]->setPosition(-viewPoint);
+	_hud[1]->setPosition(-viewPoint);
 }
 
 void HelloWorld::loadLevel(void)
@@ -580,9 +583,9 @@ void HelloWorld :: despawnObjects()
 	}
 	//despawn portals
 	
-	for(int i = 0 ; i < MAX_HORIZONTAL;i++)
+	for (int i = 0; i < MAX_HORIZONTAL; i++)
 	{
-		for(int j = 0 ; j < MAX_VERTICAL ; j++)
+		for (int j = 0; j < MAX_VERTICAL; j++)
 		{
 			if (m_arrayMap[i][j] != nullptr)
 			{
