@@ -78,7 +78,7 @@ Scene* HelloWorld::createScene()
     // 'scene' is an autorelease object
     Scene* scene = Scene::createWithPhysics();
 	//scene->getPhysicsWorld()->setGravity(Vect(0.0f, -98.0f * 2));
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
     
     // 'layer' is an autorelease object
     HelloWorld* layer = HelloWorld::create();
