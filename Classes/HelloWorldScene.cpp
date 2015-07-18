@@ -5,6 +5,7 @@ USING_NS_CC;
 void HelloWorld::update (float dt)
 {
 	player->update(dt);
+	theMobileSpike->update(dt);
 	//tempDMGTimer++;
 	//Point temp2 = player->m_Sprite->getPosition();
 	//this->Traps->m_Sprite->getPosition();
@@ -78,7 +79,7 @@ Scene* HelloWorld::createScene()
     // 'scene' is an autorelease object
     Scene* scene = Scene::createWithPhysics();
 	//scene->getPhysicsWorld()->setGravity(Vect(0.0f, -98.0f * 2));
-	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     // 'layer' is an autorelease object
     HelloWorld* layer = HelloWorld::create();
@@ -350,53 +351,18 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//bitmask 8 = enemy
 	//bitmask 9 = opendoor
 	//bitmask 10 = laser
+	//bitmask 11 = mobilespike
+	//bitmask 12 = coins
 
 	//player with opendoor
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 3) || (First->getCollisionBitmask() == 3 && Second->getCollisionBitmask() == 1))
 	{
 		return false;
 	}
-	//portal projectile with tiles
-	if((First->getCollisionBitmask() == 4 && Second->getCollisionBitmask() == 5) || (First->getCollisionBitmask() == 5 && Second->getCollisionBitmask() == 4))
+	//player with coins
+	if ((First->getCollisionBitmask() == 12 && Second->getCollisionBitmask() == 1) || (First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 12))
 	{
-		if(First->getCollisionBitmask() == 4)//if portal projectile is First
-		{
-			//remove projectile
-			//spawn portal sprite
-			portals[player->PortalGun->Alternate] = new CPortals(player->PortalGun->Alternate, First->getPosition());
-		}
-		else if (Second->getCollisionBitmask() == 4)//if portal projectile is Second instead
-		{
-
-			//remove projectile
-			//spawn portal sprite
-			portals[player->PortalGun->Alternate] = new CPortals(player->PortalGun->Alternate, Second->getPosition());
-		}
-
-		if (player->PortalGun->Fired)
-		{
-			delete player->PortalGun->projectile[0];
-			player->PortalGun->projectile[0] = nullptr;
-			delete player->PortalGun->projectile[1];
-			player->PortalGun->projectile[1] = nullptr;
-			player->PortalGun->Alternate = (player->PortalGun->Alternate == 0) ? 1 : 0;
-			player->PortalGun->Fired = false;
-		}
-
-		//scraped code
-		//if(First->getCollisionBitmask() == 5)//if tile is First
-		//{
-		//	First->setCollisionBitmask(3);//tile is now a "tile with portal"
-		//}
-		//else if(Second->getCollisionBitmask() == 5)//if tile is Second instead
-		//{
-		//	First->setContactTestBitmask(3);//tile is now a "tile with portal"
-		//}
-	}
-	//portal w
-	if ((First->getCollisionBitmask() == 4 && Second->getCollisionBitmask() != 5) || (First->getCollisionBitmask() != 5 && Second->getCollisionBitmask() == 4))
-	{
-		return false;
+		//get points
 	}
 	//player with traps
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 2) || (First->getCollisionBitmask() == 2 && Second->getCollisionBitmask() == 1))
@@ -443,6 +409,65 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 				? teleportaling(1) : teleportaling(0);
 		}
 	}
+	//player with mobilespike
+	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 11) || (First->getCollisionBitmask() == 11 && Second->getCollisionBitmask() == 1))
+	{
+		player->setPos(location);
+	}
+	//player with opendoor
+	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 9) || (First->getCollisionBitmask() == 9 && Second->getCollisionBitmask() == 1))
+	{
+		levelCounter++;
+		loadLevel();
+		return false;
+	}
+	//player with tile
+	if ((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 5) || (First->getCollisionBitmask() == 5 && Second->getCollisionBitmask() == 1))
+	{
+		player->inAir = false;
+	}
+	//portal projectile with tiles
+	if((First->getCollisionBitmask() == 4 && Second->getCollisionBitmask() == 5) || (First->getCollisionBitmask() == 5 && Second->getCollisionBitmask() == 4))
+	{
+		if(First->getCollisionBitmask() == 4)//if portal projectile is First
+		{
+			//remove projectile
+			//spawn portal sprite
+			portals[player->PortalGun->Alternate] = new CPortals(player->PortalGun->Alternate, First->getPosition());
+		}
+		else if (Second->getCollisionBitmask() == 4)//if portal projectile is Second instead
+		{
+
+			//remove projectile
+			//spawn portal sprite
+			portals[player->PortalGun->Alternate] = new CPortals(player->PortalGun->Alternate, Second->getPosition());
+		}
+
+		if (player->PortalGun->Fired)
+		{
+			delete player->PortalGun->projectile[0];
+			player->PortalGun->projectile[0] = nullptr;
+			delete player->PortalGun->projectile[1];
+			player->PortalGun->projectile[1] = nullptr;
+			player->PortalGun->Alternate = (player->PortalGun->Alternate == 0) ? 1 : 0;
+			player->PortalGun->Fired = false;
+		}
+
+		//scraped code
+		//if(First->getCollisionBitmask() == 5)//if tile is First
+		//{
+		//	First->setCollisionBitmask(3);//tile is now a "tile with portal"
+		//}
+		//else if(Second->getCollisionBitmask() == 5)//if tile is Second instead
+		//{
+		//	First->setContactTestBitmask(3);//tile is now a "tile with portal"
+		//}
+	}
+	//portal with everything but tiles
+	if ((First->getCollisionBitmask() == 4 && Second->getCollisionBitmask() != 5) || (First->getCollisionBitmask() != 5 && Second->getCollisionBitmask() == 4))
+	{
+		return false;
+	}
 	//enemy with player
 	if ((First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() == 1) || (First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 8))
 	{
@@ -474,19 +499,13 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		enemies = nullptr;
 		return false;
 	}
-	//player with opendoor
-	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 9) || (First->getCollisionBitmask() == 9 && Second->getCollisionBitmask() == 1))
+	//mobilespike with wall
+	if ((First->getCollisionBitmask() == 11 && Second->getCollisionBitmask() == 5) || (First->getCollisionBitmask() == 5 && Second->getCollisionBitmask() == 11))
 	{
-		levelCounter++;
-		loadLevel();
-		return false;
+		theMobileSpike->changedirection();
 	}
-	//player with tile
-	if ((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 5) || (First->getCollisionBitmask() == 5 && Second->getCollisionBitmask() == 1))
-	{
-		player->inAir = false;
-	}
-
+	
+	
 	return true;
 }
 
@@ -525,6 +544,8 @@ void HelloWorld::loadLevel(void)
 		case 0:
 			{
 				player->setPos(location);
+				//player->m_Sprite->setPosition(location);
+				//player->PortalGun->m_Sprite->setPosition(Point(location.x + player->PortalGun->Offset, location.y));
 				LoadFile( GETFILE("Map0") );
 				break;
 			}

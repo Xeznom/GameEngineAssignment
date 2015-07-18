@@ -39,17 +39,24 @@ void CField::Render(USHORT x, USHORT y)
 		}
 		if(tiles == 2)//door
 		{
+			m_Sprite->setName("door");
 			body->setCollisionBitmask(3);
 			body->setContactTestBitmask(true);
 		}
 		if(tiles == 3)//traps
 		{
+			m_Sprite->setName("trap");
 			body->setCollisionBitmask(2);
 			body->setContactTestBitmask(true);
 		}
 		if(tiles == 7)//laser
 		{
 			body->setCollisionBitmask(10);
+			body->setContactTestBitmask(true);
+		}
+		if(tiles == 8)//coins
+		{
+			body->setCollisionBitmask(12);
 			body->setContactTestBitmask(true);
 		}
 		m_Sprite->setPhysicsBody(body);
