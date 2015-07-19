@@ -10,7 +10,7 @@ CEnemy::CEnemy(Layer* layer, const Point pos)
 	m_Sprite = cocos2d::Sprite::create(filename);
 
 	//player physics
-	PhysicsBody* body = PhysicsBody::createCircle(m_Sprite->getContentSize().width);
+	auto body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().width,m_Sprite->getContentSize().height));
 	body->setMass(GETVALUE("EnemyMass"));
 	body->setCollisionBitmask(8);//changed to 8 temporally
 	body->setContactTestBitmask(true);

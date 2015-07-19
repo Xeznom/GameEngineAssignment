@@ -7,12 +7,12 @@ CMobileSpike :: CMobileSpike(cocos2d::Layer* layer,float posx,float posy)
 	x = posx;
 	y = posy;
 
-	m_Sprite = cocos2d::Sprite::create("closedoor.png");
-	//m_Sprite->Sprite::setTexture("CloseNormal.png");
-	m_Sprite->setScale(0.01f);
+	std::string filename = GETFILE("MobileSpike");
+	m_Sprite = Sprite::create(filename);
+	//m_Sprite->setScale(0.01f);
 	m_Sprite->Sprite::setPosition(Point(x,y));
 
-	auto body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().width/100,m_Sprite->getContentSize().width/100));
+	auto body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().width,m_Sprite->getContentSize().width));
 	body->setCollisionBitmask(11);
 	body->setContactTestBitmask(true);
 	//body->setDynamic(false);

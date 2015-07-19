@@ -8,3 +8,5 @@ Enemy:Enemy.png
 Empty:empty.png
 BluePortal:blueP.png
 OrangePortal:orangeP.png
+Coin:Coin.png
+MobileSpike:mobilespike.png

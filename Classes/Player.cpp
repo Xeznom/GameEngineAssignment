@@ -109,7 +109,7 @@ CPlayer::CPlayer(Layer* layer, const Point loc)
 	body->setContactTestBitmask(true);
 	body->setRotationEnable(false);
 	m_Sprite->setPhysicsBody(body);
-	m_Sprite->setScale(0.15f);
+	//m_Sprite->setScale(10.0f);
 	m_Sprite->setPosition(loc);
 
 	PortalGun = new CGun(layer, loc, m_Sprite);
@@ -148,7 +148,7 @@ bool CPlayer::onContactBegin(PhysicsContact& contact)
 void CPlayer::setPos(const Vec2 Set)
 {
 	//m_Sprite->removeFromPhysicsWorld();
-	auto newbody = PhysicsBody::createBox(Size(m_Sprite->getContentSize().width * 0.15,m_Sprite->getContentSize().height * 0.15));
+	auto newbody = PhysicsBody::createBox(Size(m_Sprite->getContentSize().width,m_Sprite->getContentSize().height));
 	newbody->setMass( GETVALUE("PlayerMass") );
 	newbody->setCollisionBitmask(1);
 	newbody->setContactTestBitmask(true);

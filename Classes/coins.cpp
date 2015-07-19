@@ -8,13 +8,13 @@ CCoin::CCoin(cocos2d::Layer* layer, float posx, float posy)
 	x = posx;
 	y = posy;
 
-	m_Sprite = cocos2d::Sprite::create("door.png");
+	m_Sprite = cocos2d::Sprite::create("Coin.png");
 	//m_Sprite->Sprite::setTexture("CloseNormal.png");
-	m_Sprite->setScale(0.01f);
+	//m_Sprite->setScale(0.01f);
 	m_Sprite->Sprite::setPosition(Point(x,y));
 
-	auto body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().width/100,m_Sprite->getContentSize().width/100));
-	body->setCollisionBitmask(5);
+	auto body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().width,m_Sprite->getContentSize().width));
+	body->setCollisionBitmask(12);
 	body->setContactTestBitmask(true);
 	body->setDynamic(false);
 	m_Sprite->setPhysicsBody(body);

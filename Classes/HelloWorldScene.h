@@ -18,6 +18,7 @@
 #include "HUD.h"
 #include "mobilespike.h"
 #include "laser.h"
+#include "coins.h"
 
 USING_NS_CC;
 
@@ -34,10 +35,12 @@ enum G_LAYERING_TYPES
 class HelloWorld : public Layer
 {
 private:
-	int buttonCounter;
-	int laserCounter;
+	//int buttonCounter;//not in use yet/may not even be used
+	//int laserCounter;//not in use yet/may not even be used
 	bool firstTimeInit;
 	int levelCounter;
+	float temp;
+	float points;
 	//int tempDMGTimer;//not in use yet/may not even be used
 	CPortals* portals[2];
 	CPlayer* player;
@@ -47,6 +50,7 @@ private:
 	inline void setPhyWorld(PhysicsWorld* world){ m_world = world; }
 	Point location;
 	CMobileSpike * theMobileSpike;
+	CCoin * theCoin;
 	CLaser * theLaser;
 	CHUD* _hud[2];
 public:

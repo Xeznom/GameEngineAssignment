@@ -161,9 +161,10 @@ bool HelloWorld::init()
 
 	firstTimeInit = false;// boolean to check if all data is initialised for init
 	levelCounter = 0;//what Level youre on
-	buttonCounter = 0;
-	laserCounter = 0;
-
+	temp = 0;// for future timer value
+	points = 0;
+	//buttonCounter = 0;
+	//laserCounter = 0;
 	//tempDMGTimer = 0;
 
 	location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
@@ -273,7 +274,7 @@ void HelloWorld::LoadFile(const string mapName)
 						else if (atoi(token.c_str()) == 8)
 						{
 							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
-							//add coin
+							theCoin = new CCoin(this, theColumnCounter, theLineCounter + 1);
 						}
 						else
 							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter + 1);
@@ -297,12 +298,12 @@ void HelloWorld::HUD()
 
 	//CHUD* _hud = NULL;
 		
-	_hud[0] = new CHUD("Lives: ",
+	_hud[0] = new CHUD("Points: ",points,
 					Vec2(origin.x,
 						 origin.y + v.height), 1, 1 );
 	this->addChild(_hud[0], G_LAYERING_TYPES::G_HUD);
 	
-	_hud[1] = new CHUD("Timer: 00:00 ",
+	_hud[1] = new CHUD("Timer: ",temp,
 					Vec2(origin.x + v.width,
 						 origin.y + v.height), 1, -1 );
 
@@ -359,10 +360,19 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	{
 		return false;
 	}
+	//player with laser
+	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 10) || (First->getCollisionBitmask() == 10 && Second->getCollisionBitmask() == 1))
+	{
+		player->setPos(location);
+		return false;
+	}
 	//player with coins
 	if ((First->getCollisionBitmask() == 12 && Second->getCollisionBitmask() == 1) || (First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 12))
 	{
-		//get points
+		theCoin->PickedUp();
+		points = points + 100;
+		_hud[0]->valueupdate(points);
+		return false;
 	}
 	//player with traps
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 2) || (First->getCollisionBitmask() == 2 && Second->getCollisionBitmask() == 1))
