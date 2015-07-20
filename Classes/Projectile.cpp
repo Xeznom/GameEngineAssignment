@@ -12,7 +12,7 @@ CProjectile::CProjectile(Layer* layer,const short alternate)
 	body->setCollisionBitmask(4);
 	body->setContactTestBitmask(true);
 	body->setGravityEnable(false);
-	body->setMass(1);
+	body->setMass(0.5f);
 	m_Sprite->setPhysicsBody(body);
 	layer->addChild(m_Sprite, 0);
 	thelayer = layer;
@@ -20,7 +20,7 @@ CProjectile::CProjectile(Layer* layer,const short alternate)
 
 void CProjectile::Init(const Vec2 Location,const Vec2 velocity)
 {
-	m_Sprite->setPosition(Location + velocity);
+	m_Sprite->setPosition(Location + velocity * 5);
 	body->applyForce(velocity * speed);
 }
 

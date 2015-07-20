@@ -47,7 +47,7 @@ void CGun::MouseDown(Event* event)
 			{
 				Size visibleSize = Director::getInstance()->getVisibleSize();
 				Vec2 cursor = Vec2(e->getCursorX(), visibleSize.height + e->getCursorY());
-				Vec2 aim = cursor - m_Sprite->getPosition();
+				Vec2 aim = cursor - PlayerSprite->getPosition();
 				aim.normalize();
 				projectile[Alternate] = new CProjectile(thelayer,Alternate);
 				projectile[Alternate]->Init(m_Sprite->getPosition(),aim);
