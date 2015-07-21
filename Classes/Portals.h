@@ -20,6 +20,8 @@ private:
 	PhysicsBody* body;
 
 	int type;
+	int timer;
+	bool bTimer;
 	bool existing, connecting;
 	bool Up, Down, Left, Right;
 	Sprite* empty;

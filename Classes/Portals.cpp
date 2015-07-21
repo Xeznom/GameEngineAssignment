@@ -4,6 +4,11 @@ void CPortals::update(float delta)
 {
 	if (existing)	m_Sprite = Portals[type];
 	else			m_Sprite = empty;
+
+	if (bTimer)
+		timer = 0;
+	else
+		timer = 0;
 }
 
 CPortals::CPortals(const int type, const Point location)
