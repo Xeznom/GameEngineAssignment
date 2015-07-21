@@ -235,7 +235,9 @@ void HelloWorld::LoadFile(const string mapName)
 	int theLineCounter = 0;
 	int theMaxNumOfColumns = 0;
 
-	ifstream file(mapName.c_str());
+	ifstream file;
+	file.open( CCFileUtils::sharedFileUtils( )->fullPathForFilename((mapName).c_str()) );
+
 	if (file.is_open())
 	{
 		int i = 0, k = 0;

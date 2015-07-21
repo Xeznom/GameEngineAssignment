@@ -20,6 +20,9 @@
 #include "laser.h"
 #include "coins.h"
 
+#include <fstream>
+#include "cocos2d.h"
+
 USING_NS_CC;
 
 //const int buttonDoorTotal = 1;//not in use yet/may not even be used
