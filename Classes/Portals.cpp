@@ -6,9 +6,19 @@ void CPortals::update(float delta)
 	else			m_Sprite = empty;
 
 	if (bTimer)
-		timer = 0;
+	{
+		timer += 1;
+		if (timer > 20)
+			bTimer = false;
+	}
 	else
 		timer = 0;
+}
+
+void CPortals::reset()
+{
+	existing = false;
+	connecting = false;
 }
 
 CPortals::CPortals(const int type, const Point location)
@@ -21,6 +31,7 @@ CPortals::CPortals(const int type, const Point location)
 	this->type = type;
 	existing = false;
 	connecting = false;
+	bTimer = false;
 
 	this->location = location;
 

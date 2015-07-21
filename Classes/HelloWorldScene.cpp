@@ -10,19 +10,19 @@ void HelloWorld::update (float dt)
 	//Point temp2 = player->m_Sprite->getPosition();
 	//this->Traps->m_Sprite->getPosition();
 	//Point temp3 = Traps->m_Sprite->getPosition();
-	
 	for (int i = 0; i < 2; i++)
 	{
-		if (portals[i] != NULL)
+		if (portals[i] != nullptr)
+		{
 			portals[i]->update(dt);
-	}
 
-	if (portals[0]->getExist() && portals[1]->getExist())
-	{
-		portals[0]->setConnection(true);
-		portals[1]->setConnection(true);
+			if (portals[0]->getExist() && portals[1]->getExist())
+			{
+				portals[0]->setConnection(true);
+				portals[1]->setConnection(true);
+			}
+		}
 	}
-
 	timer += 0.1;
 
 	_hud[0]->valueupdate(points);
@@ -57,9 +57,13 @@ void HelloWorld::onMouseScroll(cocos2d::Event* eevent)
 
 void HelloWorld::teleportaling(int exit)
 {
-	if (portals[0]->getConnection() && portals[1]->getConnection())
+	if (portals[0]->getConnection() && portals[0]->bTimer == false &&
+		portals[1]->getConnection() && portals[1]->bTimer == false)
 	{
-		player->setPos(portals[exit]->getLoc() + Vec2(portals[exit]->m_Sprite->getContentSize().width * 1.2, 0) );
+		player->setPos(portals[exit]->getLoc() );
+
+		portals[0]->bTimer = true;
+		portals[1]->bTimer = true;
 	}
 }
 
@@ -616,6 +620,8 @@ void HelloWorld::loadLevel(void)
 			}
 
 	}
+
+	for (int i = 0; i < 2; i++) portals[i] = new CPortals(i, Point (0,0));
 }
 
 void HelloWorld :: despawnObjects()
@@ -660,6 +666,8 @@ void HelloWorld :: despawnObjects()
 	{
 		if (portals[i] != nullptr)
 		{
+			portals[i]->reset();
+			this->removeChild(portals[i]->m_Sprite);
 			delete portals[i];
 			portals[i] = nullptr;
 		}

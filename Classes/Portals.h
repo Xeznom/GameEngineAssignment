@@ -21,16 +21,19 @@ private:
 
 	int type;
 	int timer;
-	bool bTimer;
 	bool existing, connecting;
 	bool Up, Down, Left, Right;
 	Sprite* empty;
 	Sprite* Portals[P_TOTAL];
+
 public:
+	bool bTimer;
+	
 	CPortals(const int, const Point);
 	~CPortals(void);
 
 	void update(float);
+	void reset();
 
 	inline void setConnection(const bool status) { connecting = status; };
 	
