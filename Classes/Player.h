@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Gun.h"
+#include "SimpleAudioEngine.h"
 
 class CPlayer : public CEntity
 {

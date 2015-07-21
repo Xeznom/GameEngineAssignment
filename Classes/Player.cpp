@@ -49,14 +49,16 @@ void CPlayer::MouseMove (Event* event)
 
 void CPlayer::KeyPress (EventKeyboard::KeyCode keycode,Event* event)
 {
+	auto audio =  CocosDenshion::SimpleAudioEngine :: getInstance();
 	switch (keycode)
 	{
+		
 		case EventKeyboard::KeyCode::KEY_W:
 			if(inAir != true)
 			{
 				inAir = true;
 				Jump = true;
-				
+				audio->playEffect("jump.mp3");
 			}
 			break;
 		case EventKeyboard::KeyCode::KEY_A:

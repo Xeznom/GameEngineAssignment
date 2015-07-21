@@ -19,6 +19,7 @@
 #include "mobilespike.h"
 #include "laser.h"
 #include "coins.h"
+#include "SimpleAudioEngine.h"
 
 #include <fstream>
 #include "cocos2d.h"

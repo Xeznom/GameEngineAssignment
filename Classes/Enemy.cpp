@@ -14,6 +14,7 @@ CEnemy::CEnemy(Layer* layer, const Point pos)
 	body->setMass(GETVALUE("EnemyMass"));
 	body->setCollisionBitmask(8);//changed to 8 temporally
 	body->setContactTestBitmask(true);
+	body->setRotationEnable(false);
 	m_Sprite->setPhysicsBody(body);
 
 	Render(pos);

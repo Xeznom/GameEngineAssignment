@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Projectile.h"
+#include "SimpleAudioEngine.h"
 
 class CGun : public CEntity
 {

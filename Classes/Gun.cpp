@@ -39,12 +39,14 @@ void CGun::MouseDown(Event* event)
 {
 	EventMouse* e = (EventMouse*) event;
 	const int mouseButton = e->getMouseButton();
-
+	auto audio =  CocosDenshion::SimpleAudioEngine :: getInstance();
 	switch (mouseButton)
 	{
+		
 		case 0:
 			if (!Fired)
 			{
+				audio->playEffect("shoot.mp3");
 				Size visibleSize = Director::getInstance()->getVisibleSize();
 				Vec2 cursor = Vec2(e->getCursorX(), visibleSize.height + e->getCursorY());
 				Vec2 aim = cursor - PlayerSprite->getPosition();

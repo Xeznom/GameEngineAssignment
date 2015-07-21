@@ -5,6 +5,7 @@ USING_NS_CC;
 void HelloWorld::update (float dt)
 {
 	player->update(dt);
+	this->setViewPoint(player->m_Sprite->getPosition());
 	theMobileSpike->update(dt);
 	//tempDMGTimer++;
 	//Point temp2 = player->m_Sprite->getPosition();
@@ -36,7 +37,20 @@ void HelloWorld::update (float dt)
 	if (enemies != NULL)
 	enemies->update(dt);
 
-	setViewPoint(player->m_Sprite->getPosition());
+	//Size winSize = CCDirector::getInstance()->getWinSize();
+ 
+	//float centerX,centerY,centerZ;
+	//float eyeX,eyeY,eyeZ;
+
+	//centerX = eyeX = (player->m_Sprite->getPosition().x - winSize.width * 0.5f);
+	//centerY = eyeY = (player->m_Sprite->getPosition().y - winSize.height * 0.5f);
+
+	//this->getScene()->getDefaultCamera()->createOrthographic(
+
+	//this->getScene()->getDefaultCamera()->lookAt(Vec3(player->m_Sprite->getPosition().x,player->m_Sprite->getPosition().y,0));
+	
+	//this->getScene()->getDefaultCamera()->setPositionX(player->m_Sprite->getPhysicsBody()->getPosition().x);
+
 }
 
 void HelloWorld::onMouseDown(cocos2d::Event* eevent)
@@ -57,9 +71,11 @@ void HelloWorld::onMouseScroll(cocos2d::Event* eevent)
 
 void HelloWorld::teleportaling(int exit)
 {
+	auto audio =  CocosDenshion::SimpleAudioEngine :: getInstance();
 	if (portals[0]->getConnection() && portals[0]->bTimer == false &&
 		portals[1]->getConnection() && portals[1]->bTimer == false)
 	{
+		audio->playEffect("teleport.mp3");
 		player->setPos(portals[exit]->getLoc() );
 
 		portals[0]->bTimer = true;
@@ -93,7 +109,7 @@ Scene* HelloWorld::createScene()
     // 'scene' is an autorelease object
     Scene* scene = Scene::createWithPhysics();
 	//scene->getPhysicsWorld()->setGravity(Vect(0.0f, -98.0f * 2));
-	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     // 'layer' is an autorelease object
     HelloWorld* layer = HelloWorld::create();
@@ -119,6 +135,8 @@ Scene* HelloWorld::createScene()
 	*/
 
 	scene->addChild(edgeNode);
+
+	scene->getDefaultCamera()->create();
 
     // return the scene
     return scene;
@@ -173,6 +191,9 @@ bool HelloWorld::init()
     this->addChild(sprite, 0);
     */
 
+	auto audio =  CocosDenshion::SimpleAudioEngine :: getInstance();
+	audio->playBackgroundMusic("bgm.wav",true);
+
 	firstTimeInit = false;// boolean to check if all data is initialised for init
 	levelCounter = 0;//what Level youre on
 	temp = 0;// for future timer value
@@ -208,6 +229,7 @@ bool HelloWorld::init()
 
 	loadLevel();
 
+	//this->runAction(Follow::create(player->m_Sprite));
 
 	EventListenerKeyboard* KeyboardListener = EventListenerKeyboard::create();
 	KeyboardListener->onKeyPressed = CC_CALLBACK_2(CPlayer::KeyPress,player);
@@ -380,6 +402,8 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//player with laser
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 10) || (First->getCollisionBitmask() == 10 && Second->getCollisionBitmask() == 1))
 	{
+		auto audio =  CocosDenshion::SimpleAudioEngine :: getInstance();
+		audio->playEffect("laser.wav");
 		player->setPos(location);
 		return false;
 	}
@@ -399,12 +423,16 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		//this->removeChild(player->PortalGun->m_Sprite);
 		//loadLevel();
 		//Director::getInstance()->end();
+		auto audio =  CocosDenshion::SimpleAudioEngine :: getInstance();
+		audio->playEffect("hurt.mp3");
 		player->setPos(location);
 		return false;
 	}
 	//player with button
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 6) || (First->getCollisionBitmask() == 6 && Second->getCollisionBitmask() == 1))
 	{
+		auto audio =  CocosDenshion::SimpleAudioEngine :: getInstance();
+		audio->playEffect("door.wav");
 		if(First->getCollisionBitmask() == 6)//if first is button
 		{
 			First->setCollisionBitmask(3);//button is now a "pressed button"
@@ -448,6 +476,8 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//player with opendoor
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 9) || (First->getCollisionBitmask() == 9 && Second->getCollisionBitmask() == 1))
 	{
+		auto audio =  CocosDenshion::SimpleAudioEngine :: getInstance();
+		audio->playEffect("load.mp3");
 		levelCounter++;
 		loadLevel();
 		return false;
@@ -523,27 +553,31 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		//this->removeChild(player->PortalGun->m_Sprite);
 		//loadLevel();
 		//Director::getInstance()->end();
+		auto audio =  CocosDenshion::SimpleAudioEngine :: getInstance();
+		audio->playEffect("hurt.mp3");
 		player->setPos(location);
 		return false;
 	}
 	//enemy with spike
-	if ( (First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() == 2) || (First->getCollisionBitmask() != 2 && Second->getCollisionBitmask() == 8) )
-	{
-		return true;
-	}
-	//enemy with everything but tiles and spike/mobile spike
-	if ( (First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() != 5 ) || (First->getCollisionBitmask() != 5  && Second->getCollisionBitmask() == 8) )
-	{
-		//no collision
-		return false;
-	}
+	//if ( (First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() == 2) || (First->getCollisionBitmask() != 2 && Second->getCollisionBitmask() == 8) )
+	//{
+	//	return true;
+	//}
 	//enemy with laser
 	if ((First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() == 10) || (First->getCollisionBitmask() != 5 && Second->getCollisionBitmask() == 10))
 	{
 		//kill enemy
+		auto audio =  CocosDenshion::SimpleAudioEngine :: getInstance();
+		audio->playEffect("laser.wav");
 		this->removeChild(enemies->m_Sprite);
 		delete enemies;
 		enemies = nullptr;
+		return false;
+	}
+	//enemy with everything but tiles
+	if ( (First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() != 5 ) || (First->getCollisionBitmask() != 5  && Second->getCollisionBitmask() == 8) )
+	{
+		//no collision
 		return false;
 	}
 	//mobilespike with wall
@@ -571,6 +605,9 @@ void HelloWorld::setViewPoint(Vec2 position)
     Vec2 centerOfView = Vec2(winSize.width * 0.5f, winSize.height * 0.5f);
     Vec2 viewPoint = centerOfView - actualPosition;
     this->setPosition(viewPoint);
+	//this->getScene()->setPosition(viewPoint);
+	
+	
 
 	_hud[0]->setPosition(-viewPoint);
 	_hud[1]->setPosition(-viewPoint);
