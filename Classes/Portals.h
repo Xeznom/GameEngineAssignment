@@ -15,33 +15,31 @@ enum P_PORTALS_TYPES
 class CPortals : public CEntity
 {
 private:
-	Point location;
+	Vec2 location;
 
 	PhysicsBody* body;
 
 	int type;
 	int timer;
 	bool existing, connecting;
-	bool Up, Down, Left, Right;
 	Sprite* empty;
 	Sprite* Portals[P_TOTAL];
 
 public:
 	bool bTimer;
 	
-	CPortals(const int, const Point);
+	CPortals(const int, const Vec2);
 	~CPortals(void);
 
 	void update(float);
 	void reset();
-
-	inline void setConnection(const bool status) { connecting = status; };
 	
-	void setLoc(Point loc);
-	void setExist(bool setting) { existing = setting; };
-	inline const Point getLoc() const { return location; };
+	void setLoc(Vec2);
+	inline const Vec2 getLoc() const { return location; };
 
-	int getDirection();
+	inline void setExist(bool setting) { existing = setting; };
+	inline void setConnection(const bool status) { connecting = status; };
+
 	inline const bool getExist() const { return existing; };
 	inline const bool getConnection() const { return connecting; };
 };

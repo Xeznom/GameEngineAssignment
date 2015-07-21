@@ -21,12 +21,11 @@ void CPortals::reset()
 	connecting = false;
 }
 
-CPortals::CPortals(const int type, const Point location)
+CPortals::CPortals(const int type, const Vec2 location)
 {
 	empty = Sprite::create(GETFILE("Empty"));
 	Portals[P_BLUE] = Sprite::create(GETFILE("BluePortal"));
 	Portals[P_ORANGE] = Sprite::create(GETFILE("OrangePortal"));
-	Up = Left = Down = Right = false;
 
 	this->type = type;
 	existing = false;
@@ -51,7 +50,7 @@ CPortals::~CPortals()
 {
 }
 
-void CPortals::setLoc(Point loc) 
+void CPortals::setLoc(Vec2 loc) 
 {
 	location = loc;
 
@@ -67,12 +66,3 @@ void CPortals::setLoc(Point loc)
 
 	m_Sprite->setPosition(loc);
 }
-
-int CPortals::getDirection()
-{
-	if (Up) return 1;
-	else if (Down) return 2;
-	else if (Left) return 3;
-	else if (Right) return 4;
-	else return 0;
-};
