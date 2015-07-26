@@ -32,6 +32,15 @@ CResourceTable::CResourceTable(void)
 			*Data = Line.substr(pos + 1);
 			Data->pop_back();
 
+			std::string Extension = Data->substr(Data->rfind('.'));
+			std::transform(Extension.begin(), Extension.end(), Extension.begin(), tolower);
+
+			if (Extension.compare(".mp3") == 0)
+				music_table[Name] = Data;
+			else if (Extension.compare(".png") == 0)
+				texture_table[Name] = Data;
+			else if (Extension.compare(".csv") == 0)
+				map_table[Name] = Data;
 			rtable[Name] = Data;
 		}
 
@@ -61,7 +70,7 @@ CResourceTable::CResourceTable(void)
 			std::string Name = Line.substr(0, pos);
 
 			int data = std::stoi(Line.substr(pos + 1));
-			dtable[Name] = data;
+			data_table[Name] = data;
 		}
 
 		// Delete buffer created by fileContents. This part is required.
@@ -77,9 +86,6 @@ CResourceTable::~CResourceTable(void)
 {
 	 for (std::map<std::string,std::string*>::iterator it=rtable.begin(); it!=rtable.end(); ++it)
 		 delete it->second;
-
-	 rtable.clear();
-	 dtable.clear();
 
 	delete instance;
 	instance = nullptr;

@@ -212,7 +212,7 @@ bool HelloWorld::init()
 
     //this->addChild(CResourceTable::getInstance()->label, G_LAYERING_TYPES::G_GAME);
 
-	std::string Data = CResourceTable::getInstance()->GetFileName("PortalGun");
+	std::string Data = "yes";
 	CResourceTable::getInstance()->label->setString(Data);
 
 	for (int i = 0; i < 2; i++) portals[i] = new CPortals(i, location);
@@ -290,33 +290,32 @@ void HelloWorld::LoadFile(const string mapName)
 
 					while (getline(iss, token, ','))
 					{
-						if (atoi(token.c_str()) == 4)
+						switch (atoi(token.c_str()))
 						{
-							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
-							enemies = new CEnemy(this, Point(theColumnCounter, theLineCounter + 1));
+							case 2:
+								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
+								theDoors = new Door(this, theColumnCounter, theLineCounter + 1);
+								break;
+							case 4:
+								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
+								enemies = new CEnemy(this, Point(theColumnCounter, theLineCounter + 1));
+								break;
+							case 5:
+								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
+								theButtons = new Button(this, theColumnCounter, theLineCounter + 1);
+								break;
+							case 6:
+								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
+								theMobileSpike = new CMobileSpike(this, theColumnCounter, theLineCounter + 1);
+								break;
+							case 8:
+								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
+								theCoin = new CCoin(this, theColumnCounter, theLineCounter + 1);
+								break;
+							default:
+								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter + 1);
+								break;
 						}
-						else if (atoi(token.c_str()) == 2)
-						{
-							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
-							theDoors = new Door(this, theColumnCounter, theLineCounter + 1);
-						}
-						else if (atoi(token.c_str()) == 5)
-						{
-							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
-							theButtons = new Button(this, theColumnCounter, theLineCounter + 1);
-						}
-						else if (atoi(token.c_str()) == 6)
-						{
-							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
-							theMobileSpike = new CMobileSpike(this, theColumnCounter, theLineCounter + 1);
-						}
-						else if (atoi(token.c_str()) == 8)
-						{
-							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
-							theCoin = new CCoin(this, theColumnCounter, theLineCounter + 1);
-						}
-						else
-							m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter + 1);
 
 						addChild(m_arrayMap[theColumnCounter][theLineCounter - 1]->m_Sprite, G_LAYERING_TYPES::G_BACKGROUND);
 						theColumnCounter++;
@@ -457,15 +456,13 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		{
 			if (First->getPosition() == portals[0]->getLoc())
 				teleportaling(1);
-			else
-				teleportaling(0);
+			else teleportaling(0);
 		}
 		else if (Second->getCollisionBitmask() == 7)//if second is portal instead
 		{
 			if (Second->getPosition() == portals[0]->getLoc())
 				teleportaling(1);
-			else
-				teleportaling(0);
+			else teleportaling(0);
 		}
 	}
 	//player with mobilespike
@@ -476,7 +473,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//player with opendoor
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 9) || (First->getCollisionBitmask() == 9 && Second->getCollisionBitmask() == 1))
 	{
-		auto audio =  CocosDenshion::SimpleAudioEngine :: getInstance();
+		CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
 		audio->playEffect("load.mp3");
 		levelCounter++;
 		loadLevel();
