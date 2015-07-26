@@ -24,7 +24,7 @@ void HelloWorld::update (float dt)
 			}
 		}
 	}
-	timer += 0.1;
+	timer += 0.1f;
 
 	_hud[0]->valueupdate(points);
 	_hud[1]->valueupdate(timer);
@@ -258,7 +258,7 @@ void HelloWorld::LoadFile(const string mapName)
 	int theMaxNumOfColumns = 0;
 
 	ifstream file;
-	file.open( CCFileUtils::sharedFileUtils( )->fullPathForFilename((mapName).c_str()) );
+	file.open( CCFileUtils::getInstance( )->fullPathForFilename((mapName).c_str()) );
 
 	if (file.is_open())
 	{
@@ -333,7 +333,7 @@ void HelloWorld::HUD()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	Size v = Director::sharedDirector()->getWinSize();
+	Size v = Director::getInstance()->getWinSize();
 
 	//CHUD* _hud = NULL;
 		
