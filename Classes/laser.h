@@ -1,16 +1,21 @@
+#ifndef __CLASER_H__
+#define __CLASER_H__
+
+#pragma once
 #include "Entity.h"
 
 class CLaser : public CEntity
 {
-	private:
+private:
 	int index;//keeps track of which laser to interact with
-	public:
-	CLaser(cocos2d::Layer* layer,float posx, float posy);
+public:
+	CLaser(cocos2d::Layer*,const float,const float);
 	~CLaser(void);
-	int GetIndex();
-	void SetIndex(int index);
+	inline const int GetIndex() { return index; }
+	inline void SetIndex(const int index) { this->index = index; }
 	void LaserOff();
 
-	void Render(USHORT x, USHORT y);
-
+	void Render(const USHORT,const USHORT);
 };
+
+#endif

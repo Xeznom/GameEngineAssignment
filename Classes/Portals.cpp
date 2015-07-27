@@ -8,17 +8,14 @@ void CPortals::update(float delta)
 	if (bTimer)
 	{
 		timer += 1;
-		if (timer > 20)
-			bTimer = false;
+		if (timer > 20) bTimer = false;
 	}
-	else
-		timer = 0;
+	else timer = 0;
 }
 
 void CPortals::reset()
 {
-	existing = false;
-	connecting = false;
+	existing = connecting = false;
 }
 
 CPortals::CPortals(const int type, const Vec2 location)
@@ -28,9 +25,7 @@ CPortals::CPortals(const int type, const Vec2 location)
 	Portals[P_ORANGE] = Sprite::create(GETFILE("OrangePortal"));
 
 	this->type = type;
-	existing = false;
-	connecting = false;
-	bTimer = false;
+	existing = connecting = bTimer = false;
 
 	this->location = location;
 
@@ -39,7 +34,8 @@ CPortals::CPortals(const int type, const Vec2 location)
 	m_Sprite->setPosition(location);
 
 	//portal physics
-	body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().width, m_Sprite->getContentSize().height));
+	const Size size = Size(m_Sprite->getContentSize().width, m_Sprite->getContentSize().height);
+	body = PhysicsBody::createBox(size);
 	body->setDynamic(false);
 	body->setCollisionBitmask(7);
 	body->setContactTestBitmask(true);
@@ -50,11 +46,12 @@ CPortals::~CPortals()
 {
 }
 
-void CPortals::setLoc(Vec2 loc) 
+void CPortals::setLoc(const Vec2 loc) 
 {
 	location = loc;
 
-	auto newbody = PhysicsBody::createBox(Size(m_Sprite->getContentSize().width, m_Sprite->getContentSize().height));
+	const Size size = Size(m_Sprite->getContentSize().width, m_Sprite->getContentSize().height);
+	PhysicsBody* newbody = PhysicsBody::createBox(size);
 	newbody->setCollisionBitmask(7);
 	newbody->setContactTestBitmask(true);
 	newbody->setRotationEnable(false);

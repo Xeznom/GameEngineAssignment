@@ -1,16 +1,19 @@
+#ifndef __CCOIN_H__
+#define __CCOIN_H__
+
 #pragma once
 #include "Entity.h"
 
 class CCoin : public CEntity
 {
-	private:
+private:
 	int index;
-	public:
-	CCoin(cocos2d::Layer* layer,float posx, float posy);
+public:
+	CCoin(cocos2d::Layer*,const float,const float);
 	~CCoin(void);
-	int GetIndex();
-	void SetIndex(int index);
+	inline const int GetIndex() { return index; }
+	inline void SetIndex(const int index) { this->index = index; }
 	void PickedUp();
-	void render(USHORT x, USHORT y);
+	void render(const USHORT,const USHORT);
 };
-
+#endif

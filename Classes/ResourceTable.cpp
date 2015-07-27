@@ -1,5 +1,4 @@
 #include "ResourceTable.h"
-
 #include <fstream>
 
 CResourceTable* CResourceTable::instance;
@@ -24,9 +23,9 @@ CResourceTable::CResourceTable(void)
 		// Get file contents line by line
 		while (getline(fileStringStream, Line))
 		{
-			std::size_t pos = Line.find(':');
+			const std::size_t pos = Line.find(':');
 			if (pos == std::string::npos) break;
-			std::string Name = Line.substr(0, pos);
+			const std::string Name = Line.substr(0, pos);
 
 			std::string* Data = new std::string;
 			*Data = Line.substr(pos + 1);
@@ -35,21 +34,14 @@ CResourceTable::CResourceTable(void)
 			std::string Extension = Data->substr(Data->rfind('.'));
 			std::transform(Extension.begin(), Extension.end(), Extension.begin(), tolower);
 
-			if (Extension.compare(".mp3") == 0)
-				music_table[Name] = Data;
-			else if (Extension.compare(".png") == 0)
-				texture_table[Name] = Data;
-			else if (Extension.compare(".csv") == 0)
-				map_table[Name] = Data;
+			if (Extension.compare(".mp3") == 0) music_table[Name] = Data;
+			else if (Extension.compare(".png") == 0) texture_table[Name] = Data;
+			else if (Extension.compare(".csv") == 0) map_table[Name] = Data;
 			rtable[Name] = Data;
 		}
 
 		// Delete buffer created by fileContents. This part is required.
-		if (fileContents)
-		{
-			delete[] fileContents;
-			fileContents = nullptr;
-		}
+		if (fileContents) delete[] fileContents;
 
 		// Get absolute path of file
 		fullPath = cocos2d::CCFileUtils::getInstance()->fullPathForFilename("DataTable.txt");
@@ -65,20 +57,16 @@ CResourceTable::CResourceTable(void)
 		// Get file contents line by line
 		while (getline(fileStringStream, Line))
 		{
-			std::size_t pos = Line.find(':');
+			const std::size_t pos = Line.find(':');
 			if (pos == std::string::npos) break;
-			std::string Name = Line.substr(0, pos);
+			const std::string Name = Line.substr(0, pos);
 
-			int data = std::stoi(Line.substr(pos + 1));
+			const int data = std::stoi(Line.substr(pos + 1));
 			data_table[Name] = data;
 		}
 
 		// Delete buffer created by fileContents. This part is required.
-		if (fileContents)
-		{
-			delete[] fileContents;
-			fileContents = nullptr;
-		}
+		if (fileContents) delete[] fileContents;
 	}
 }
 
@@ -88,5 +76,4 @@ CResourceTable::~CResourceTable(void)
 		 delete it->second;
 
 	delete instance;
-	instance = nullptr;
 }

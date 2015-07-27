@@ -59,7 +59,7 @@ private:
 	CLaser * theLaser;
 	CHUD* _hud[2];
 public:
-	void setViewPoint(Vec2 position);
+	void setViewPoint(const Vec2 position);
 	void loadLevel(void);
 	Door* theDoors;
 	Button* theButtons;
@@ -72,7 +72,7 @@ public:
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
 	virtual bool init(); 
 	
-	void LoadFile(const string mapName);
+	void LoadFile(const string);
 	void HUD();
 	void despawnObjects();
     
@@ -81,7 +81,7 @@ public:
 	virtual void onMouseUp (Event*);
 	virtual void onMouseScroll (Event*);
 
-	void teleportaling(int);
+	void teleportaling(const int);
 
     // a selector callback
     void menuCloseCallback(Ref* pSender);

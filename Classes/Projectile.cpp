@@ -7,8 +7,8 @@ CProjectile::CProjectile(Layer* layer,const short alternate)
 	else m_Sprite = Sprite::create(GETFILE("BluePortal"));
 	m_Sprite->setAnchorPoint(Vec2(0.5f,0));
 
-	body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().height
-								,m_Sprite->getContentSize().width));
+	const Size size = Size(m_Sprite->getContentSize().height, m_Sprite->getContentSize().width);
+	body = PhysicsBody::createBox(size);
 	body->setCollisionBitmask(4);
 	body->setContactTestBitmask(true);
 	body->setGravityEnable(false);

@@ -1,5 +1,5 @@
-#ifndef __CField_H__
-#define __CField_H__
+#ifndef __CFIELD_H__
+#define __CFIELD_H__
 
 #include <fstream>
 #include <string>
@@ -21,7 +21,6 @@ enum M_TILE_TYPES {
 	M_LASER,
 	M_COIN,
 	M_TOTAL
-	
 } ;
 
 static const char* const g_scTileFileName[M_TOTAL] = {
@@ -33,12 +32,12 @@ class CField : public CEntity
 private:
 	int tiles;
 public:
-	CField(int, USHORT, USHORT);
+	CField(const int,const USHORT,const USHORT);
 	~CField(void);
+	
+	void Render(const USHORT,const USHORT);
 
-	void Render(USHORT, USHORT);
-
-	bool LoadFile(const string mapName);
+	bool LoadFile(const string);
 	//cocos2d::Sprite* getSprite(void) {return m_Sprite;};
 
 };

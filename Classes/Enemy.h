@@ -16,9 +16,9 @@ public:
 	~CEnemy(void);
 
 	void update (float);
-	void Render(Point);
+	void Render(const Point);
 
-	bool onContactBegin(PhysicsContact&);
+	bool onContactBegin(const PhysicsContact&);
 };
 
 #endif

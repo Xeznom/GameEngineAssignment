@@ -1,18 +1,18 @@
 #include "laser.h"
 
-CLaser :: CLaser(cocos2d::Layer* layer,float posx,float posy)
+CLaser :: CLaser(cocos2d::Layer* layer,const float posx,const float posy)
 {
 	index = 0;//default index
 
-	x = posx;
-	y = posy;
+	x = posx; y = posy;
 
 	m_Sprite = cocos2d::Sprite::create("CloseNormal.png");
 	//m_Sprite->Sprite::setTexture("CloseNormal.png");
 	m_Sprite->setScale(10.0f);
 	m_Sprite->Sprite::setPosition(Point(x,y));
 
-	auto body = PhysicsBody::createBox(Size(m_Sprite->getContentSize().width,m_Sprite->getContentSize().width));
+	const Size size = Size(m_Sprite->getContentSize().width, m_Sprite->getContentSize().width);
+	PhysicsBody* body = PhysicsBody::createBox(size);
 	body->setCollisionBitmask(3);
 	body->setContactTestBitmask(true);
 	body->setDynamic(false);
@@ -24,16 +24,15 @@ CLaser :: CLaser(cocos2d::Layer* layer,float posx,float posy)
 
 CLaser :: ~CLaser()
 {
-	
 }
 
-void CLaser :: Render(USHORT x, USHORT y)
+void CLaser :: Render(const USHORT x,const USHORT y)
 {
 	//Size visibleSize = Director::getInstance()->getVisibleSize();
 	//float f_posX = visibleSize.width*0.5f + (x - 10);
 	//float f_posY = visibleSize.height - (y);
 	//m_Sprite->setPosition( Point(f_posX, f_posY) );
-	Point temp = m_Sprite->getPosition();
+	const Point temp = m_Sprite->getPosition();
 }
 
 void CLaser::LaserOff()
@@ -41,14 +40,3 @@ void CLaser::LaserOff()
 	m_Sprite->setTexture(CCTextureCache::sharedTextureCache()->addImage("empty.png"));
 	m_Sprite->getPhysicsBody()->setCollisionBitmask(3);
 }
-
-int CLaser :: GetIndex()
-{
-	return index;
-}
-
-void CLaser :: SetIndex(int index)
-{
-	this->index = index;
-}
-

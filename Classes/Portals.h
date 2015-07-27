@@ -19,8 +19,7 @@ private:
 
 	PhysicsBody* body;
 
-	int type;
-	int timer;
+	int type,timer;
 	bool existing, connecting;
 	Sprite* empty;
 	Sprite* Portals[P_TOTAL];
@@ -32,16 +31,16 @@ public:
 	~CPortals(void);
 
 	void update(float);
-	void reset();
+	void reset(void);
 	
-	void setLoc(Vec2);
-	inline const Vec2 getLoc() const { return location; };
+	void setLoc(const Vec2);
+	inline const Vec2 getLoc(void) { return location; };
 
-	inline void setExist(bool setting) { existing = setting; };
+	inline void setExist(const bool setting) { existing = setting; };
 	inline void setConnection(const bool status) { connecting = status; };
 
-	inline const bool getExist() const { return existing; };
-	inline const bool getConnection() const { return connecting; };
+	inline const bool getExist(void) { return existing; };
+	inline const bool getConnection(void) { return connecting; };
 };
 
 #endif

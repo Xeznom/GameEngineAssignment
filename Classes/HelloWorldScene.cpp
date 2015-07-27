@@ -34,8 +34,7 @@ void HelloWorld::update (float dt)
 	//	Director::getInstance()->end();
 	//}
 
-	if (enemies != NULL)
-	enemies->update(dt);
+	if (enemies != NULL) enemies->update(dt);
 
 	//Size winSize = CCDirector::getInstance()->getWinSize();
  
@@ -69,9 +68,9 @@ void HelloWorld::onMouseScroll(cocos2d::Event* eevent)
 {
 }
 
-void HelloWorld::teleportaling(int exit)
+void HelloWorld::teleportaling(const int exit)
 {
-	auto audio =  CocosDenshion::SimpleAudioEngine :: getInstance();
+	CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
 	if (portals[0]->getConnection() && portals[0]->bTimer == false &&
 		portals[1]->getConnection() && portals[1]->bTimer == false)
 	{
@@ -86,21 +85,13 @@ void HelloWorld::teleportaling(int exit)
 void HelloWorld::cleanup()
 {
 	delete player;
-	player = nullptr;
 
-	for (int i = 0; i < 2; i++)
-	{
-		delete portals[i];
-		portals[i] = nullptr;
-	}
+	for (int i = 0; i < 2; i++) delete portals[i];
 
 	for (int i = 0; i < MAX_HORIZONTAL; ++i)
 	{
 		for (int j = 0; j < MAX_VERTICAL; ++j)
-		{
 			delete m_arrayMap[i][j];
-			m_arrayMap[i][j] = nullptr;
-		}
 	}
 }
 
@@ -120,10 +111,10 @@ Scene* HelloWorld::createScene()
     // add layer as a child to scene
     scene->addChild(layer);
 	
-	Size visibleSize = Director::getInstance()->getVisibleSize();
+	const Size visibleSize = Director::getInstance()->getVisibleSize();
 
 	Node* edgeNode = Node::create();
-	Point center = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
+	const Point center = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 	edgeNode->setPosition(center);
 	
 	/*
@@ -149,8 +140,8 @@ bool HelloWorld::init()
     // 1. super init first
     if (!Layer::init()) return false;
     
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    const Size visibleSize = Director::getInstance()->getVisibleSize();
+    const Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
@@ -191,7 +182,7 @@ bool HelloWorld::init()
     this->addChild(sprite, 0);
     */
 
-	auto audio =  CocosDenshion::SimpleAudioEngine :: getInstance();
+	CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
 	audio->playBackgroundMusic("bgm.wav",true);
 
 	firstTimeInit = false;// boolean to check if all data is initialised for init
@@ -212,8 +203,7 @@ bool HelloWorld::init()
 
     //this->addChild(CResourceTable::getInstance()->label, G_LAYERING_TYPES::G_GAME);
 
-	std::string Data = "yes";
-	CResourceTable::getInstance()->label->setString(Data);
+	CResourceTable::getInstance()->label->setString("yes");
 
 	for (int i = 0; i < 2; i++) portals[i] = new CPortals(i, location);
 
@@ -254,15 +244,14 @@ bool HelloWorld::init()
 
 void HelloWorld::LoadFile(const string mapName)
 {
-	int theLineCounter = 0;
-	int theMaxNumOfColumns = 0;
+	unsigned int theLineCounter = 0;
+	unsigned int theMaxNumOfColumns = 0;
 
 	ifstream file;
 	file.open( CCFileUtils::getInstance( )->fullPathForFilename((mapName).c_str()) );
 
 	if (file.is_open())
 	{
-		int i = 0, k = 0;
 		while (file.good())
 		{
 			string aLineOfText = "";
@@ -284,13 +273,14 @@ void HelloWorld::LoadFile(const string mapName)
 				}
 				else
 				{
-					int theColumnCounter = 0;
+					unsigned int theColumnCounter = 0;
 					//CField* m_arrayMap;
 					istringstream iss(aLineOfText);
 
 					while (getline(iss, token, ','))
 					{
-						switch (atoi(token.c_str()))
+						int value = atoi(token.c_str());
+						switch (value)
 						{
 							case 2:
 								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
@@ -313,7 +303,7 @@ void HelloWorld::LoadFile(const string mapName)
 								theCoin = new CCoin(this, theColumnCounter, theLineCounter + 1);
 								break;
 							default:
-								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(atoi(token.c_str()), theColumnCounter, theLineCounter + 1);
+								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(value, theColumnCounter, theLineCounter + 1);
 								break;
 						}
 
@@ -330,21 +320,16 @@ void HelloWorld::LoadFile(const string mapName)
 
 void HelloWorld::HUD()
 {
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	Size v = Director::getInstance()->getWinSize();
+	const Size visibleSize = Director::getInstance()->getVisibleSize();
+	const Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	const Size v = Director::getInstance()->getWinSize();
 
 	//CHUD* _hud = NULL;
 		
-	_hud[0] = new CHUD("Points: ",points,
-					Vec2(origin.x,
-						 origin.y + v.height), 1, 1 );
+	_hud[0] = new CHUD("Points: ",points,Vec2(origin.x,origin.y + v.height), 1, 1 );
 	this->addChild(_hud[0], G_LAYERING_TYPES::G_HUD);
 	
-	_hud[1] = new CHUD("Timer: ",temp,
-					Vec2(origin.x + v.width,
-						 origin.y + v.height), 1, -1 );
-
+	_hud[1] = new CHUD("Timer: ",temp, Vec2(origin.x + v.width,origin.y + v.height), 1, -1 );
 	this->addChild(_hud[1], G_LAYERING_TYPES::G_HUD);
 }
 
@@ -401,7 +386,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//player with laser
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 10) || (First->getCollisionBitmask() == 10 && Second->getCollisionBitmask() == 1))
 	{
-		auto audio =  CocosDenshion::SimpleAudioEngine :: getInstance();
+		CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
 		audio->playEffect("laser.wav");
 		player->setPos(location);
 		return false;
@@ -422,7 +407,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		//this->removeChild(player->PortalGun->m_Sprite);
 		//loadLevel();
 		//Director::getInstance()->end();
-		auto audio =  CocosDenshion::SimpleAudioEngine :: getInstance();
+		CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
 		audio->playEffect("hurt.mp3");
 		player->setPos(location);
 		return false;
@@ -430,7 +415,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//player with button
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 6) || (First->getCollisionBitmask() == 6 && Second->getCollisionBitmask() == 1))
 	{
-		auto audio =  CocosDenshion::SimpleAudioEngine :: getInstance();
+		CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
 		audio->playEffect("door.wav");
 		if(First->getCollisionBitmask() == 6)//if first is button
 		{
@@ -454,14 +439,12 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		//portal teleport code
 		if (First->getCollisionBitmask() == 7)//if first is portal
 		{
-			if (First->getPosition() == portals[0]->getLoc())
-				teleportaling(1);
+			if (First->getPosition() == portals[0]->getLoc()) teleportaling(1);
 			else teleportaling(0);
 		}
 		else if (Second->getCollisionBitmask() == 7)//if second is portal instead
 		{
-			if (Second->getPosition() == portals[0]->getLoc())
-				teleportaling(1);
+			if (Second->getPosition() == portals[0]->getLoc()) teleportaling(1);
 			else teleportaling(0);
 		}
 	}
@@ -521,9 +504,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 				}
 			}
 			delete player->PortalGun->projectile[0];
-			player->PortalGun->projectile[0] = nullptr;
 			delete player->PortalGun->projectile[1];
-			player->PortalGun->projectile[1] = nullptr;
 			player->PortalGun->Fired = false;
 		}
 
@@ -550,7 +531,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		//this->removeChild(player->PortalGun->m_Sprite);
 		//loadLevel();
 		//Director::getInstance()->end();
-		auto audio =  CocosDenshion::SimpleAudioEngine :: getInstance();
+		CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
 		audio->playEffect("hurt.mp3");
 		player->setPos(location);
 		return false;
@@ -564,11 +545,10 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	if ((First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() == 10) || (First->getCollisionBitmask() != 5 && Second->getCollisionBitmask() == 10))
 	{
 		//kill enemy
-		auto audio =  CocosDenshion::SimpleAudioEngine :: getInstance();
+		CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
 		audio->playEffect("laser.wav");
 		this->removeChild(enemies->m_Sprite);
 		delete enemies;
-		enemies = nullptr;
 		return false;
 	}
 	//enemy with everything but tiles
@@ -582,30 +562,26 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	{
 		theMobileSpike->changedirection();
 	}
-	
-	
 	return true;
 }
 
-void HelloWorld::setViewPoint(Vec2 position)
+void HelloWorld::setViewPoint(const Vec2 position)
 {
-	Size winSize = CCDirector::getInstance()->getWinSize();
+	const Size winSize = CCDirector::getInstance()->getWinSize();
  
-    int x = MAX(position.x, winSize.width * 0.5f);
-    int y = MAX(position.y, winSize.height * 0.5f);
+	int x = MAX(position.x, winSize.width * 0.5f);
+	int y = MAX(position.y, winSize.height * 0.5f);
 	x = MIN(x, ((MAX_HORIZONTAL * m_arrayMap[0][0]->m_Sprite->getContentSize().width)
 		* m_arrayMap[0][0]->m_Sprite->getContentSize().width) - winSize.width * 0.5f);
 	y = MIN(y, ((MAX_VERTICAL * m_arrayMap[0][0]->m_Sprite->getContentSize().height)
 		* m_arrayMap[0][0]->m_Sprite->getContentSize().height) - winSize.height *0.5f);
-    Vec2 actualPosition = Vec2(x, y);
+	const Vec2 actualPosition = Vec2(x, y);
  
-    Vec2 centerOfView = Vec2(winSize.width * 0.5f, winSize.height * 0.5f);
-    Vec2 viewPoint = centerOfView - actualPosition;
+	const Vec2 centerOfView = Vec2(winSize.width * 0.5f, winSize.height * 0.5f);
+	const Vec2 viewPoint = centerOfView - actualPosition;
     this->setPosition(viewPoint);
 	//this->getScene()->setPosition(viewPoint);
 	
-	
-
 	_hud[0]->setPosition(-viewPoint);
 	_hud[1]->setPosition(-viewPoint);
 }
@@ -660,30 +636,17 @@ void HelloWorld::loadLevel(void)
 	for (int i = 0; i < 2; i++) portals[i] = new CPortals(i, Point (0,0));
 }
 
-void HelloWorld :: despawnObjects()
+void HelloWorld :: despawnObjects(void)
 {
 	//this->removeAllChildren();
 
-	if (theButtons != nullptr)
-	{
-		//this->removeChild(theButtons->m_Sprite);
-		delete theButtons;
-		theButtons = nullptr;
-	}
+	//this->removeChild(theButtons->m_Sprite);
+	delete theButtons;
+	//this->removeChild(theDoors->m_Sprite);
+	delete theDoors;
+	//this->removeChild(enemies->m_Sprite);
+	delete enemies;
 
-	if (theDoors != nullptr)
-	{
-		//this->removeChild(theDoors->m_Sprite);
-		delete theDoors;
-		theDoors = nullptr;
-	}
-
-	if (enemies != nullptr)
-	{
-		//this->removeChild(enemies->m_Sprite);
-		delete enemies;
-		enemies = nullptr;
-	}
 	//despawn portals
 	
 	for (int i = 0; i < MAX_HORIZONTAL; i++)
@@ -694,7 +657,6 @@ void HelloWorld :: despawnObjects()
 			{
 				this->removeChild(m_arrayMap[i][j]->m_Sprite);
 				delete m_arrayMap[i][j];
-				m_arrayMap[i][j] = nullptr;
 			}
 		}
 	}
@@ -705,11 +667,9 @@ void HelloWorld :: despawnObjects()
 			portals[i]->reset();
 			this->removeChild(portals[i]->m_Sprite);
 			delete portals[i];
-			portals[i] = nullptr;
 		}
 	}
 
 	//firstTimeInit = false;
 	//init();
-
 }

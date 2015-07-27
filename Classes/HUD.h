@@ -12,13 +12,13 @@ private:
 	cocos2d::Label* _valuemessageLabel;
 
 public:
-	CHUD(const std::string&,float, Vec2, int, int);
+	CHUD(const std::string&,const float,const Vec2,const int,const int);
 	~CHUD();
 
 	void Update(int);
-	void initOptions(const std::string&,float,Vec2,int,int);
-	void valueupdate(int);
-	virtual void draw(Renderer*, const Mat4& , bool);
+	void initOptions(const std::string&, const float, const Vec2, const int, const int);
+	void valueupdate(const int);
+	virtual void draw(const Renderer*, const Mat4& ,const bool);
 };
 
 #endif

@@ -13,7 +13,7 @@ void CGun::MouseMove (Event* event)
 		if (Left) //If facing left
 		{
 			Offset = abs(Offset);
-			Point gunloc = Point(m_Sprite->getPositionX()+Offset,m_Sprite->getPositionY());
+			const Point gunloc = Point(m_Sprite->getPositionX()+Offset,m_Sprite->getPositionY());
 			m_Sprite->setPosition(gunloc);
 			Left = false;
 		}
@@ -23,15 +23,15 @@ void CGun::MouseMove (Event* event)
 		if (!Left) //If facing right
 		{
 			Offset = -abs(Offset);
-			Point gunloc = Point(m_Sprite->getPositionX()+Offset,m_Sprite->getPositionY());
+			const Point gunloc = Point(m_Sprite->getPositionX()+Offset,m_Sprite->getPositionY());
 			m_Sprite->setPosition(gunloc);
 			Left = true;
 		}
 	}
 
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	float ay = (visibleSize.height + e->getCursorY()) - PlayerSprite->getPositionY();
-	float degrees = CC_RADIANS_TO_DEGREES(atan2(-ay,ax));
+	const Size visibleSize = Director::getInstance()->getVisibleSize();
+	const float ay = (visibleSize.height + e->getCursorY()) - PlayerSprite->getPositionY();
+	const float degrees = CC_RADIANS_TO_DEGREES(atan2(-ay,ax));
 	m_Sprite->setRotation(90 + degrees);
 }
 
@@ -39,7 +39,7 @@ void CGun::MouseDown(Event* event)
 {
 	EventMouse* e = (EventMouse*) event;
 	const int mouseButton = e->getMouseButton();
-	auto audio =  CocosDenshion::SimpleAudioEngine :: getInstance();
+	CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
 	switch (mouseButton)
 	{
 		
@@ -47,8 +47,8 @@ void CGun::MouseDown(Event* event)
 			if (!Fired)
 			{
 				audio->playEffect("shoot.mp3");
-				Size visibleSize = Director::getInstance()->getVisibleSize();
-				Vec2 cursor = Vec2(e->getCursorX(), visibleSize.height + e->getCursorY());
+				const Size visibleSize = Director::getInstance()->getVisibleSize();
+				const Vec2 cursor = Vec2(e->getCursorX(), visibleSize.height + e->getCursorY());
 				Vec2 aim = cursor - PlayerSprite->getPosition();
 				aim.normalize();
 				projectile[Alternate] = new CProjectile(thelayer,Alternate);
@@ -70,11 +70,11 @@ CGun::CGun(Layer* layer, const Point loc,const Sprite* playersprite)
 	Offset = GETVALUE("GunOffset");
 	Left = false;
 
-	std::string filename = GETFILE("PortalGun");
+	const std::string filename = GETFILE("PortalGun");
 	m_Sprite = Sprite::create(filename);
 	m_Sprite->setScale(0.3f);
 
-	Point gunloc = Point(loc.x+Offset,loc.y);
+	const Point gunloc = Point(loc.x+Offset,loc.y);
 	m_Sprite->setPosition(gunloc);
 	m_Sprite->setAnchorPoint(Vec2(0.5f,0));
 
@@ -85,7 +85,5 @@ CGun::CGun(Layer* layer, const Point loc,const Sprite* playersprite)
 CGun::~CGun (void)
 {
 	delete projectile[1];
-	projectile[1] = nullptr;
 	delete projectile[0];
-	projectile[0] = nullptr;
 }

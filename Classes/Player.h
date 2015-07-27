@@ -30,7 +30,7 @@ public:
 
 	inline void setHP(const int Set){ HP = Set; }
 
-	inline const int getHp() const { return HP; }
+	inline const int getHp() { return HP; }
 
 	//void KeyPress (EventKeyboard::KeyCode,Event*);
 	//void KeyRelease(EventKeyboard::KeyCode,Event*);

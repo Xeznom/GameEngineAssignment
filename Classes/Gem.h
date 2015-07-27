@@ -1,10 +1,11 @@
-#ifndef __GEM_H__
-#define __GEM_H__
+#ifndef __CGEM_H__
+#define __CGEM_H__
+
+#pragma once
 
 #include <iostream>
 #include "cocos2d.h"
 
-#pragma once
 
 enum E_GEM_TYPES {
 	E_BLUE,
@@ -43,21 +44,21 @@ public:
 	cGem(void);
 	~cGem(void);
 
-	void Init(E_GEM_TYPES, USHORT, USHORT);
-	void Render(USHORT, USHORT);
+	void Init(const E_GEM_TYPES,const USHORT,const USHORT);
+	void Render(const USHORT,const USHORT);
 
 	void Update(void);
-	void ChangeTexture(E_GEM_TYPES);
+	void ChangeTexture(const E_GEM_TYPES);
 
-	inline cocos2d::Sprite* getSprite(void) {return m_Sprite;};
+	inline const cocos2d::Sprite* getSprite(void) {return m_Sprite;};
 
-	inline E_GEM_STATE getState(void) {return m_eState;};
-	inline void setState(E_GEM_STATE eState) {m_eState = eState;}
+	inline const E_GEM_STATE getState(void) {return m_eState;};
+	inline void setState(const E_GEM_STATE eState) {m_eState = eState;}
 
-	inline E_GEM_TYPES getType(void) {return m_eType;};
-	inline void setType(E_GEM_TYPES newType) {m_eType = newType;}
+	inline const E_GEM_TYPES getType(void) {return m_eType;};
+	inline void setType(const E_GEM_TYPES newType) {m_eType = newType;}
 
-	inline void setY (float newY){m_Sprite->setPositionY(newY);};
+	inline void setY (const float newY){m_Sprite->setPositionY(newY);};
 };
 
 #endif //__GEM_H__
