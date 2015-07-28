@@ -44,8 +44,8 @@ public:
 	cGem(void);
 	~cGem(void);
 
-	void Init(const E_GEM_TYPES,const USHORT,const USHORT);
-	void Render(const USHORT,const USHORT);
+	void Init(const E_GEM_TYPES,const int,const int);
+	void Render(const int,const int);
 
 	void Update(void);
 	void ChangeTexture(const E_GEM_TYPES);

@@ -13,7 +13,7 @@ private:
 	bool Left;
 public:
 	bool Fired;
-	short Alternate;
+	short Current;
 	CProjectile* projectile[2]; //Two projectiles?
 	float Offset;
 	CGun(Layer*, const Point, const Sprite*);

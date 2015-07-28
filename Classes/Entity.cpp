@@ -9,5 +9,5 @@ CEntity::CEntity(void) : TileSize(GETVALUE("TileSize"))
 
 CEntity::~CEntity(void)
 {
-	if (thelayer != nullptr)	thelayer->removeChild(m_Sprite);
+	if (thelayer != nullptr && m_Sprite != nullptr)	thelayer->removeChild(m_Sprite);
 }

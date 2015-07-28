@@ -2,9 +2,6 @@
 
 void CPortals::update(float delta)
 {
-	if (existing)	m_Sprite = Portals[type];
-	else			m_Sprite = empty;
-
 	if (bTimer)
 	{
 		timer += 1;
@@ -13,19 +10,14 @@ void CPortals::update(float delta)
 	else timer = 0;
 }
 
-void CPortals::reset()
-{
-	existing = connecting = false;
-}
-
-CPortals::CPortals(const int type, const Vec2 location)
+CPortals::CPortals(Layer* layer, const int type, const Vec2 location)
 {
 	empty = Sprite::create(GETFILE("Empty"));
 	Portals[P_BLUE] = Sprite::create(GETFILE("BluePortal"));
 	Portals[P_ORANGE] = Sprite::create(GETFILE("OrangePortal"));
 
 	this->type = type;
-	existing = connecting = bTimer = false;
+	connecting = bTimer = false;
 
 	this->location = location;
 
@@ -40,6 +32,9 @@ CPortals::CPortals(const int type, const Vec2 location)
 	body->setCollisionBitmask(7);
 	body->setContactTestBitmask(true);
 	m_Sprite->setPhysicsBody(body);
+
+	layer->addChild(m_Sprite,1);
+	thelayer = layer;
 }
 
 CPortals::~CPortals()

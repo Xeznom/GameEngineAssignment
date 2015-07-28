@@ -13,17 +13,14 @@ void HelloWorld::update (float dt)
 	//Point temp3 = Traps->m_Sprite->getPosition();
 	for (int i = 0; i < 2; i++)
 	{
-		if (portals[i] != nullptr)
-		{
-			portals[i]->update(dt);
-
-			if (portals[0]->getExist() && portals[1]->getExist())
-			{
-				portals[0]->setConnection(true);
-				portals[1]->setConnection(true);
-			}
-		}
+		if (portals[i] != nullptr) portals[i]->update(dt);
 	}
+
+	if (portals[0] != nullptr && portals[1] != nullptr)
+	{
+		portals[0]->connecting = portals[1]->connecting = true;
+	}
+
 	timer += 0.1f;
 
 	_hud[0]->valueupdate(points);
@@ -34,7 +31,7 @@ void HelloWorld::update (float dt)
 	//	Director::getInstance()->end();
 	//}
 
-	if (enemies != NULL) enemies->update(dt);
+	if (enemies != nullptr) enemies->update(dt);
 
 	//Size winSize = CCDirector::getInstance()->getWinSize();
  
@@ -71,8 +68,8 @@ void HelloWorld::onMouseScroll(cocos2d::Event* eevent)
 void HelloWorld::teleportaling(const int exit)
 {
 	CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
-	if (portals[0]->getConnection() && portals[0]->bTimer == false &&
-		portals[1]->getConnection() && portals[1]->bTimer == false)
+	if (portals[0]->connecting && portals[0]->bTimer == false &&
+		portals[1]->connecting && portals[1]->bTimer == false)
 	{
 		audio->playEffect("teleport.mp3");
 		player->setPos(portals[exit]->getLoc() );
@@ -84,14 +81,23 @@ void HelloWorld::teleportaling(const int exit)
 
 void HelloWorld::cleanup()
 {
+	delete theButtons;
+	delete theDoors;
+	delete enemies;
+	delete theMobileSpike;
+	delete theCoin;
+	delete theLaser;
 	delete player;
 
-	for (int i = 0; i < 2; i++) delete portals[i];
+	for (int i = 0; i < 2; i++)
+	{
+		delete portals[i];
+		delete _hud[i];
+	}
 
 	for (int i = 0; i < MAX_HORIZONTAL; ++i)
 	{
-		for (int j = 0; j < MAX_VERTICAL; ++j)
-			delete m_arrayMap[i][j];
+		for (int j = 0; j < MAX_VERTICAL; ++j) delete m_arrayMap[i][j];
 	}
 }
 
@@ -185,10 +191,7 @@ bool HelloWorld::init()
 	CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
 	audio->playBackgroundMusic("bgm.wav",true);
 
-	firstTimeInit = false;// boolean to check if all data is initialised for init
-	levelCounter = 0;//what Level youre on
-	temp = 0;// for future timer value
-	points = 0;
+	levelCounter = temp = points = 0;
 	//buttonCounter = 0;
 	//laserCounter = 0;
 	//tempDMGTimer = 0;
@@ -205,13 +208,24 @@ bool HelloWorld::init()
 
 	CResourceTable::getInstance()->label->setString("yes");
 
-	for (int i = 0; i < 2; i++) portals[i] = new CPortals(i, location);
+	for (int i = 0; i < 2; i++)
+	{
+		_hud[i] = nullptr;
+		portals[i] = nullptr;
+	}
 
 	for (int i = 0; i < MAX_HORIZONTAL; ++i)
 	{
 		for (int j = 0; j < MAX_VERTICAL; ++j)
 			m_arrayMap[i][j] = nullptr;
 	}
+	
+	theMobileSpike = nullptr;
+	theButtons = nullptr;
+	theDoors = nullptr;
+	theLaser = nullptr;
+	theCoin = nullptr;
+	enemies = nullptr;
 
 	player = new CPlayer(this,location);//initialise player
 
@@ -283,31 +297,30 @@ void HelloWorld::LoadFile(const string mapName)
 						switch (value)
 						{
 							case 2:
-								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
+								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(this,0, theColumnCounter, theLineCounter + 1);
 								theDoors = new Door(this, theColumnCounter, theLineCounter + 1);
 								break;
 							case 4:
-								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
+								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(this,0, theColumnCounter, theLineCounter + 1);
 								enemies = new CEnemy(this, Point(theColumnCounter, theLineCounter + 1));
 								break;
 							case 5:
-								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
+								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(this,0, theColumnCounter, theLineCounter + 1);
 								theButtons = new Button(this, theColumnCounter, theLineCounter + 1);
 								break;
 							case 6:
-								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
+								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(this,0, theColumnCounter, theLineCounter + 1);
 								theMobileSpike = new CMobileSpike(this, theColumnCounter, theLineCounter + 1);
 								break;
 							case 8:
-								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(0, theColumnCounter, theLineCounter + 1);
+								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(this,0, theColumnCounter, theLineCounter + 1);
 								theCoin = new CCoin(this, theColumnCounter, theLineCounter + 1);
 								break;
 							default:
-								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(value, theColumnCounter, theLineCounter + 1);
+								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(this,value, theColumnCounter, theLineCounter + 1);
 								break;
 						}
 
-						addChild(m_arrayMap[theColumnCounter][theLineCounter - 1]->m_Sprite, G_LAYERING_TYPES::G_BACKGROUND);
 						theColumnCounter++;
 					}
 				}
@@ -325,7 +338,7 @@ void HelloWorld::HUD()
 	const Size v = Director::getInstance()->getWinSize();
 
 	//CHUD* _hud = NULL;
-		
+
 	_hud[0] = new CHUD("Points: ",points,Vec2(origin.x,origin.y + v.height), 1, 1 );
 	this->addChild(_hud[0], G_LAYERING_TYPES::G_HUD);
 	
@@ -347,7 +360,6 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 #endif
 }
 
-
 bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 {
 	//code reminders for setting the object catergories for collision
@@ -362,7 +374,6 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//if( ( First->getCollisionBitmask() == 1  && Second->getCollisionBitmask() == 2 ) || ( First->getCollisionBitmask() == 2 && Second->getCollisionBitmask() == 1 ) )
 	//{
 		//if collided
-
 	//}
 
 	//bitmask 1 = player
@@ -472,39 +483,22 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	{
 		if (player->PortalGun->Fired)
 		{
-			player->PortalGun->Alternate = (player->PortalGun->Alternate == 0) ? 1 : 0;
 			if (First->getCollisionBitmask() == 4)//if portal projectile is First
 			{
-				//remove projectile
-				//spawn portal sprite
-				if (portals[player->PortalGun->Alternate]->getExist() == false)
-				{
-					portals[player->PortalGun->Alternate] = new CPortals(player->PortalGun->Alternate, First->getPosition());
-					this->addChild(portals[player->PortalGun->Alternate]->m_Sprite, G_LAYERING_TYPES::G_GAME);
-					portals[player->PortalGun->Alternate]->setExist(true);
-				}
-				else
-				{
-					portals[player->PortalGun->Alternate]->setLoc(First->getPosition());
-				}
+				//remove projectile, spawn portal sprite
+				if (portals[player->PortalGun->Current] == nullptr)
+					portals[player->PortalGun->Current] = new CPortals(this, player->PortalGun->Current, First->getPosition());
+				else portals[player->PortalGun->Current]->setLoc(First->getPosition());
 			}
 			else if (Second->getCollisionBitmask() == 4)//if portal projectile is Second instead
 			{
-				//remove projectile
-				//spawn portal sprite
-				if (portals[player->PortalGun->Alternate]->getExist() == false)
-				{
-					portals[player->PortalGun->Alternate] = new CPortals(player->PortalGun->Alternate, Second->getPosition());
-					portals[player->PortalGun->Alternate]->setExist(true);
-					this->addChild(portals[player->PortalGun->Alternate]->m_Sprite, G_LAYERING_TYPES::G_GAME);
-				}
-				else
-				{
-					portals[player->PortalGun->Alternate]->setLoc(Second->getPosition());
-				}
+				//remove projectile, spawn portal sprite
+				if (portals[player->PortalGun->Current] == nullptr)
+					portals[player->PortalGun->Current] = new CPortals(this,player->PortalGun->Current, Second->getPosition());
+				else portals[player->PortalGun->Current]->setLoc(Second->getPosition());
 			}
-			delete player->PortalGun->projectile[0];
-			delete player->PortalGun->projectile[1];
+			delete player->PortalGun->projectile[player->PortalGun->Current];
+			player->PortalGun->projectile[player->PortalGun->Current] = nullptr;
 			player->PortalGun->Fired = false;
 		}
 
@@ -592,7 +586,7 @@ void HelloWorld::loadLevel(void)
 	//Point location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
 	
 	timer = 0;
-	if(firstTimeInit != false)//if all data has been initialised in init
+	if(firstTimeInit)//if all data has been initialised in init
 	{
 		despawnObjects();//despawn the objects
 	}
@@ -632,42 +626,37 @@ void HelloWorld::loadLevel(void)
 			}
 
 	}
-
-	for (int i = 0; i < 2; i++) portals[i] = new CPortals(i, Point (0,0));
 }
 
 void HelloWorld :: despawnObjects(void)
 {
-	//this->removeAllChildren();
-
-	//this->removeChild(theButtons->m_Sprite);
-	delete theButtons;
-	//this->removeChild(theDoors->m_Sprite);
 	delete theDoors;
-	//this->removeChild(enemies->m_Sprite);
+	theDoors = nullptr;
 	delete enemies;
+	enemies = nullptr;
+	delete theButtons;
+	theButtons = nullptr;
+	delete theMobileSpike;
+	theMobileSpike = nullptr;
+	delete theCoin;
+	theCoin = nullptr;
+	delete theLaser;
+	theLaser = nullptr;
 
-	//despawn portals
-	
 	for (int i = 0; i < MAX_HORIZONTAL; i++)
 	{
 		for (int j = 0; j < MAX_VERTICAL; j++)
 		{
-			if (m_arrayMap[i][j] != nullptr)
-			{
-				this->removeChild(m_arrayMap[i][j]->m_Sprite);
-				delete m_arrayMap[i][j];
-			}
+			delete m_arrayMap[i][j];
+			m_arrayMap[i][j] = nullptr;
 		}
 	}
 	for (int i = 0; i < 2; i++)
 	{
-		if (portals[i] != nullptr)
-		{
-			portals[i]->reset();
-			this->removeChild(portals[i]->m_Sprite);
-			delete portals[i];
-		}
+		delete portals[i];
+		portals[i] = nullptr;
+		delete player->PortalGun->projectile[i];
+		player->PortalGun->projectile[i] = nullptr;
 	}
 
 	//firstTimeInit = false;

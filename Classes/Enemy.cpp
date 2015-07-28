@@ -6,8 +6,7 @@ CEnemy::CEnemy(Layer* layer, const Point pos)
 {
 	facingLeft = false;
 	speed = GETVALUE("EnemyWalkSpeed");
-	const std::string filename = GETFILE("Enemy");
-	m_Sprite = cocos2d::Sprite::create(filename);
+	m_Sprite = cocos2d::Sprite::create(GETFILE("Enemy"));
 
 	//player physics
 	const Size size = Size(m_Sprite->getContentSize().width, m_Sprite->getContentSize().height);

@@ -1,10 +1,12 @@
 #include "Field.h"
 
 
-CField::CField(const int type, const int x, const int y)
+CField::CField(Layer* layer,const int type, const int x, const int y)
 {
 	tiles = type;
 	m_Sprite = cocos2d::Sprite::create(g_scTileFileName[type]);
+	layer->addChild(m_Sprite,0);
+	thelayer = layer;
 	Render(x, y);
 }
 

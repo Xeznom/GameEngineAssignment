@@ -18,6 +18,7 @@ CSpikes :: CSpikes(cocos2d::Layer* layer,const float posx,const float posy)
 
 	Render(x,y);
 	layer->addChild(m_Sprite,0);
+	thelayer = layer;
 }
 
 CSpikes :: ~CSpikes()

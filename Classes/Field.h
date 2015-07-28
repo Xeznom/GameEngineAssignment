@@ -32,7 +32,7 @@ class CField : public CEntity
 private:
 	int tiles;
 public:
-	CField(const int,const int,const int);
+	CField(Layer* layer, const int,const int,const int);
 	~CField(void);
 	
 	void Render(const int,const int);

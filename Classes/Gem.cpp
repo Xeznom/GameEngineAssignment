@@ -4,8 +4,6 @@ USING_NS_CC;
 
 cGem::cGem(void)
 {
-	m_Sprite = nullptr;
-	m_Action = nullptr;
 }
 
 
@@ -14,7 +12,7 @@ cGem::~cGem(void)
 }
 
 
-void cGem::Init(const E_GEM_TYPES newType,const USHORT x,const USHORT y)
+void cGem::Init(const E_GEM_TYPES newType,const int x,const int y)
 {
 	m_eType = newType;
 	m_Sprite = cocos2d::Sprite::create(g_scGemFileName[newType]);
@@ -24,7 +22,7 @@ void cGem::Init(const E_GEM_TYPES newType,const USHORT x,const USHORT y)
 	Render(x, y);
 }
 
-void cGem::Render(const USHORT x,const USHORT y)
+void cGem::Render(const int x,const int y)
 {
 	const Size visibleSize = Director::getInstance()->getVisibleSize();
 	const float f_posX = (x+1)*64;

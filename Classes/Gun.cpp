@@ -37,35 +37,34 @@ void CGun::MouseMove (Event* event)
 
 void CGun::MouseDown(Event* event)
 {
-	EventMouse* e = (EventMouse*) event;
-	const int mouseButton = e->getMouseButton();
-	CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
-	switch (mouseButton)
+	if (!Fired)
 	{
-		
-		case 0:
-			if (!Fired)
-			{
-				audio->playEffect("shoot.mp3");
-				const Size visibleSize = Director::getInstance()->getVisibleSize();
-				const Vec2 cursor = Vec2(e->getCursorX(), visibleSize.height + e->getCursorY());
-				Vec2 aim = cursor - PlayerSprite->getPosition();
-				aim.normalize();
-				projectile[Alternate] = new CProjectile(thelayer,Alternate);
-				projectile[Alternate]->Init(m_Sprite->getPosition(),aim);
+		EventMouse* e = (EventMouse*) event;
+		Current = e->getMouseButton();
+		CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
+		audio->playEffect("shoot.mp3");
+		const Size visibleSize = Director::getInstance()->getVisibleSize();
+		const Vec2 cursor = Vec2(e->getCursorX(), visibleSize.height + e->getCursorY());
+		Vec2 aim = cursor - PlayerSprite->getPosition();
+		aim.normalize();
+
+		switch (Current)
+		{
+			case 0: case 1:
+				projectile[Current] = new CProjectile(thelayer,Current);
+				projectile[Current]->Init(m_Sprite->getPosition(),aim);
 				Fired = true;
-			}
-			break;
-		default:
-			break;
+				break;
+			default: return;
+		}
 	}
 }
 
 CGun::CGun(Layer* layer, const Point loc,const Sprite* playersprite)
 {
-	projectile[0] =  projectile[1] = nullptr;
+	projectile[0] = projectile[1] = nullptr;
 	Fired = false;
-	Alternate = 0;
+	Current = 0;
 	PlayerSprite = playersprite;
 	Offset = GETVALUE("GunOffset");
 	Left = false;
