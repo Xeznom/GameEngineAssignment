@@ -1,7 +1,7 @@
 #include "Field.h"
 
 
-CField::CField(const int type, const USHORT x, const USHORT y)
+CField::CField(const int type, const int x, const int y)
 {
 	tiles = type;
 	m_Sprite = cocos2d::Sprite::create(g_scTileFileName[type]);
@@ -12,7 +12,7 @@ CField::~CField(void)
 {
 }
 
-void CField::Render(const USHORT x, const USHORT y)
+void CField::Render(const int x, const int y)
 {
 	const Size visibleSize = Director::getInstance()->getVisibleSize();
 	const float f_posX = visibleSize.width*0.5f + (x - 10) * TileSize * 1.5f;

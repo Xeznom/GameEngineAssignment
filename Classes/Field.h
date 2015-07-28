@@ -32,10 +32,10 @@ class CField : public CEntity
 private:
 	int tiles;
 public:
-	CField(const int,const USHORT,const USHORT);
+	CField(const int,const int,const int);
 	~CField(void);
 	
-	void Render(const USHORT,const USHORT);
+	void Render(const int,const int);
 
 	bool LoadFile(const string);
 	//cocos2d::Sprite* getSprite(void) {return m_Sprite;};

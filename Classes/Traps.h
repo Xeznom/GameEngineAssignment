@@ -10,6 +10,6 @@ public:
 	CTraps(cocos2d::Layer*,const float,const float);
 	~CTraps(void);
 
-	void Render(const USHORT,const USHORT);
+	void Render(const int,const int);
 };
 #endif

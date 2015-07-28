@@ -13,6 +13,6 @@ public:
 	~CMobileSpike(void);
 	void changedirection();
 	void update(float delta);
-	void Render(const USHORT,const USHORT);
+	void Render(const int,const int);
 };
 #endif

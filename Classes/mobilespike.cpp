@@ -32,7 +32,7 @@ CMobileSpike :: ~CMobileSpike()
 	
 }
 
-void CMobileSpike :: Render(const USHORT x,const USHORT y)
+void CMobileSpike :: Render(const int x,const int y)
 {
 	const Size visibleSize = Director::getInstance()->getVisibleSize();
 	const float f_posX = visibleSize.width*0.5f + (x - 10) * TileSize * 1.5f;

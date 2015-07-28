@@ -10,6 +10,6 @@ class CSpikes : public CEntity
 	CSpikes(cocos2d::Layer*,const float,const float);
 	~CSpikes(void);
 
-	void Render(const USHORT,const USHORT);
+	void Render(const int,const int);
 };
 #endif

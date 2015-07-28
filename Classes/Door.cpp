@@ -41,7 +41,7 @@ void Door::openDoor()
 	m_Sprite->getPhysicsBody()->setCollisionBitmask(9);//object is now a opendoor
 }
 
-void Door::render(const USHORT x,const USHORT y)
+void Door::render(const int x,const int y)
 {
 	const Size visibleSize = Director::getInstance()->getVisibleSize();
 	const float f_posX = visibleSize.width*0.5f + (x - 10) * TileSize * 1.5f;

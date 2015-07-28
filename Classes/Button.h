@@ -14,6 +14,6 @@ public:
 	inline const int GetIndex() { return index; }
 	inline void SetIndex(const int index) { this->index = index; }
 	void pressed();
-	void render(const USHORT,const USHORT);
+	void render(const int,const int);
 };
 #endif

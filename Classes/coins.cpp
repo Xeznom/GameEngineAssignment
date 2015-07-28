@@ -41,7 +41,7 @@ void CCoin::PickedUp()
 	m_Sprite->getPhysicsBody()->setCollisionBitmask(3);
 }
 
-void CCoin::render(const USHORT x,const USHORT y)
+void CCoin::render(const int x,const int y)
 {
 	const Size visibleSize = Director::getInstance()->getVisibleSize();
 	const float f_posX = visibleSize.width*0.5f + (x - 10) * TileSize * 1.5f;

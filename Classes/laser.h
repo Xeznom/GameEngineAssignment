@@ -15,7 +15,7 @@ public:
 	inline void SetIndex(const int index) { this->index = index; }
 	void LaserOff();
 
-	void Render(const USHORT,const USHORT);
+	void Render(const int,const int);
 };
 
 #endif

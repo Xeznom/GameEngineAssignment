@@ -24,7 +24,7 @@ CSpikes :: ~CSpikes()
 {
 }
 
-void CSpikes :: Render(const USHORT x,const USHORT y)
+void CSpikes :: Render(const int x,const int y)
 {
 	//Size visibleSize = Director::getInstance()->getVisibleSize();
 	//float f_posX = visibleSize.width*0.5f + (x - 10);
