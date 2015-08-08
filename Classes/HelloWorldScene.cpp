@@ -5,7 +5,7 @@ USING_NS_CC;
 void HelloWorld::update (float dt)
 {
 	player->update(dt);
-	this->setViewPoint(player->m_Sprite->getPosition());
+	//this->setViewPoint(player->m_Sprite->getPosition());
 	theMobileSpike->update(dt);
 	//tempDMGTimer++;
 	//Point temp2 = player->m_Sprite->getPosition();
@@ -105,8 +105,8 @@ Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
     Scene* scene = Scene::createWithPhysics();
-	//scene->getPhysicsWorld()->setGravity(Vect(0.0f, -98.0f * 2));
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	scene->getPhysicsWorld()->setGravity(Vect(0.0f, -98.0f * 2));
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     // 'layer' is an autorelease object
     HelloWorld* layer = HelloWorld::create();

@@ -9,6 +9,7 @@
 class CPlayer : public CEntity
 {
 private:
+	CocosDenshion::SimpleAudioEngine* audioJump;
 	static const int STATIC_SPRITE_TAG;
 	bool Jump;
 	bool Left, Right;

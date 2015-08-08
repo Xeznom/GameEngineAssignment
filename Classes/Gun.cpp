@@ -71,7 +71,7 @@ CGun::CGun(Layer* layer, const Point loc,const Sprite* playersprite)
 
 	const std::string filename = GETFILE("PortalGun");
 	m_Sprite = Sprite::create(filename);
-	m_Sprite->setScale(0.3f);
+	m_Sprite->setScale(0.15f);
 
 	const Point gunloc = Point(loc.x+Offset,loc.y);
 	m_Sprite->setPosition(gunloc);

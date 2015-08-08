@@ -1,0 +1,9 @@
+0 = air
+1 = tile
+2 = door
+3 = spike
+4 = enemy
+5 = button
+6 = mobilespike 
+7 = laser
+8 = coin

@@ -39,6 +39,7 @@ enum G_LAYERING_TYPES
 class HelloWorld : public Layer
 {
 private:
+	CocosDenshion::SimpleAudioEngine* audioLaser;
 	//int buttonCounter;//not in use yet/may not even be used
 	//int laserCounter;//not in use yet/may not even be used
 	bool firstTimeInit;

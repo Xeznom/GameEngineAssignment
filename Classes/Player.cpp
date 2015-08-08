@@ -7,12 +7,27 @@ void CPlayer::update (float delta)
 {
 	Vec2 loc = m_Sprite->getPosition();
 	
-	if (Jump) loc.y += speed * delta * 2.5f;
+	if (Jump)
+	body->applyImpulse(Vect(0,speed * delta * 125.0f));
+	//if (Jump) loc.y += speed * delta * 2.5f;
 
 	//body->applyImpulse(Vect(1,0));
-	if (Left) loc.x -= speed * delta;
-	if (Right) loc.x += speed * delta;
-
+	if (Left) //loc.x -= speed * delta;
+	{
+		if(!inAir)
+			body->applyImpulse(Vect(-speed * delta * 25.0f,0));
+		else if(inAir)
+			body->applyImpulse(Vect(-speed * delta * 5.0f,0));
+	}
+	if (Right) //loc.x += speed * delta;
+	{
+		if(!inAir)
+			body->applyImpulse(Vect(speed * delta * 25.0f,0));
+		else if(inAir)
+			body->applyImpulse(Vect(speed * delta * 5.0f,0));
+	}
+	
+	m_Sprite->setPhysicsBody(body);
 	m_Sprite->setPosition(loc);
 	PortalGun->m_Sprite->setPosition(Point(loc.x+PortalGun->Offset,loc.y));
 	PortalGun->update(delta);
@@ -39,14 +54,14 @@ void CPlayer::MouseMove (Event* event)
 
 void CPlayer::KeyPress (EventKeyboard::KeyCode keycode,Event* event)
 {
-	CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
+	
 	switch (keycode)
 	{
 		case EventKeyboard::KeyCode::KEY_W:
 			if(inAir != true)
 			{
 				inAir = Jump = true;
-				audio->playEffect("jump.mp3");
+				audioJump->playEffect("jump.mp3");
 			}
 			break;
 		case EventKeyboard::KeyCode::KEY_A:
@@ -85,6 +100,8 @@ CPlayer::CPlayer(Layer* layer, const Point loc)
 	//speed = 50.0f;
 	//std::string filename = CResouceTable::getInstance()->GetFileName("Player");
 	//if (m_Sprite ==nullptr) m_Sprite = cocos2d::Sprite::create(filename);
+
+	audioJump = CocosDenshion::SimpleAudioEngine::getInstance();
 
 	Jump = Left = Right = false;
 	speed = GETVALUE("WalkSpeed");
