@@ -6,6 +6,7 @@ void HelloWorld::update (float dt)
 {
 	player->update(dt);
 	//this->setViewPoint(player->m_Sprite->getPosition());
+	if(theMobileSpike != NULL)
 	theMobileSpike->update(dt);
 	//tempDMGTimer++;
 	//Point temp2 = player->m_Sprite->getPosition();
@@ -67,11 +68,10 @@ void HelloWorld::onMouseScroll(cocos2d::Event* eevent)
 
 void HelloWorld::teleportaling(const int exit)
 {
-	CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
 	if (portals[0]->connecting && portals[0]->bTimer == false &&
 		portals[1]->connecting && portals[1]->bTimer == false)
 	{
-		audio->playEffect("teleport.mp3");
+		audioPortal->playEffect("teleport.mp3");
 		player->setPos(portals[exit]->getLoc() );
 
 		portals[0]->bTimer = true;
@@ -188,8 +188,21 @@ bool HelloWorld::init()
     this->addChild(sprite, 0);
     */
 
-	CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
-	audio->playBackgroundMusic("bgm.wav",true);
+	audioLaser = CocosDenshion::SimpleAudioEngine::getInstance();
+	audioBackground = CocosDenshion::SimpleAudioEngine::getInstance();
+	audioHurt = CocosDenshion::SimpleAudioEngine::getInstance();
+	audioDoor = CocosDenshion::SimpleAudioEngine::getInstance();
+	audioLoad = CocosDenshion::SimpleAudioEngine::getInstance();
+	audioPortal = CocosDenshion::SimpleAudioEngine::getInstance();
+
+	audioBackground->preloadBackgroundMusic("bgm.wav");
+	audioBackground->playBackgroundMusic("bgm.wav",true);
+
+	audioLaser->preloadEffect("laser.wav");
+	audioHurt->preloadEffect("hurt.mp3");
+	audioDoor->preloadEffect("door.wav");
+	audioLoad->preloadEffect("load.mp3");
+	audioPortal->preloadEffect("teleport.mp3");
 
 	levelCounter = temp = points = 0;
 	//buttonCounter = 0;
@@ -397,8 +410,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//player with laser
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 10) || (First->getCollisionBitmask() == 10 && Second->getCollisionBitmask() == 1))
 	{
-		CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
-		audio->playEffect("laser.wav");
+		audioLaser->playEffect("laser.wav");
 		player->setPos(location);
 		return false;
 	}
@@ -418,16 +430,14 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		//this->removeChild(player->PortalGun->m_Sprite);
 		//loadLevel();
 		//Director::getInstance()->end();
-		CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
-		audio->playEffect("hurt.mp3");
+		audioHurt->playEffect("hurt.mp3");
 		player->setPos(location);
 		return false;
 	}
 	//player with button
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 6) || (First->getCollisionBitmask() == 6 && Second->getCollisionBitmask() == 1))
 	{
-		CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
-		audio->playEffect("door.wav");
+		audioDoor->playEffect("door.wav");
 		if(First->getCollisionBitmask() == 6)//if first is button
 		{
 			First->setCollisionBitmask(3);//button is now a "pressed button"
@@ -462,13 +472,14 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//player with mobilespike
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 11) || (First->getCollisionBitmask() == 11 && Second->getCollisionBitmask() == 1))
 	{
+		audioHurt->playEffect("hurt.mp3");
 		player->setPos(location);
+		return false;
 	}
 	//player with opendoor
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 9) || (First->getCollisionBitmask() == 9 && Second->getCollisionBitmask() == 1))
 	{
-		CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
-		audio->playEffect("load.mp3");
+		audioLoad->playEffect("load.mp3");
 		levelCounter++;
 		loadLevel();
 		return false;
@@ -525,8 +536,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 		//this->removeChild(player->PortalGun->m_Sprite);
 		//loadLevel();
 		//Director::getInstance()->end();
-		CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
-		audio->playEffect("hurt.mp3");
+		audioHurt->playEffect("hurt.mp3");
 		player->setPos(location);
 		return false;
 	}
@@ -539,8 +549,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	if ((First->getCollisionBitmask() == 8 && Second->getCollisionBitmask() == 10) || (First->getCollisionBitmask() != 5 && Second->getCollisionBitmask() == 10))
 	{
 		//kill enemy
-		CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
-		audio->playEffect("laser.wav");
+		audioLaser->playEffect("laser.wav");
 		this->removeChild(enemies->m_Sprite);
 		delete enemies;
 		return false;
@@ -555,6 +564,11 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	if ((First->getCollisionBitmask() == 11 && Second->getCollisionBitmask() == 5) || (First->getCollisionBitmask() == 5 && Second->getCollisionBitmask() == 11))
 	{
 		theMobileSpike->changedirection();
+	}
+	//mobilespike with anything but wall
+	if ((First->getCollisionBitmask() == 11 && Second->getCollisionBitmask() != 5) || (First->getCollisionBitmask() != 5 && Second->getCollisionBitmask() == 11))
+	{
+		return false;
 	}
 	return true;
 }

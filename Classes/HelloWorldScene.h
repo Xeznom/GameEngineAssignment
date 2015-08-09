@@ -40,6 +40,11 @@ class HelloWorld : public Layer
 {
 private:
 	CocosDenshion::SimpleAudioEngine* audioLaser;
+	CocosDenshion::SimpleAudioEngine* audioBackground;
+	CocosDenshion::SimpleAudioEngine* audioHurt;
+	CocosDenshion::SimpleAudioEngine* audioDoor;
+	CocosDenshion::SimpleAudioEngine* audioLoad;
+	CocosDenshion::SimpleAudioEngine* audioPortal;
 	//int buttonCounter;//not in use yet/may not even be used
 	//int laserCounter;//not in use yet/may not even be used
 	bool firstTimeInit;

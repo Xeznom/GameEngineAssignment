@@ -102,6 +102,7 @@ CPlayer::CPlayer(Layer* layer, const Point loc)
 	//if (m_Sprite ==nullptr) m_Sprite = cocos2d::Sprite::create(filename);
 
 	audioJump = CocosDenshion::SimpleAudioEngine::getInstance();
+	audioJump->preloadEffect("jump.mp3");
 
 	Jump = Left = Right = false;
 	speed = GETVALUE("WalkSpeed");

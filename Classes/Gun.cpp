@@ -41,8 +41,7 @@ void CGun::MouseDown(Event* event)
 	{
 		EventMouse* e = (EventMouse*) event;
 		Current = e->getMouseButton();
-		CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
-		audio->playEffect("shoot.mp3");
+		audioShoot->playEffect("shoot.mp3");
 		const Size visibleSize = Director::getInstance()->getVisibleSize();
 		const Vec2 cursor = Vec2(e->getCursorX(), visibleSize.height + e->getCursorY());
 		Vec2 aim = cursor - PlayerSprite->getPosition();
@@ -62,6 +61,9 @@ void CGun::MouseDown(Event* event)
 
 CGun::CGun(Layer* layer, const Point loc,const Sprite* playersprite)
 {
+	audioShoot = CocosDenshion::SimpleAudioEngine::getInstance();
+	audioShoot->preloadEffect("shoot.mp3");
+
 	projectile[0] = projectile[1] = nullptr;
 	Fired = false;
 	Current = 0;

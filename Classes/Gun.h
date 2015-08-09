@@ -9,6 +9,7 @@
 class CGun : public CEntity
 {
 private:
+	CocosDenshion::SimpleAudioEngine* audioShoot;
 	const Sprite* PlayerSprite;
 	bool Left;
 public:

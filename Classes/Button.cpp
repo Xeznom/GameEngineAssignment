@@ -9,7 +9,7 @@ Button::Button(Layer* layer,const float posx,const float posy)
 
 	m_Sprite = cocos2d::Sprite::create("buttonup.png");
 	//m_Sprite->Sprite::setTexture("CloseNormal.png");
-	m_Sprite->setScale(0.015f);
+	m_Sprite->setScale(0.02f);
 	m_Sprite->Sprite::setPosition(Point(x,y));
 
 	const Size size = Size(m_Sprite->getContentSize().width * 0.01f, m_Sprite->getContentSize().width * 0.01f);
