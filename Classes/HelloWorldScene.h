@@ -45,14 +45,17 @@ private:
 	CocosDenshion::SimpleAudioEngine* audioDoor;
 	CocosDenshion::SimpleAudioEngine* audioLoad;
 	CocosDenshion::SimpleAudioEngine* audioPortal;
-	//int buttonCounter;//not in use yet/may not even be used
-	//int laserCounter;//not in use yet/may not even be used
 	bool firstTimeInit;
 	int levelCounter;
+	int mobileSpikeCounter;
+	int coinCounter;
+	unsigned int * mobileSpikePositionsX;
+	unsigned int * mobileSpikePositionsY;
+	unsigned int * coinPositionsX;
+	unsigned int * coinPositionsY;
 	float temp;
 	int points;
 	float timer;
-	//int tempDMGTimer;//not in use yet/may not even be used
 	CPortals* portals[2];
 	CPlayer* player;
 	PhysicsWorld* m_world;
@@ -60,9 +63,8 @@ private:
 	CEnemy* enemies;
 	inline void setPhyWorld(PhysicsWorld* world){ m_world = world; }
 	Point location;
-	CMobileSpike * theMobileSpike;
-	CCoin * theCoin;
-	CLaser * theLaser;
+	CMobileSpike ** theMobileSpike;
+	CCoin ** theCoin;
 	CHUD* _hud[2];
 public:
 	void setViewPoint(const Vec2 position);

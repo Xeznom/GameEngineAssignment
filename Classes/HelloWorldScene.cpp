@@ -6,8 +6,11 @@ void HelloWorld::update (float dt)
 {
 	player->update(dt);
 	//this->setViewPoint(player->m_Sprite->getPosition());
-	if(theMobileSpike != NULL)
-	theMobileSpike->update(dt);
+	for(int i = 0 ; i < mobileSpikeCounter ; i++)
+	{
+		if(theMobileSpike[i] != NULL)
+		theMobileSpike[i]->update(dt);
+	}
 	//tempDMGTimer++;
 	//Point temp2 = player->m_Sprite->getPosition();
 	//this->Traps->m_Sprite->getPosition();
@@ -84,10 +87,14 @@ void HelloWorld::cleanup()
 	delete theButtons;
 	delete theDoors;
 	delete enemies;
-	delete theMobileSpike;
-	delete theCoin;
-	delete theLaser;
+	delete [] theMobileSpike;
+	delete [] theCoin;
 	delete player;
+
+	delete mobileSpikePositionsX;
+	delete mobileSpikePositionsY;
+	delete coinPositionsX;
+	delete coinPositionsY;
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -205,6 +212,8 @@ bool HelloWorld::init()
 	audioPortal->preloadEffect("teleport.mp3");
 
 	levelCounter = temp = points = 0;
+	coinCounter = 0;
+	mobileSpikeCounter = 0;
 	//buttonCounter = 0;
 	//laserCounter = 0;
 	//tempDMGTimer = 0;
@@ -236,7 +245,6 @@ bool HelloWorld::init()
 	theMobileSpike = nullptr;
 	theButtons = nullptr;
 	theDoors = nullptr;
-	theLaser = nullptr;
 	theCoin = nullptr;
 	enemies = nullptr;
 
@@ -273,6 +281,15 @@ void HelloWorld::LoadFile(const string mapName)
 {
 	unsigned int theLineCounter = 0;
 	unsigned int theMaxNumOfColumns = 0;
+
+	mobileSpikePositionsX = new unsigned int[10];
+	mobileSpikePositionsY = new unsigned int[10];
+
+	coinPositionsX = new unsigned int[10];
+	coinPositionsY = new unsigned int[10];
+
+	coinCounter = 0;
+	mobileSpikeCounter = 0;
 
 	ifstream file;
 	file.open( CCFileUtils::getInstance( )->fullPathForFilename((mapName).c_str()) );
@@ -323,11 +340,17 @@ void HelloWorld::LoadFile(const string mapName)
 								break;
 							case 6:
 								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(this,0, theColumnCounter, theLineCounter + 1);
-								theMobileSpike = new CMobileSpike(this, theColumnCounter, theLineCounter + 1);
+								mobileSpikePositionsX[mobileSpikeCounter] = theColumnCounter;
+								mobileSpikePositionsY[mobileSpikeCounter] = theLineCounter + 1;
+								mobileSpikeCounter++;
+								//theMobileSpike = new CMobileSpike(this, theColumnCounter, theLineCounter + 1);
 								break;
 							case 8:
 								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(this,0, theColumnCounter, theLineCounter + 1);
-								theCoin = new CCoin(this, theColumnCounter, theLineCounter + 1);
+								coinPositionsX[coinCounter] = theColumnCounter;
+								coinPositionsY[coinCounter] = theLineCounter + 1;
+								coinCounter++;
+								//theCoin = new CCoin(this, theColumnCounter, theLineCounter + 1);
 								break;
 							default:
 								m_arrayMap[theColumnCounter][theLineCounter - 1] = new CField(this,value, theColumnCounter, theLineCounter + 1);
@@ -340,8 +363,24 @@ void HelloWorld::LoadFile(const string mapName)
 			}
 
 			theLineCounter++;
+	
 		}
 	}
+	theCoin = new CCoin*[coinCounter];
+			//coinPositionsX = new float[coinCounter];
+			//coinPositionsY = new float[coinCounter];
+			for(int i = 0; i < coinCounter ; i++)
+			{
+				theCoin[i] = new CCoin(this, coinPositionsX[i], coinPositionsY[i]);
+			}
+
+			theMobileSpike = new CMobileSpike*[mobileSpikeCounter];
+			//mobileSpikePositionsX = new float[mobileSpikeCounter];
+			//mobileSpikePositionsY = new float[mobileSpikeCounter];
+			for(int i = 0; i < mobileSpikeCounter ; i++)
+			{
+				theMobileSpike[i] = new CMobileSpike(this, mobileSpikePositionsX[i], mobileSpikePositionsY[i]);
+			}
 }
 
 void HelloWorld::HUD()
@@ -417,7 +456,18 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//player with coins
 	if ((First->getCollisionBitmask() == 12 && Second->getCollisionBitmask() == 1) || (First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 12))
 	{
-		theCoin->PickedUp();
+			for(int i = 0 ; i < coinCounter ; i++)
+			{
+				float currentTemp = 1000000;
+				int tempI = 0;
+				if(sqrtf( fabsf(theCoin[i]->m_Sprite->getPosition().x - player->m_Sprite->getPosition().x) + fabsf(theCoin[i]->m_Sprite->getPosition().y - player->m_Sprite->getPosition().y) ) < currentTemp)
+				{
+					currentTemp = sqrtf( fabsf(theCoin[i]->m_Sprite->getPosition().x - player->m_Sprite->getPosition().x) + fabsf(theCoin[i]->m_Sprite->getPosition().y - player->m_Sprite->getPosition().y) );
+					tempI = i;
+				}
+				if(i++ == coinCounter)
+				theCoin[tempI]->PickedUp();
+			}
 		points = points + 100;
 		_hud[0]->valueupdate(points);
 		return false;
@@ -563,7 +613,19 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//mobilespike with wall
 	if ((First->getCollisionBitmask() == 11 && Second->getCollisionBitmask() == 5) || (First->getCollisionBitmask() == 5 && Second->getCollisionBitmask() == 11))
 	{
-		theMobileSpike->changedirection();
+			theMobileSpike[0]->changedirection();
+			for(int i = 0 ; i < mobileSpikeCounter ; i++)
+			{
+				float currentTemp = 1000000;
+				int tempI = 0;
+				if(sqrtf( fabsf(theMobileSpike[i]->m_Sprite->getPosition().x - player->m_Sprite->getPosition().x) + fabsf(theMobileSpike[i]->m_Sprite->getPosition().y - player->m_Sprite->getPosition().y) ) < currentTemp)
+				{
+					currentTemp = sqrtf( fabsf(theMobileSpike[i]->m_Sprite->getPosition().x - player->m_Sprite->getPosition().x) + fabsf(theMobileSpike[i]->m_Sprite->getPosition().y - player->m_Sprite->getPosition().y) );
+					tempI = i;
+				}
+				if(i++ == mobileSpikeCounter)
+				theMobileSpike[tempI]->changedirection();
+			}
 	}
 	//mobilespike with anything but wall
 	if ((First->getCollisionBitmask() == 11 && Second->getCollisionBitmask() != 5) || (First->getCollisionBitmask() != 5 && Second->getCollisionBitmask() == 11))
@@ -650,12 +712,10 @@ void HelloWorld :: despawnObjects(void)
 	enemies = nullptr;
 	delete theButtons;
 	theButtons = nullptr;
-	delete theMobileSpike;
+	delete [] theMobileSpike;
 	theMobileSpike = nullptr;
-	delete theCoin;
+	delete [] theCoin;
 	theCoin = nullptr;
-	delete theLaser;
-	theLaser = nullptr;
 
 	for (int i = 0; i < MAX_HORIZONTAL; i++)
 	{
