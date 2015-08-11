@@ -16,6 +16,10 @@ private:
 	float speed;
 	int HP;
 	PhysicsBody* body;
+
+	Sprite* SLeft;
+	Sprite* SRight;
+	Sprite* SUp;
 public:
 	bool inAir;
 	CGun* PortalGun;
@@ -24,10 +28,11 @@ public:
 	~CPlayer(void);
 	void Render();
 
-	void KeyPress(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
-	void KeyRelease(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
-	void MouseMove(cocos2d::Event*);
-	void MouseDown(cocos2d::Event*);
+	bool TouchDown (Touch*, Event*);
+	void KeyPress(EventKeyboard::KeyCode, Event*);
+	void KeyRelease(EventKeyboard::KeyCode, Event*);
+	void MouseMove(Event*);
+	void MouseDown(Event*);
 
 	inline void setHP(const int Set){ HP = Set; }
 

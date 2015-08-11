@@ -20,6 +20,7 @@ public:
 	CGun(Layer*, const Point, const Sprite*);
 	~CGun(void);
 	void update(float);
+	void TouchDown (Touch*, Event*);
 	void MouseMove(Event*);
 	void MouseDown(Event*);
 };

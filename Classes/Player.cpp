@@ -5,10 +5,10 @@ const int CPlayer::STATIC_SPRITE_TAG = 0;
 
 void CPlayer::update (float delta)
 {
-	Vec2 loc = m_Sprite->getPosition();
+	const Vec2 loc = m_Sprite->getPosition();
 	
 	if (Jump)
-	body->applyImpulse(Vect(0,speed * delta * 125.0f));
+		body->applyImpulse(Vect(0,speed * delta * 125.0f));
 	//if (Jump) loc.y += speed * delta * 2.5f;
 
 	//body->applyImpulse(Vect(1,0));
@@ -54,7 +54,6 @@ void CPlayer::MouseMove (Event* event)
 
 void CPlayer::KeyPress (EventKeyboard::KeyCode keycode,Event* event)
 {
-	
 	switch (keycode)
 	{
 		case EventKeyboard::KeyCode::KEY_W:
@@ -93,6 +92,19 @@ void CPlayer::KeyRelease(EventKeyboard::KeyCode keycode, Event* event)
 	}
 }
 
+bool CPlayer::TouchDown (Touch* touch, Event* event)
+{
+	const Vec2 loc = touch->getLocationInView();
+
+	Jump = Left = Right = false;
+
+	if (SLeft->getBoundingBox().containsPoint(loc)) Left = true;
+	else if (SRight->getBoundingBox().containsPoint(loc)) Right = true;
+	else if (SUp->getBoundingBox().containsPoint(loc)) Jump = true;
+
+	return true;
+}
+
 CPlayer::CPlayer(Layer* layer, const Point loc)
 {
 	HP = 3;
@@ -109,6 +121,18 @@ CPlayer::CPlayer(Layer* layer, const Point loc)
 	std::string filename = GETFILE("Player");
 	m_Sprite = Sprite::create(filename);
 	m_Sprite->setName("player");
+
+	SLeft = Sprite::create ("LeftButton.png");
+	SLeft->setPosition (100,100);
+	layer->addChild(SLeft,2);
+
+	SRight = Sprite::create ("RightButton.png");
+	SRight->setPosition(300,100);
+	layer->addChild(SRight,2);
+
+	SUp = Sprite::create ("UpButton.png");
+	SUp->setPosition(200,200);
+	layer->addChild(SUp,2);
 
 	//player physics
 	const Size size = Size(m_Sprite->getContentSize().width, m_Sprite->getContentSize().height);

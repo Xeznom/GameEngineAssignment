@@ -22,7 +22,6 @@
 #include "SimpleAudioEngine.h"
 
 #include <fstream>
-#include "cocos2d.h"
 
 USING_NS_CC;
 

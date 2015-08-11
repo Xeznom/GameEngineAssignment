@@ -270,6 +270,10 @@ bool HelloWorld::init()
 	contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegin,this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener,this);
 
+	EventListenerTouchOneByOne* touchListener = EventListenerTouchOneByOne ::create();
+	touchListener->onTouchBegan = CC_CALLBACK_2(CPlayer::TouchDown,player);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener,this);
+
 	//MapLoad.join();
 
 	firstTimeInit = true;
@@ -713,7 +717,7 @@ void HelloWorld :: despawnObjects(void)
 	delete theButtons;
 	theButtons = nullptr;
 	for(int i=0;i<mobileSpikeCounter;i++)
-    delete theMobileSpike[i];
+		delete theMobileSpike[i];
 	delete [] theMobileSpike;
 	theMobileSpike = nullptr;
 	for(int i=0;i<coinCounter;i++)

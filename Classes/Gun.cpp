@@ -2,11 +2,16 @@
 
 void CGun::update (float delta){}
 
+void CGun::TouchDown (Touch* touch, Event* event)
+{
+	const Vec2 loc = touch->getLocationInView();
+}
+
 void CGun::MouseMove (Event* event)
 {
 	EventMouse* e = (EventMouse*) event;
 
-	float ax = e->getCursorX() - PlayerSprite->getPositionX();
+	const float ax = e->getCursorX() - PlayerSprite->getPositionX();
 	
 	if (ax > 0) //If to face right.
 	{
