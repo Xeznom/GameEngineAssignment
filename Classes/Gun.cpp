@@ -4,7 +4,7 @@ void CGun::update (float delta){}
 
 void CGun::TouchBegan(Touch* touch, Event* event)
 {
-	const Vec2 touchloc = touch->getLocationInView();
+	const Vec2 touchloc = touch->getLocation();
 
 	const float ax = touchloc.x - PlayerSprite->getPositionX();
 	

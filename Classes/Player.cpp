@@ -104,7 +104,7 @@ void CPlayer::KeyRelease(EventKeyboard::KeyCode keycode, Event* event)
 
 bool CPlayer::TouchBegan (Touch* touch, Event* event)
 {
-	const Vec2 loc = touch->getLocationInView();
+	const Vec2 loc = touch->getLocation();
 
 	Jump = Left = Right = false;
 
