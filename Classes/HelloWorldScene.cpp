@@ -217,7 +217,8 @@ bool HelloWorld::init(void)
 	audioLoad->preloadEffect("load.mp3");
 	audioPortal->preloadEffect("teleport.mp3");
 
-	levelCounter = temp = points = 0;
+	levelCounter = 1;
+	temp = points = 0;
 	coinCounter = 0;
 	mobileSpikeCounter = 0;
 	//buttonCounter = 0;
