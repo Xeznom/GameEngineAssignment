@@ -102,6 +102,8 @@ bool CPlayer::TouchDown (Touch* touch, Event* event)
 	else if (SRight->getBoundingBox().containsPoint(loc)) Right = true;
 	else if (SUp->getBoundingBox().containsPoint(loc)) Jump = true;
 
+	PortalGun->TouchDown(touch,event);
+
 	return true;
 }
 

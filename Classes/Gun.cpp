@@ -4,7 +4,55 @@ void CGun::update (float delta){}
 
 void CGun::TouchDown (Touch* touch, Event* event)
 {
-	const Vec2 loc = touch->getLocationInView();
+	const Vec2 touchloc = touch->getLocationInView();
+
+	const float ax = touchloc.x - PlayerSprite->getPositionX();
+	
+	if (ax > 0) //If to face right.
+	{
+		if (Left) //If facing left
+		{
+			Offset = abs(Offset);
+			const Point gunloc = Point(m_Sprite->getPositionX()+Offset,m_Sprite->getPositionY());
+			m_Sprite->setPosition(gunloc);
+			Left = false;
+		}
+	}
+	else //If to face left.
+	{
+		if (!Left) //If facing right
+		{
+			Offset = -abs(Offset);
+			const Point gunloc = Point(m_Sprite->getPositionX()+Offset,m_Sprite->getPositionY());
+			m_Sprite->setPosition(gunloc);
+			Left = true;
+		}
+	}
+
+	const Size visibleSize = Director::getInstance()->getVisibleSize();
+	const float ay = (visibleSize.height + touchloc.y) - PlayerSprite->getPositionY();
+	const float degrees = CC_RADIANS_TO_DEGREES(atan2(-ay,ax));
+	m_Sprite->setRotation(90 + degrees);
+	
+	if (!Fired)
+	{
+		audioShoot->playEffect("shoot.mp3");
+		const Size visibleSize = Director::getInstance()->getVisibleSize();
+		const Vec2 cursor = Vec2(touchloc.x, visibleSize.height + touchloc.y);
+		Vec2 aim = cursor - PlayerSprite->getPosition();
+		aim.normalize();
+
+		switch (Current)
+		{
+			case 0: case 1:
+				projectile[Current] = new CProjectile(thelayer,Current);
+				projectile[Current]->Init(m_Sprite->getPosition(),aim);
+				Current = (Current == 0) ? 1 : 0;
+				Fired = true;
+				break;
+			default: return;
+		}
+	}
 }
 
 void CGun::MouseMove (Event* event)
