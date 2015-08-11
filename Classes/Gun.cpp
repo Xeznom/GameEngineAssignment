@@ -47,7 +47,6 @@ void CGun::TouchDown (Touch* touch, Event* event)
 			case 0: case 1:
 				projectile[Current] = new CProjectile(thelayer,Current);
 				projectile[Current]->Init(m_Sprite->getPosition(),aim);
-				Current = (Current == 0) ? 1 : 0;
 				Fired = true;
 				break;
 			default: return;

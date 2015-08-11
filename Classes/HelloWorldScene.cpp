@@ -564,6 +564,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 			}
 			delete player->PortalGun->projectile[player->PortalGun->Current];
 			player->PortalGun->projectile[player->PortalGun->Current] = nullptr;
+			player->PortalGun->Current = (player->PortalGun->Current == 0) ? 1 : 0;
 			player->PortalGun->Fired = false;
 		}
 

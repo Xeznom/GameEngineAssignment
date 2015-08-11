@@ -155,6 +155,9 @@ CPlayer::CPlayer(Layer* layer, const Point loc)
 
 CPlayer::~CPlayer(void)
 {
+	thelayer->removeChild(SLeft);
+	thelayer->removeChild(SRight);
+	thelayer->removeChild(SUp);
 	delete PortalGun;
 }
 
