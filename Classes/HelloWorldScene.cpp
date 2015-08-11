@@ -542,6 +542,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	if ((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 5) || (First->getCollisionBitmask() == 5 && Second->getCollisionBitmask() == 1))
 	{
 		player->inAir = false;
+		player->airtime = 0;
 	}
 	//portal projectile with tiles
 	if((First->getCollisionBitmask() == 4 && Second->getCollisionBitmask() == 5) || (First->getCollisionBitmask() == 5 && Second->getCollisionBitmask() == 4))
