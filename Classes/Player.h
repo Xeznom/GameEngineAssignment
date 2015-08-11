@@ -4,7 +4,6 @@
 #pragma once
 
 #include "Gun.h"
-#include "SimpleAudioEngine.h"
 
 static const char* const playerFrames[6] = {
 	"Player.png", "Player.png", "Player.png", "Player1.png", "Player1.png", "Player1.png"

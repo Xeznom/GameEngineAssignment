@@ -82,7 +82,7 @@ void HelloWorld::teleportaling(const int exit)
 	}
 }
 
-void HelloWorld::cleanup()
+void HelloWorld::cleanup(void)
 {
 	delete theButtons;
 	delete theDoors;
@@ -108,7 +108,7 @@ void HelloWorld::cleanup()
 	}
 }
 
-Scene* HelloWorld::createScene()
+Scene* HelloWorld::createScene(void)
 {
     // 'scene' is an autorelease object
     Scene* scene = Scene::createWithPhysics();
@@ -147,7 +147,7 @@ Scene* HelloWorld::createScene()
 }
 
 // on "init" you need to initialize your instance
-bool HelloWorld::init()
+bool HelloWorld::init(void)
 {
     //////////////////////////////
     // 1. super init first
@@ -387,7 +387,7 @@ void HelloWorld::LoadFile(const string mapName)
 			}
 }
 
-void HelloWorld::HUD()
+void HelloWorld::HUD(void)
 {
 	const Size visibleSize = Director::getInstance()->getVisibleSize();
 	const Vec2 origin = Director::getInstance()->getVisibleOrigin();

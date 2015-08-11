@@ -19,7 +19,6 @@
 #include "mobilespike.h"
 #include "laser.h"
 #include "coins.h"
-#include "SimpleAudioEngine.h"
 
 #include <fstream>
 
@@ -45,16 +44,12 @@ private:
 	CocosDenshion::SimpleAudioEngine* audioLoad;
 	CocosDenshion::SimpleAudioEngine* audioPortal;
 	bool firstTimeInit;
-	int levelCounter;
-	int mobileSpikeCounter;
-	int coinCounter;
-	unsigned int * mobileSpikePositionsX;
-	unsigned int * mobileSpikePositionsY;
-	unsigned int * coinPositionsX;
-	unsigned int * coinPositionsY;
-	float temp;
-	int points;
-	float timer;
+	int levelCounter,mobileSpikeCounter,coinCounter,points;
+	unsigned int* mobileSpikePositionsX;
+	unsigned int* mobileSpikePositionsY;
+	unsigned int* coinPositionsX;
+	unsigned int* coinPositionsY;
+	float temp,timer;
 	CPortals* portals[2];
 	CPlayer* player;
 	PhysicsWorld* m_world;
