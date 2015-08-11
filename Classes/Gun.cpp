@@ -2,7 +2,7 @@
 
 void CGun::update (float delta){}
 
-void CGun::TouchDown (Touch* touch, Event* event)
+void CGun::TouchBegan(Touch* touch, Event* event)
 {
 	const Vec2 touchloc = touch->getLocationInView();
 
@@ -30,16 +30,14 @@ void CGun::TouchDown (Touch* touch, Event* event)
 	}
 
 	const Size visibleSize = Director::getInstance()->getVisibleSize();
-	const float ay = (visibleSize.height + touchloc.y) - PlayerSprite->getPositionY();
+	const float ay = touchloc.y - PlayerSprite->getPositionY();
 	const float degrees = CC_RADIANS_TO_DEGREES(atan2(-ay,ax));
 	m_Sprite->setRotation(90 + degrees);
 	
 	if (!Fired)
 	{
 		audioShoot->playEffect("shoot.mp3");
-		const Size visibleSize = Director::getInstance()->getVisibleSize();
-		const Vec2 cursor = Vec2(touchloc.x, visibleSize.height + touchloc.y);
-		Vec2 aim = cursor - PlayerSprite->getPosition();
+		Vec2 aim = touchloc - PlayerSprite->getPosition();
 		aim.normalize();
 
 		switch (Current)

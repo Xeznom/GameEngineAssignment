@@ -81,8 +81,7 @@ void CPlayer::KeyPress (EventKeyboard::KeyCode keycode,Event* event)
 		case EventKeyboard::KeyCode::KEY_D:
 			Right = true;
 			break;
-		default:
-			break;
+		default: break;
 	}
 }
 
@@ -99,12 +98,11 @@ void CPlayer::KeyRelease(EventKeyboard::KeyCode keycode, Event* event)
 		case EventKeyboard::KeyCode::KEY_D:
 			Right = false;
 			break;
-		default:
-			break;
+		default: break;
 	}
 }
 
-bool CPlayer::TouchDown (Touch* touch, Event* event)
+bool CPlayer::TouchBegan (Touch* touch, Event* event)
 {
 	const Vec2 loc = touch->getLocationInView();
 
@@ -114,8 +112,14 @@ bool CPlayer::TouchDown (Touch* touch, Event* event)
 	else if (SRight->getBoundingBox().containsPoint(loc)) Right = true;
 	else if (SUp->getBoundingBox().containsPoint(loc)) Jump = true;
 
-	PortalGun->TouchDown(touch,event);
+	PortalGun->TouchBegan(touch,event);
 
+	return true;
+}
+
+bool CPlayer::TouchEnded(Touch* touch, Event* event)
+{
+	Jump = Left = Right = false;
 	return true;
 }
 

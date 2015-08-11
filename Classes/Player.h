@@ -33,7 +33,8 @@ public:
 	~CPlayer(void);
 	void Render();
 
-	bool TouchDown (Touch*, Event*);
+	bool TouchBegan(Touch*, Event*);
+	bool TouchEnded(Touch*, Event*);
 	void KeyPress(EventKeyboard::KeyCode, Event*);
 	void KeyRelease(EventKeyboard::KeyCode, Event*);
 	void MouseMove(Event*);

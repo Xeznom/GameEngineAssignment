@@ -268,18 +268,20 @@ bool HelloWorld::init(void)
 	KeyboardListener->onKeyReleased = CC_CALLBACK_2(CPlayer::KeyRelease,player);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(KeyboardListener,player->m_Sprite);
 
-	EventListenerMouse* MouseListener = EventListenerMouse::create();
-	MouseListener->onMouseMove = CC_CALLBACK_1(CPlayer::MouseMove,player);
-	MouseListener->onMouseDown = CC_CALLBACK_1(CGun::MouseDown, player->PortalGun);
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(MouseListener,player->m_Sprite);
+	//EventListenerMouse* MouseListener = EventListenerMouse::create();
+	//MouseListener->onMouseMove = CC_CALLBACK_1(CPlayer::MouseMove,player);
+	//MouseListener->onMouseDown = CC_CALLBACK_1(CGun::MouseDown, player->PortalGun);
+	//_eventDispatcher->addEventListenerWithSceneGraphPriority(MouseListener,player->m_Sprite);
 
 	EventListenerPhysicsContact* contactListener = EventListenerPhysicsContact::create();
 	contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegin,this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener,this);
 
 	EventListenerTouchOneByOne* touchListener = EventListenerTouchOneByOne ::create();
-	touchListener->onTouchBegan = CC_CALLBACK_2(CPlayer::TouchDown,player);
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener,this);
+	touchListener->setSwallowTouches(true);
+	touchListener->onTouchBegan = CC_CALLBACK_2(CPlayer::TouchBegan,player);
+	touchListener->onTouchEnded = CC_CALLBACK_2(CPlayer::TouchEnded, player);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, player->m_Sprite);
 
 	//MapLoad.join();
 
@@ -293,17 +295,17 @@ void HelloWorld::LoadFile(const string mapName)
 	unsigned int theLineCounter = 0;
 	unsigned int theMaxNumOfColumns = 0;
 
-	mobileSpikePositionsX = new unsigned int[10];
-	mobileSpikePositionsY = new unsigned int[10];
-
-	coinPositionsX = new unsigned int[10];
-	coinPositionsY = new unsigned int[10];
+	const unsigned int size = 10;
+	mobileSpikePositionsX = new unsigned int[size];
+	mobileSpikePositionsY = new unsigned int[size];
+	coinPositionsX = new unsigned int[size];
+	coinPositionsY = new unsigned int[size];
 
 	coinCounter = 0;
 	mobileSpikeCounter = 0;
 
 	ifstream file;
-	file.open( CCFileUtils::getInstance( )->fullPathForFilename((mapName).c_str()) );
+	file.open(CCFileUtils::getInstance()->fullPathForFilename((mapName).c_str()));
 
 	if (file.is_open())
 	{
@@ -683,48 +685,48 @@ void HelloWorld::loadLevel(void)
 	switch (levelCounter)
 	{
 		case 0:
-			{
-				player->setPos(location);
-				//player->m_Sprite->setPosition(location);
-				//player->PortalGun->m_Sprite->setPosition(Point(location.x + player->PortalGun->Offset, location.y));
-				LoadFile( GETFILE("Map1") );
-				break;
-			}
+		{
+			player->setPos(location);
+			//player->m_Sprite->setPosition(location);
+			//player->PortalGun->m_Sprite->setPosition(Point(location.x + player->PortalGun->Offset, location.y));
+			LoadFile(GETFILE("Map1"));
+			break;
+		}
 		case 1:
-			{
-				player->setPos(location);
-				LoadFile( GETFILE("Map1") );
-				break;
-			}
+		{
+			player->setPos(location);
+			LoadFile( GETFILE("Map1") );
+			break;
+		}
 		case 2:
-			{
-				player->setPos(location);
-				LoadFile( GETFILE("Map2") );
-				break;
-			}
+		{
+			player->setPos(location);
+			LoadFile( GETFILE("Map2") );
+			break;
+		}
 		case 3:
-			{
-				player->setPos(location);
-				LoadFile( GETFILE("Map3") );
-				break;
-			}
+		{
+			player->setPos(location);
+			LoadFile( GETFILE("Map3") );
+			break;
+		}
 		case 4:
-			{
-				player->setPos(location);
-				LoadFile(GETFILE("Map4"));
-				break;
-			}
+		{
+			player->setPos(location);
+			LoadFile(GETFILE("Map4"));
+			break;
+		}
 		case 5:
-			{
-				player->setPos(location);
-				LoadFile(GETFILE("Map5"));
-				break;
-			}
+		{
+			player->setPos(location);
+			LoadFile(GETFILE("Map5"));
+			break;
+		}
 		default:
-			{
-				Director::getInstance()->end();
-				break;
-			}
+		{
+			Director::getInstance()->end();
+			break;
+		}
 
 	}
 }
