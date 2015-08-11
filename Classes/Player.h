@@ -25,6 +25,7 @@ private:
 	Sprite* SRight;
 	Sprite* SUp;
 public:
+	float airtime;
 	bool inAir;
 	CGun* PortalGun;
 

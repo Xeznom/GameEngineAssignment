@@ -13,7 +13,13 @@ void CPlayer::update (float delta)
 
 
 	if (Jump)
-		body->applyImpulse(Vect(0,speed * delta * 125.0f));
+	{
+		if (airtime <= 0.3f)
+		{
+			airtime += delta;
+			body->applyImpulse(Vect(0,speed * delta * 125.0f));
+		}
+	}
 	//if (Jump) loc.y += speed * delta * 2.5f;
 
 	//body->applyImpulse(Vect(1,0));
@@ -62,8 +68,9 @@ void CPlayer::KeyPress (EventKeyboard::KeyCode keycode,Event* event)
 	switch (keycode)
 	{
 		case EventKeyboard::KeyCode::KEY_W:
-			if(inAir != true)
+			if(inAir == false)
 			{
+				airtime = 0;
 				inAir = Jump = true;
 				audioJump->playEffect("jump.mp3");
 			}
@@ -116,6 +123,7 @@ CPlayer::CPlayer(Layer* layer, const Point loc)
 {
 	HP = 3;
 	frames = 0;
+	airtime = 0;
 	//Up = Left = Down = Right = false;
 	//speed = 50.0f;
 	//std::string filename = CResouceTable::getInstance()->GetFileName("Player");

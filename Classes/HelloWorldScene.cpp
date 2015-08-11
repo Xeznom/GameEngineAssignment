@@ -84,17 +84,22 @@ void HelloWorld::teleportaling(const int exit)
 
 void HelloWorld::cleanup(void)
 {
-	delete theButtons;
-	delete theDoors;
-	delete enemies;
-	delete [] theMobileSpike;
-	delete [] theCoin;
 	delete player;
-
-	delete mobileSpikePositionsX;
-	delete mobileSpikePositionsY;
+	delete enemies;
+	delete theDoors;
+	delete theButtons;
 	delete coinPositionsX;
 	delete coinPositionsY;
+	delete mobileSpikePositionsX;
+	delete mobileSpikePositionsY;
+
+	for(int i=0;i<mobileSpikeCounter;i++)
+		delete theMobileSpike[i];
+	delete [] theMobileSpike;
+
+	for(int i=0;i<coinCounter;i++)
+		delete theCoin[i];
+	delete [] theCoin;
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -719,11 +724,17 @@ void HelloWorld :: despawnObjects(void)
 	delete theButtons;
 	theButtons = nullptr;
 	for(int i=0;i<mobileSpikeCounter;i++)
+	{
 		delete theMobileSpike[i];
+		theMobileSpike[i] = nullptr;
+	}
 	delete [] theMobileSpike;
 	theMobileSpike = nullptr;
 	for(int i=0;i<coinCounter;i++)
+	{
 		delete theCoin[i];
+		theCoin[i] = nullptr;
+	}
 	delete [] theCoin;
 	theCoin = nullptr;
 
