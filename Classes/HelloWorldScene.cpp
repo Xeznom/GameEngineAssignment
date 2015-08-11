@@ -544,6 +544,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	{
 		audioLoad->playEffect("load.mp3");
 		levelCounter++;
+		if (levelCounter > 5) levelCounter = 1;
 		loadLevel();
 		return false;
 	}
