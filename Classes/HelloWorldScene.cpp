@@ -712,8 +712,12 @@ void HelloWorld :: despawnObjects(void)
 	enemies = nullptr;
 	delete theButtons;
 	theButtons = nullptr;
+	for(int i=0;i<mobileSpikeCounter;i++)
+    delete theMobileSpike[i];
 	delete [] theMobileSpike;
 	theMobileSpike = nullptr;
+	for(int i=0;i<coinCounter;i++)
+		delete theCoin[i];
 	delete [] theCoin;
 	theCoin = nullptr;
 
