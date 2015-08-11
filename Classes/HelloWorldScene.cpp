@@ -100,13 +100,14 @@ void HelloWorld::cleanup(void)
 	for(int i=0;i<coinCounter;i++)
 		delete theCoin[i];
 	delete [] theCoin;
-
+	
 	for (int i = 0; i < 2; i++)
 	{
 		delete portals[i];
+		this->removeChild(_hud[i]);
 		delete _hud[i];
 	}
-
+	
 	for (int i = 0; i < MAX_HORIZONTAL; ++i)
 	{
 		for (int j = 0; j < MAX_VERTICAL; ++j) delete m_arrayMap[i][j];
