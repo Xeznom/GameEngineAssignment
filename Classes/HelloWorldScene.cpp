@@ -687,7 +687,7 @@ void HelloWorld::loadLevel(void)
 				player->setPos(location);
 				//player->m_Sprite->setPosition(location);
 				//player->PortalGun->m_Sprite->setPosition(Point(location.x + player->PortalGun->Offset, location.y));
-				LoadFile( GETFILE("Map0") );
+				LoadFile( GETFILE("Map1") );
 				break;
 			}
 		case 1:
@@ -706,6 +706,18 @@ void HelloWorld::loadLevel(void)
 			{
 				player->setPos(location);
 				LoadFile( GETFILE("Map3") );
+				break;
+			}
+		case 4:
+			{
+				player->setPos(location);
+				LoadFile(GETFILE("Map4"));
+				break;
+			}
+		case 5:
+			{
+				player->setPos(location);
+				LoadFile(GETFILE("Map5"));
 				break;
 			}
 		default:
