@@ -225,7 +225,7 @@ bool HelloWorld::init(void)
 	//laserCounter = 0;
 	//tempDMGTimer = 0;
 
-	location = Point(visibleSize.width*0.5f, visibleSize.height*0.5f);
+	location = Point(visibleSize.width*0.5f - 200, visibleSize.height*0.5f);
 
 	//Traps = new CTraps(this,100,100);
 
