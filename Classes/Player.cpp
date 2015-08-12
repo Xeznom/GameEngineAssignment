@@ -11,10 +11,9 @@ void CPlayer::update (float delta)
 	if (frames > 5) frames = 0;
 	m_Sprite->setTexture(playerFrames[frames]);
 
-
 	if (Jump)
 	{
-		if (airtime <= 0.3f)
+		if (airtime <= 0.27f)
 		{
 			airtime += delta;
 			body->applyImpulse(Vect(0,speed * delta * 125.0f));

@@ -4,24 +4,31 @@ USING_NS_CC;
 
 cocos2d::Scene* SplashScreen::createScene()
 {
-        // 'scene' is an autorelease object
-        auto scene = Scene::create();
+    // 'scene' is an autorelease object
+    Scene* scene = Scene::create();
 
-        // 'layer' is an autorelease object
-        auto layer = SplashScreen::create();
+    // 'layer' is an autorelease object
+    SplashScreen* layer = SplashScreen::create();
 
-        // add layer as a child to scene
-        scene->addChild(layer);
+    // add layer as a child to scene
+    scene->addChild(layer);
 
-        // return the scene
-       return scene;
+    // return the scene
+    return scene;
+}
+
+bool SplashScreen::TouchBegan (Touch* touch, Event* event)
+{
+	Director::getInstance()->replaceScene(HelloWorld::createScene());
+	this->removeChild(sprite);
+	return false;
 }
 
 bool SplashScreen::init()
 {
     if (!Layer::init()) return false;
 
-    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Size visibleSize = Director::getInstance()->getVisibleSize();
 
     sprite = Sprite::create("splash.png");
 
@@ -32,6 +39,11 @@ bool SplashScreen::init()
 
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
+
+	EventListenerTouchOneByOne* touchListener = EventListenerTouchOneByOne ::create();
+	touchListener->setSwallowTouches(true);
+	touchListener->onTouchBegan = CC_CALLBACK_2(SplashScreen::TouchBegan,this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
     return true;
 }

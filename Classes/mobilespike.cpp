@@ -2,9 +2,7 @@
 
 CMobileSpike :: CMobileSpike(cocos2d::Layer* layer,const float posx,const float posy)
 {
-	movementCounter = 1;
-
-	x = posx; y = posy;
+	movementCounter = 1; x = posx; y = posy;
 
 	const std::string filename = GETFILE("MobileSpike");
 	m_Sprite = Sprite::create(filename);
@@ -29,7 +27,6 @@ CMobileSpike :: CMobileSpike(cocos2d::Layer* layer,const float posx,const float 
 
 CMobileSpike :: ~CMobileSpike()
 {
-	
 }
 
 void CMobileSpike :: Render(const int x,const int y)
@@ -45,7 +42,7 @@ void CMobileSpike :: update(float delta)
 	//Vec2 loc = m_Sprite->getPosition();
 	//loc.y = loc.y + (10 * delta * movementCounter);
 	PhysicsBody* body = m_Sprite->getPhysicsBody();
-	body->applyImpulse(Vec2(0,500 * delta * movementCounter));
+	body->applyImpulse(Vec2(0,250 * delta * movementCounter));
 	m_Sprite->setPhysicsBody(body);
 	//m_Sprite->setPosition(loc);
 }

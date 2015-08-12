@@ -15,6 +15,7 @@ private:
 public:
 	static Scene* createScene();
 	virtual bool init();
+	bool TouchBegan(Touch*,Event*);
 	void onEnter();
 	void FinishSplashScreen(float dt);
 	void setFade(bool value);

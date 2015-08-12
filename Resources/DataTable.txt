@@ -4,6 +4,6 @@ PlayerMass:10
 RoomWidth:600
 RoomHeight:600
 EnemyMass:10
-EnemyWalkSpeed:5
+EnemyWalkSpeed:7
 TileSize:28
 ProjectileSpeed:100

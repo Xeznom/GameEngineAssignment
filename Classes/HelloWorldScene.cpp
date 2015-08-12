@@ -8,8 +8,7 @@ void HelloWorld::update (float dt)
 	//this->setViewPoint(player->m_Sprite->getPosition());
 	for(int i = 0 ; i < mobileSpikeCounter ; i++)
 	{
-		if(theMobileSpike[i] != NULL)
-			theMobileSpike[i]->update(dt);
+		if(theMobileSpike[i] != nullptr) theMobileSpike[i]->update(dt);
 	}
 	//tempDMGTimer++;
 	//Point temp2 = player->m_Sprite->getPosition();
@@ -257,7 +256,8 @@ bool HelloWorld::init(void)
 	loadLevel();
 
 	//this->runAction(Follow::create(player->m_Sprite));
-
+	
+	/*
 	EventListenerKeyboard* KeyboardListener = EventListenerKeyboard::create();
 	KeyboardListener->onKeyPressed = CC_CALLBACK_2(CPlayer::KeyPress,player);
 	KeyboardListener->onKeyReleased = CC_CALLBACK_2(CPlayer::KeyRelease,player);
@@ -267,6 +267,7 @@ bool HelloWorld::init(void)
 	MouseListener->onMouseMove = CC_CALLBACK_1(CPlayer::MouseMove,player);
 	MouseListener->onMouseDown = CC_CALLBACK_1(CGun::MouseDown, player->PortalGun);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(MouseListener,player->m_Sprite);
+	*/
 
 	EventListenerPhysicsContact* contactListener = EventListenerPhysicsContact::create();
 	contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegin,this);
@@ -375,20 +376,20 @@ void HelloWorld::LoadFile(const string mapName)
 		}
 	}
 	theCoin = new CCoin*[coinCounter];
-			//coinPositionsX = new float[coinCounter];
-			//coinPositionsY = new float[coinCounter];
-			for(int i = 0; i < coinCounter ; i++)
-			{
-				theCoin[i] = new CCoin(this, coinPositionsX[i], coinPositionsY[i]);
-			}
+	//coinPositionsX = new float[coinCounter];
+	//coinPositionsY = new float[coinCounter];
+	for(int i = 0; i < coinCounter ; i++)
+	{
+		theCoin[i] = new CCoin(this, coinPositionsX[i], coinPositionsY[i]);
+	}
 
-			theMobileSpike = new CMobileSpike*[mobileSpikeCounter];
-			//mobileSpikePositionsX = new float[mobileSpikeCounter];
-			//mobileSpikePositionsY = new float[mobileSpikeCounter];
-			for(int i = 0; i < mobileSpikeCounter ; i++)
-			{
-				theMobileSpike[i] = new CMobileSpike(this, mobileSpikePositionsX[i], mobileSpikePositionsY[i]);
-			}
+	theMobileSpike = new CMobileSpike*[mobileSpikeCounter];
+	//mobileSpikePositionsX = new float[mobileSpikeCounter];
+	//mobileSpikePositionsY = new float[mobileSpikeCounter];
+	for(int i = 0; i < mobileSpikeCounter ; i++)
+	{
+		theMobileSpike[i] = new CMobileSpike(this, mobileSpikePositionsX[i], mobileSpikePositionsY[i]);
+	}
 }
 
 void HelloWorld::HUD(void)
@@ -466,16 +467,16 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//player with coins
 	if ((First->getCollisionBitmask() == 12 && Second->getCollisionBitmask() == 1) || (First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 12))
 	{
+		float currentTemp = 1000000;
 		for(int i = 0 ; i < coinCounter ; i++)
 		{
-			float currentTemp = 1000000;
 			int tempI = 0;
 			if(sqrtf( fabsf(theCoin[i]->m_Sprite->getPosition().x - player->m_Sprite->getPosition().x) + fabsf(theCoin[i]->m_Sprite->getPosition().y - player->m_Sprite->getPosition().y) ) < currentTemp)
 			{
 				currentTemp = sqrtf( fabsf(theCoin[i]->m_Sprite->getPosition().x - player->m_Sprite->getPosition().x) + fabsf(theCoin[i]->m_Sprite->getPosition().y - player->m_Sprite->getPosition().y) );
 				tempI = i;
 			}
-			if(i++ == coinCounter)
+			if(++i == coinCounter)
 				theCoin[tempI]->PickedUp();
 		}
 		points = points + 100;
@@ -528,7 +529,6 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 			if (Second->getPosition() == portals[0]->getLoc()) teleportaling(1);
 			else teleportaling(0);
 		}
-
 	}
 	//player with mobilespike
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 11) || (First->getCollisionBitmask() == 11 && Second->getCollisionBitmask() == 1))
@@ -555,29 +555,30 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//portal projectile with tiles
 	if((First->getCollisionBitmask() == 4 && Second->getCollisionBitmask() == 5) || (First->getCollisionBitmask() == 5 && Second->getCollisionBitmask() == 4))
 	{
-		if (player->PortalGun->Fired)
+		CGun* const PortalGun = player->PortalGun;
+		if (PortalGun->Fired)
 		{
+			const short Current = PortalGun->Current;
 			if (First->getCollisionBitmask() == 4)//if portal projectile is First
 			{
 				//remove projectile, spawn portal sprite
-				if (portals[player->PortalGun->Current] == nullptr)
-					portals[player->PortalGun->Current] = new CPortals(this, player->PortalGun->Current, First->getPosition());
-				else portals[player->PortalGun->Current]->setLoc(First->getPosition());
+				if (portals[Current] == nullptr)
+					portals[Current] = new CPortals(this, Current, First->getPosition());
+				else portals[Current]->setLoc(First->getPosition());
 			}
 			else if (Second->getCollisionBitmask() == 4)//if portal projectile is Second instead
 			{
 				//remove projectile, spawn portal sprite
-				if (portals[player->PortalGun->Current] == nullptr)
-					portals[player->PortalGun->Current] = new CPortals(this,player->PortalGun->Current, Second->getPosition());
-				else portals[player->PortalGun->Current]->setLoc(Second->getPosition());
+				if (portals[Current] == nullptr)
+					portals[Current] = new CPortals(this,Current, Second->getPosition());
+				else portals[Current]->setLoc(Second->getPosition());
 			}
-			delete player->PortalGun->projectile[player->PortalGun->Current];
-			player->PortalGun->projectile[player->PortalGun->Current] = nullptr;
-			player->PortalGun->Current = (player->PortalGun->Current == 0) ? 1 : 0;
-			player->PortalGun->Fired = false;
+			delete PortalGun->projectile[Current];
+			PortalGun->projectile[Current] = nullptr;
+			PortalGun->Current = (Current == 0) ? 1 : 0;
+			PortalGun->Fired = false;
 
-			if (portals[0] != nullptr && portals[1] != nullptr)
-				portals[0]->connecting = portals[1]->connecting = true;
+			if (portals[0] != nullptr && portals[1] != nullptr) portals[0]->connecting = portals[1]->connecting = true;
 		}
 
 		//scraped code
@@ -641,7 +642,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 					tempI = i;
 				}
 				if(i++ == mobileSpikeCounter)
-				theMobileSpike[tempI]->changedirection();
+					theMobileSpike[tempI]->changedirection();
 			}
 	}
 	//mobilespike with anything but wall
@@ -680,9 +681,7 @@ void HelloWorld::loadLevel(void)
 	
 	timer = 0;
 	if(firstTimeInit)//if all data has been initialised in init
-	{
 		despawnObjects();//despawn the objects
-	}
 
 	player->setPos(location);
 	switch (levelCounter)
