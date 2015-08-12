@@ -24,6 +24,7 @@ private:
 	Sprite* SLeft;
 	Sprite* SRight;
 	Sprite* SUp;
+	Rect MoveRegion;
 public:
 	float airtime;
 	bool inAir;
@@ -34,7 +35,7 @@ public:
 	void Render();
 
 	bool TouchBegan(Touch*, Event*);
-	bool TouchEnded(Touch*, Event*);
+	void TouchEnded(Touch*, Event*);
 	void KeyPress(EventKeyboard::KeyCode, Event*);
 	void KeyRelease(EventKeyboard::KeyCode, Event*);
 	void MouseMove(Event*);

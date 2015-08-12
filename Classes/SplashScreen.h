@@ -1,8 +1,9 @@
-#ifndef __SplashScreen__
-#define __SplashScreen__
+#ifndef __SPLASHSCREEN_H__
+#define __SPLASHSCREEN_H__
+
+#pragma once
 
 #include <fstream>
-#include "cocos2d.h"
 #include "HelloWorldScene.h"
 
 USING_NS_CC;

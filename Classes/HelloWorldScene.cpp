@@ -268,10 +268,10 @@ bool HelloWorld::init(void)
 	KeyboardListener->onKeyReleased = CC_CALLBACK_2(CPlayer::KeyRelease,player);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(KeyboardListener,player->m_Sprite);
 
-	//EventListenerMouse* MouseListener = EventListenerMouse::create();
-	//MouseListener->onMouseMove = CC_CALLBACK_1(CPlayer::MouseMove,player);
-	//MouseListener->onMouseDown = CC_CALLBACK_1(CGun::MouseDown, player->PortalGun);
-	//_eventDispatcher->addEventListenerWithSceneGraphPriority(MouseListener,player->m_Sprite);
+	EventListenerMouse* MouseListener = EventListenerMouse::create();
+	MouseListener->onMouseMove = CC_CALLBACK_1(CPlayer::MouseMove,player);
+	MouseListener->onMouseDown = CC_CALLBACK_1(CGun::MouseDown, player->PortalGun);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(MouseListener,player->m_Sprite);
 
 	EventListenerPhysicsContact* contactListener = EventListenerPhysicsContact::create();
 	contactListener->onContactBegin = CC_CALLBACK_1(HelloWorld::onContactBegin,this);

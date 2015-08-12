@@ -111,16 +111,14 @@ bool CPlayer::TouchBegan (Touch* touch, Event* event)
 	if (SLeft->getBoundingBox().containsPoint(loc)) Left = true;
 	else if (SRight->getBoundingBox().containsPoint(loc)) Right = true;
 	else if (SUp->getBoundingBox().containsPoint(loc)) Jump = true;
-
-	PortalGun->TouchBegan(touch,event);
+	else if (!MoveRegion.containsPoint(loc)) PortalGun->TouchBegan(touch,event);
 
 	return true;
 }
 
-bool CPlayer::TouchEnded(Touch* touch, Event* event)
+void CPlayer::TouchEnded(Touch* touch, Event* event)
 {
 	Jump = Left = Right = false;
-	return true;
 }
 
 CPlayer::CPlayer(Layer* layer, const Point loc)
@@ -143,16 +141,18 @@ CPlayer::CPlayer(Layer* layer, const Point loc)
 	m_Sprite->setName("player");
 
 	SLeft = Sprite::create ("LeftButton.png");
-	SLeft->setPosition (100,100);
+	SLeft->setPosition (150,100);
 	layer->addChild(SLeft,2);
 
 	SRight = Sprite::create ("RightButton.png");
-	SRight->setPosition(300,100);
+	SRight->setPosition(350,100);
 	layer->addChild(SRight,2);
 
 	SUp = Sprite::create ("UpButton.png");
-	SUp->setPosition(200,200);
+	SUp->setPosition(250,200);
 	layer->addChild(SUp,2);
+
+	MoveRegion = Rect(150,100,200,100);
 
 	//player physics
 	const Size size = Size(m_Sprite->getContentSize().width, m_Sprite->getContentSize().height);

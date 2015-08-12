@@ -19,26 +19,24 @@ cocos2d::Scene* SplashScreen::createScene()
 
 bool SplashScreen::init()
 {
-    if ( !Layer::init() )
-    {
-        return false;
-    }
+    if (!Layer::init()) return false;
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
 
     sprite = Sprite::create("splash.png");
 
-	sprite->setScale(3.0f);
+	sprite->setScale(2.6f);
 
     // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 , visibleSize.height/2 ));
+    sprite->setPosition(Vec2(visibleSize.width*0.5f , visibleSize.height*0.5f ));
 
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
 
     return true;
 }
-void SplashScreen::onEnter() {
+void SplashScreen::onEnter()
+{
     Layer::onEnter();
 
 	sprite->setOpacity(0);
@@ -48,7 +46,8 @@ void SplashScreen::onEnter() {
 	this->scheduleOnce(schedule_selector(SplashScreen::FinishSplashScreen), 10.0f);
 }
 
-void SplashScreen::FinishSplashScreen(float dt) {
+void SplashScreen::FinishSplashScreen(float dt)
+{
     // main scene transition
 	Director::getInstance()->replaceScene(HelloWorld::createScene());
 }
