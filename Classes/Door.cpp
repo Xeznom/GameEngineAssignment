@@ -8,6 +8,7 @@ Door::Door(cocos2d::Layer* layer,const float posx,const float posy)
 	x = posx; y = posy;
 
 	m_Sprite = cocos2d::Sprite::create("closedoor.png");
+	Open = CCTextureCache::getInstance()->addImage("opendoor.png");
 	//m_Sprite->Sprite::setTexture("CloseNormal.png");
 	m_Sprite->setScale(0.01f);
 	m_Sprite->Sprite::setPosition(Point(x,y));
@@ -32,7 +33,7 @@ Door::~Door(void)
 
 void Door::openDoor()
 {
-	m_Sprite->setTexture(CCTextureCache::getInstance()->addImage("opendoor.png"));
+	m_Sprite->setTexture(Open);
 	//auto body = PhysicsBody::createBox(Size(this->m_Sprite->getContentSize().width/100,this->m_Sprite->getContentSize().width/100));
 	//body->setCollisionBitmask(3);
 	//body->setContactTestBitmask(true);

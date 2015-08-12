@@ -8,6 +8,7 @@ Button::Button(Layer* layer,const float posx,const float posy)
 	x = posx; y = posy;
 
 	m_Sprite = cocos2d::Sprite::create("buttonup.png");
+	Down = CCTextureCache::getInstance()->addImage("buttondown.png");
 	//m_Sprite->Sprite::setTexture("CloseNormal.png");
 	m_Sprite->setScale(0.02f);
 	m_Sprite->Sprite::setPosition(Point(x,y));
@@ -32,7 +33,7 @@ Button::~Button(void)
 
 void Button :: pressed()
 {
-	m_Sprite->setTexture(CCTextureCache::getInstance()->addImage("buttondown.png"));
+	m_Sprite->setTexture(Down);
 	//m_Sprite->setTexture("buttondown.png");
 }
 

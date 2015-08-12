@@ -1,7 +1,7 @@
 #include "HUD.h"
 
 
-CHUD::CHUD(const std::string& _message, const  float value, const  Vec2 pos, const  int topbottom, const  int leftright)
+CHUD::CHUD(const std::string& _message, const  float value, const Vec2 pos, const int topbottom, const int leftright)
 {
 	this->create();
 	this->setColor(cocos2d::Color3B(0, 0, 0));

@@ -10,7 +10,6 @@ class CHUD : public cocos2d::Layer
 private:
 	cocos2d::Label* _messageLabel;
 	cocos2d::Label* _valuemessageLabel;
-
 public:
 	CHUD(const std::string&,const float,const Vec2,const int,const int);
 	~CHUD();

@@ -9,7 +9,7 @@ void HelloWorld::update (float dt)
 	for(int i = 0 ; i < mobileSpikeCounter ; i++)
 	{
 		if(theMobileSpike[i] != NULL)
-		theMobileSpike[i]->update(dt);
+			theMobileSpike[i]->update(dt);
 	}
 	//tempDMGTimer++;
 	//Point temp2 = player->m_Sprite->getPosition();
@@ -18,11 +18,6 @@ void HelloWorld::update (float dt)
 	for (int i = 0; i < 2; i++)
 	{
 		if (portals[i] != nullptr) portals[i]->update(dt);
-	}
-
-	if (portals[0] != nullptr && portals[1] != nullptr)
-	{
-		portals[0]->connecting = portals[1]->connecting = true;
 	}
 
 	timer += 0.1f;
@@ -404,10 +399,12 @@ void HelloWorld::HUD(void)
 
 	//CHUD* _hud = NULL;
 
-	_hud[0] = new CHUD("Points: ",points,Vec2(origin.x,origin.y + v.height), 1, 1 );
+	Vec2 loc = Vec2(origin.x,origin.y + v.height);
+	_hud[0] = new CHUD("Points: ",points,loc, 1, 1 );
 	this->addChild(_hud[0], G_LAYERING_TYPES::G_HUD);
 	
-	_hud[1] = new CHUD("Timer: ",temp, Vec2(origin.x + v.width,origin.y + v.height), 1, -1 );
+	loc = Vec2(origin.x + v.width,origin.y + v.height);
+	_hud[1] = new CHUD("Timer: ",temp, loc, 1, -1 );
 	this->addChild(_hud[1], G_LAYERING_TYPES::G_HUD);
 }
 
@@ -531,6 +528,7 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 			if (Second->getPosition() == portals[0]->getLoc()) teleportaling(1);
 			else teleportaling(0);
 		}
+
 	}
 	//player with mobilespike
 	if((First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 11) || (First->getCollisionBitmask() == 11 && Second->getCollisionBitmask() == 1))
@@ -577,6 +575,9 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 			player->PortalGun->projectile[player->PortalGun->Current] = nullptr;
 			player->PortalGun->Current = (player->PortalGun->Current == 0) ? 1 : 0;
 			player->PortalGun->Fired = false;
+
+			if (portals[0] != nullptr && portals[1] != nullptr)
+				portals[0]->connecting = portals[1]->connecting = true;
 		}
 
 		//scraped code

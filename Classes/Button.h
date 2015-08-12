@@ -8,6 +8,7 @@ class Button : public CEntity
 {
 private:
 	int index;//keeps track to tell which object it interacts with
+	Texture2D* Down;
 public:
 	Button(Layer*,const float,const float);
 	~Button(void);

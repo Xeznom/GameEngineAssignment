@@ -8,6 +8,7 @@ class Door : public CEntity
 {
 private:
 	int index;
+	Texture2D* Open;
 public:
 	Door(cocos2d::Layer*,const float,const float);
 	~Door(void);
