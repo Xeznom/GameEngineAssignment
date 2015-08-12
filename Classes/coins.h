@@ -8,6 +8,7 @@ class CCoin : public CEntity
 {
 private:
 	int index;
+	Texture2D* empty;
 public:
 	CCoin(cocos2d::Layer*,const float,const float);
 	~CCoin(void);

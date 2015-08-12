@@ -34,7 +34,6 @@ Button::~Button(void)
 void Button :: pressed()
 {
 	m_Sprite->setTexture(Down);
-	//m_Sprite->setTexture("buttondown.png");
 }
 
 void Button::render(const int x,const int y)

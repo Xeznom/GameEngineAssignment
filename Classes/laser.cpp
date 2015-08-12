@@ -7,6 +7,7 @@ CLaser :: CLaser(cocos2d::Layer* layer,const float posx,const float posy)
 	x = posx; y = posy;
 
 	m_Sprite = cocos2d::Sprite::create("CloseNormal.png");
+	empty = CCTextureCache::sharedTextureCache()->addImage("empty.png");
 	//m_Sprite->Sprite::setTexture("CloseNormal.png");
 	m_Sprite->setScale(10.0f);
 	m_Sprite->Sprite::setPosition(Point(x,y));
@@ -37,6 +38,6 @@ void CLaser :: Render(const int x,const int y)
 
 void CLaser::LaserOff()
 {
-	m_Sprite->setTexture(CCTextureCache::sharedTextureCache()->addImage("empty.png"));
+	m_Sprite->setTexture(empty);
 	m_Sprite->getPhysicsBody()->setCollisionBitmask(3);
 }

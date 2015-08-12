@@ -466,18 +466,18 @@ bool HelloWorld :: onContactBegin(cocos2d::PhysicsContact &contact)
 	//player with coins
 	if ((First->getCollisionBitmask() == 12 && Second->getCollisionBitmask() == 1) || (First->getCollisionBitmask() == 1 && Second->getCollisionBitmask() == 12))
 	{
-			for(int i = 0 ; i < coinCounter ; i++)
+		for(int i = 0 ; i < coinCounter ; i++)
+		{
+			float currentTemp = 1000000;
+			int tempI = 0;
+			if(sqrtf( fabsf(theCoin[i]->m_Sprite->getPosition().x - player->m_Sprite->getPosition().x) + fabsf(theCoin[i]->m_Sprite->getPosition().y - player->m_Sprite->getPosition().y) ) < currentTemp)
 			{
-				float currentTemp = 1000000;
-				int tempI = 0;
-				if(sqrtf( fabsf(theCoin[i]->m_Sprite->getPosition().x - player->m_Sprite->getPosition().x) + fabsf(theCoin[i]->m_Sprite->getPosition().y - player->m_Sprite->getPosition().y) ) < currentTemp)
-				{
-					currentTemp = sqrtf( fabsf(theCoin[i]->m_Sprite->getPosition().x - player->m_Sprite->getPosition().x) + fabsf(theCoin[i]->m_Sprite->getPosition().y - player->m_Sprite->getPosition().y) );
-					tempI = i;
-				}
-				if(i++ == coinCounter)
-				theCoin[tempI]->PickedUp();
+				currentTemp = sqrtf( fabsf(theCoin[i]->m_Sprite->getPosition().x - player->m_Sprite->getPosition().x) + fabsf(theCoin[i]->m_Sprite->getPosition().y - player->m_Sprite->getPosition().y) );
+				tempI = i;
 			}
+			if(i++ == coinCounter)
+				theCoin[tempI]->PickedUp();
+		}
 		points = points + 100;
 		_hud[0]->valueupdate(points);
 		return false;

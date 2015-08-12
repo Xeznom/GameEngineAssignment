@@ -8,6 +8,7 @@ class CLaser : public CEntity
 {
 private:
 	int index;//keeps track of which laser to interact with
+	Texture2D* empty;
 public:
 	CLaser(cocos2d::Layer*,const float,const float);
 	~CLaser(void);
